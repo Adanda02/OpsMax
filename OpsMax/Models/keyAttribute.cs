@@ -1,5 +1,5 @@
 ﻿
-namespace BOLMS.Models
+namespace OpsMax.Models
 {
     internal class keyAttribute : Attribute
     {

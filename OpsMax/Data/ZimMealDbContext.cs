@@ -1,7 +1,7 @@
-﻿using BOLMS.DTO;
+﻿using OpsMax.DTO;
 using Microsoft.EntityFrameworkCore;
 
-namespace BOLMS.Data
+namespace OpsMax.Data
 {
     public class ZimMealDbContext : DbContext
     {

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using BOLMS.Data;
-using BOLMS.Services.Interfaces;
-using BOLMS.Services;
+using OpsMax.Data;
+using OpsMax.Services.Interfaces;
+using OpsMax.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

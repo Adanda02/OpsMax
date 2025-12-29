@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BOLMS.DTO.ViewModels
+namespace OpsMax.DTO.ViewModels
 {
     public class CollectionCreateViewModel
     {
