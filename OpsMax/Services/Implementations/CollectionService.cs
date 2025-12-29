@@ -1,14 +1,14 @@
-﻿using BOLMS.Data;
-using BOLMS.DTO.ViewModels;
-using BOLMS.Models;
-using BOLMS.Services.Interfaces;
+﻿using OpsMax.Data;
+using OpsMax.DTO.ViewModels;
+using OpsMax.Models;
+using OpsMax.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BOLMS.Services
+namespace OpsMax.Services
 {
     public class CollectionService : ICollectionService
     {

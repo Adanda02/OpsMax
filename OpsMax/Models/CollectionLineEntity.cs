@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BOLMS.Models
+namespace OpsMax.Models
 {
     [Table("_tblCollectionLines")]
     public class CollectionLineEntity

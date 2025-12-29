@@ -1,9 +1,9 @@
-﻿using BOLMS.DTO.ViewModels;
-using BOLMS.Models;
+﻿using OpsMax.DTO.ViewModels;
+using OpsMax.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BOLMS.Services.Interfaces
+namespace OpsMax.Services.Interfaces
 {
     public interface ICollectionService
     {

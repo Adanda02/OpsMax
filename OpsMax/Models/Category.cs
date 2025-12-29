@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BOLMS.Models
+namespace OpsMax.Models
 {
     public class Category
     {

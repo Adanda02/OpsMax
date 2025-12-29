@@ -1,8 +1,8 @@
-﻿using BOLMS.DTO;
-using BOLMS.Models;
+﻿using OpsMax.DTO;
+using OpsMax.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BOLMS.Data
+namespace OpsMax.Data
 {
     public class ApplicationDbContext : DbContext
     {

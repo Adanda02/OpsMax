@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using BOLMS.Data;
-using BOLMS.Models;
+using OpsMax.Data;
+using OpsMax.Models;
 
-namespace BOLMS.Controllers
+namespace OpsMax.Controllers
 {
     public class CategoryController : Controller
     {
