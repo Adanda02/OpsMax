@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BOLMS.DTO
+namespace OpsMax.DTO
 {
     public class InvoiceLineDto
     {

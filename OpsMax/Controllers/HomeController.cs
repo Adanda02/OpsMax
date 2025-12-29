@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using BOLMS.Models;
+using OpsMax.Models;
 using System.Diagnostics;
 
-namespace BOLMS.Controllers
+namespace OpsMax.Controllers
 {
     public class HomeController : Controller
     {

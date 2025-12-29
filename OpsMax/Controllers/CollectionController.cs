@@ -1,6 +1,6 @@
-﻿using BOLMS.DTO.ViewModels;
-using BOLMS.Models;
-using BOLMS.Services.Interfaces;
+﻿using OpsMax.DTO.ViewModels;
+using OpsMax.Models;
+using OpsMax.Services.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BOLMS.Controllers
+namespace OpsMax.Controllers
 {
     [Route("[controller]")]
     public class CollectionController : Controller

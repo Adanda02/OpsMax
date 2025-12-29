@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace BOLMS.DTO.ViewModels
+namespace OpsMax.DTO.ViewModels
 {
     public class CollectionSaveViewModel
     {

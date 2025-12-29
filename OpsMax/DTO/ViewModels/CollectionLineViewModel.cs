@@ -1,4 +1,4 @@
-﻿namespace BOLMS.DTO.ViewModels
+﻿namespace OpsMax.DTO.ViewModels
 {
     public class CollectionLineViewModel
     {

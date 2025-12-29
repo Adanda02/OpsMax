@@ -1,13 +1,13 @@
-﻿using BOLMS.Data;
-using BOLMS.DTO;
-using BOLMS.Services.Interfaces;
+﻿using OpsMax.Data;
+using OpsMax.DTO;
+using OpsMax.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BOLMS.Services
+namespace OpsMax.Services
 {
     public class InvoiceService : IInvoiceService
     {

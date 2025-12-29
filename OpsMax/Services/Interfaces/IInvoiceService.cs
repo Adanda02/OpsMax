@@ -1,6 +1,6 @@
-﻿using BOLMS.DTO;
+﻿using OpsMax.DTO;
 
-namespace BOLMS.Services.Interfaces
+namespace OpsMax.Services.Interfaces
 {
     public interface IInvoiceService
     {

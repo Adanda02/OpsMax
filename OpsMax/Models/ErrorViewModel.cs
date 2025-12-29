@@ -1,4 +1,4 @@
-namespace BOLMS.Models
+namespace OpsMax.Models
 {
     public class ErrorViewModel
     {
