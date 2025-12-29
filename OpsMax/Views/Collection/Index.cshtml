@@ -1,0 +1,98 @@
+﻿@model IEnumerable<BOLMS.Models.CollectionEntity>
+
+<h2>Collections</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">New Collection</a>
+</p>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>Invoice Date</th>
+            <th>Invoice Number</th>
+            <th>Customer Name</th>
+            <th>Item Code</th>
+            <th>Item Description</th>
+            <th>Warehouse</th>
+            <th class="text-end">Qty Purchased</th>
+            <th>Date Collected</th>
+            <th class="text-end">Qty Collected</th>
+            <th>Driver</th>
+            <th>Status</th>
+            <th>Attachment</th>
+            <th style="width:160px">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var header in Model)
+        {
+            foreach (var line in header.Lines)
+            {
+                <tr>
+                    <td>@header.InvoiceDate.ToShortDateString()</td>
+                    <td>@header.InvoiceNumber</td>
+                    <td>@header.CustomerName</td>
+                    <td>@line.ItemCode</td>
+                    <td>@line.ItemDescription</td>
+                    <td>@line.Warehouse</td>
+                    <td class="text-end">@line.QtyPurchased</td>
+                    <td>@header.DateCollected.ToShortDateString()</td>
+                    <td class="text-end">@line.QtyCollected</td>
+                    <td>@header.Driver</td>
+                    <td>
+                        @(header.OrderStatusID == 3 ? "Completed" : "Open")
+                    </td>
+
+                    <!-- 📎 ATTACHMENT -->
+                    <td>
+                        @if (!string.IsNullOrEmpty(header.AttachmentPath))
+                        {
+                            <a href="@header.AttachmentPath"
+                               target="_blank"
+                               class="btn btn-sm btn-outline-secondary">
+                                🖨 View
+                            </a>
+                        }
+                        else
+                        {
+                            <span class="text-muted">—</span>
+                        }
+                    </td>
+
+                    <!-- ACTIONS -->
+                    <td>
+                        @if (header.OrderStatusID != 3)
+                        {
+                            <a asp-action="Edit"
+                               asp-route-id="@header.idOrderCollected"
+                               class="btn btn-sm btn-warning">
+                                Edit
+                            </a>
+
+                            <a asp-action="Delete"
+                               asp-route-id="@header.idOrderCollected"
+                               class="btn btn-sm btn-danger ms-1">
+                                Delete
+                            </a>
+                        }
+
+                        <a asp-action="Details"
+                           asp-route-id="@header.idOrderCollected"
+                           class="btn btn-sm btn-info ms-1">
+                            Details
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<!-- ================= AUTO-OPEN ATTACHMENT (OPTIONAL) ================= -->
+@if (TempData["PrintDoc"] != null)
+{
+    <script>
+        window.open("@TempData["PrintDoc"]", "_blank");
+    </script>
+}

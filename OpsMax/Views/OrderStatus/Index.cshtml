@@ -1,0 +1,35 @@
+﻿@model IEnumerable<BOLMS.Models.OrderStatus>
+
+@{
+    ViewData["Title"] = "Order Status List";
+}
+
+<h2>Order Status List</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Status Code</th>
+            <th>Status Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.StatusCode</td>
+                <td>@item.StatusDescription</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.idStatus">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.idStatus">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.idStatus">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

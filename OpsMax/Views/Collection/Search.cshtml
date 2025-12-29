@@ -1,0 +1,9 @@
+﻿@model string
+
+<h2>Search Invoice</h2>
+
+<form asp-action="SearchResults" method="post">
+    <label>Invoice Number:</label>
+    <input name="invoiceNumber" value="@Model" /> <!-- match parameter name -->
+    <button type="submit">Search</button>
+</form>

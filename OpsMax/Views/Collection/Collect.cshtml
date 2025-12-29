@@ -1,0 +1,82 @@
+﻿@using BOLMS.DTO.ViewModels
+@model CollectionSaveViewModel
+
+<h2>Collect Invoice: @Model.InvoiceNumber</h2>
+
+<form asp-action="Save" method="post">
+    <input type="hidden" asp-for="InvoiceNumber" />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Item Code</th>
+                <th>Description</th>
+                <th>Qty Purchased</th>
+                <th>Qty Collected</th>
+                <th>Order Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for (int i = 0; i < Model.Lines.Count; i++)
+        {
+            <tr>
+                <td>@Model.Lines[i].ItemCode</td>
+                <td>@Model.Lines[i].ItemDescription</td>
+                <td>@Model.Lines[i].QtyPurchased</td>
+                <td>
+                    <input asp-for="Lines[@i].QtyCollected" type="number" min="" step="0.01" class="qty-collected" />
+                </td>
+                <td>
+                    <span class="balance">@((Model.Lines[i].QtyPurchased - Model.Lines[i].QtyCollected))</span>
+                </td>
+                
+                <!-- hidden fields -->
+                    <!-- <input type="hidden" asp-for="Lines[@i].InvoiceNumberID" /> -->
+                <input type="hidden" asp-for="Lines[@i].ItemCodeID" />
+                <input type="hidden" asp-for="Lines[@i].ItemCode" />
+                <input type="hidden" asp-for="Lines[@i].QtyPurchased" />
+                <input type="hidden" asp-for="Lines[@i].UnitPrice" />
+                <input type="hidden" asp-for="Lines[@i].LineTotal" />
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <label>Driver</label>
+    <input asp-for="Driver" />
+
+    <label>Phone Number</label>
+    <input asp-for="PhoneNumber" />
+
+    <label>Vehicle Reg</label>
+    <input asp-for="VehicleReg" />
+
+    <label>Order Notes</label>
+    <textarea asp-for="OrderNotes"></textarea>
+
+    <button type="submit">Save</button>
+</form>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.qty-collected').forEach(input => {
+            input.addEventListener('input', function () {
+                const row = input.closest('tr');
+                const purchased = parseFloat(row.cells[2].innerText);
+                let collected = parseFloat(input.value) || '';
+
+                // Update balance
+                const balanceCell = row.querySelector('.balance');
+                balanceCell.innerText = (purchased - collected).toFixed(2);
+
+                // Highlight if over-collected
+                if (collected > purchased) {
+                    row.style.backgroundColor = '#f8d7da';
+                    alert('QtyCollected cannot exceed QtyPurchased!');
+                } else {
+                    row.style.backgroundColor = '';
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,121 @@
+﻿@model BOLMS.Models.CollectionEntity
+
+@{
+    ViewData["Title"] = "Collection Details";
+}
+
+<h2>Collection Details</h2>
+
+<p>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+
+    @if (Model.OrderStatusID != 3)
+    {
+        <a asp-action="Edit"
+           asp-route-id="@Model.idOrderCollected"
+           class="btn btn-primary ms-1">
+            Edit
+        </a>
+
+        <a asp-action="Delete"
+           asp-route-id="@Model.idOrderCollected"
+           class="btn btn-danger ms-1">
+            Delete
+        </a>
+    }
+</p>
+
+<!-- ================= HEADER INFO ================= -->
+<fieldset class="mb-4">
+    <legend>Invoice Information</legend>
+
+    <div class="row mb-2">
+        <div class="col-md-4">
+            <label>Invoice Number:</label> 
+            @Html.DisplayFor(x => x.InvoiceNumber)
+        </div>
+
+        <div class="col-md-4">
+            <label>Customer Name:</label>
+            @Html.DisplayFor(x => x.CustomerName)
+        </div>
+
+        <div class="col-md-4">
+            <label>Invoice Date:</label>
+            @Html.DisplayFor(x => x.InvoiceDate)
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-md-4">
+            <label>Collected By:</label>
+            @Html.DisplayFor(x => x.Driver)
+        </div>
+
+        <div class="col-md-4">
+            <label>Phone Number:</label>
+            @Html.DisplayFor(x => x.PhoneNumber)
+        </div>
+
+        <div class="col-md-4">
+            <label>Vehicle Reg:</label>
+            @Html.DisplayFor(x => x.VehicleReg)
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-md-4">
+            <label>Collected Date:</label>
+            @Html.DisplayFor(x => x.DateCollected)
+        </div>
+
+        <!-- ✅ REPLACED SECTION -->
+        <div class="col-md-4">
+            <label>Fiscal Invoice / POD:</label><br />
+
+            @if (!string.IsNullOrEmpty(Model.AttachmentPath))
+            {
+                <a href="@Model.AttachmentPath"
+                   target="_blank"
+                   class="btn btn-outline-primary btn-sm">
+                    🖨 View / Print Document
+                </a>
+            }
+            else
+            {
+                <span class="text-muted">No document attached</span>
+            }
+        </div>
+    </div>
+</fieldset>
+
+<!-- ================= LINE ITEMS ================= -->
+<fieldset>
+    <legend>Items Collected</legend>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-light">
+            <tr>
+                <th>Item Code</th>
+                <th>Description</th>
+                <th>Warehouse</th>
+                <th class="text-end">Qty Purchased</th>
+                <th class="text-end">Qty Collected</th>
+                <th class="text-end">Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Model.Lines)
+            {
+                <tr>
+                    <td>@line.ItemCode</td>
+                    <td>@line.ItemDescription</td>
+                    <td>@line.Warehouse</td>
+                    <td class="text-end">@line.QtyPurchased</td>
+                    <td class="text-end">@line.QtyCollected</td>
+                    <td class="text-end">@line.OrderBalance</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</fieldset>
