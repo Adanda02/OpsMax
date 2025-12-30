@@ -3,20 +3,12 @@
   "WorkspaceRootPath": "C:\\Programming\\C-Sharp\\OpsMax\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\dto\\viewmodels\\collectionlinecreateviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\dto\\viewmodels\\collectionlinecreateviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\controllers\\collectioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\controllers\\collectioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,46 +18,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\appsettings.json",
-              "RelativeDocumentMoniker": "OpsMax\\appsettings.json",
-              "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\appsettings.json",
-              "RelativeToolTip": "OpsMax\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-12-29T17:19:25.981Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CollectionLineCreateViewModel.cs",
-              "DocumentMoniker": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\DTO\\ViewModels\\CollectionLineCreateViewModel.cs",
-              "RelativeDocumentMoniker": "OpsMax\\DTO\\ViewModels\\CollectionLineCreateViewModel.cs",
-              "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\DTO\\ViewModels\\CollectionLineCreateViewModel.cs",
-              "RelativeToolTip": "OpsMax\\DTO\\ViewModels\\CollectionLineCreateViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-29T17:19:18.157Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Data\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "OpsMax\\Data\\ApplicationDbContext.cs",
-              "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Data\\ApplicationDbContext.cs",
-              "RelativeToolTip": "OpsMax\\Data\\ApplicationDbContext.cs",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAswAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-29T17:19:01.53Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0174dea2-fdbe-4ef1-8f99-c0beae78880f}"
             },
             {
               "$type": "Bookmark",
@@ -73,15 +30,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CollectionController.cs",
-              "DocumentMoniker": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Controllers\\CollectionController.cs",
-              "RelativeDocumentMoniker": "OpsMax\\Controllers\\CollectionController.cs",
-              "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Controllers\\CollectionController.cs",
-              "RelativeToolTip": "OpsMax\\Controllers\\CollectionController.cs",
-              "ViewState": "AgIAANsAAAAAAAAAAAAIwAcAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-29T17:18:17.113Z",
+              "DocumentIndex": 0,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "OpsMax\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "OpsMax\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAC8AAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-30T04:03:21.598Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "OpsMax\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "OpsMax\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-30T04:03:09.996Z",
               "EditorCaption": ""
             }
           ]
