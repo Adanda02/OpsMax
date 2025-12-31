@@ -22,7 +22,7 @@ namespace OpsMax.Services
         // =========================
         // CREATE / SAVE COLLECTION
         // =========================
-        public async Task SaveCollectionAsync(CollectionCreateViewModel vm, string userName)
+        public async Task<int> SaveCollectionAsync(CollectionCreateViewModel vm, string userName)
         {
             if (vm == null)
                 throw new ArgumentNullException(nameof(vm));
@@ -30,7 +30,7 @@ namespace OpsMax.Services
             if (vm.Lines == null || !vm.Lines.Any())
                 throw new InvalidOperationException("No collection lines supplied.");
 
-            // 🔒 HARD LOCK – Prevent re-collecting fully collected invoices
+            // 🔒 HARD LOCK – prevent re-collecting completed invoices
             var existing = await _context.Collections
                 .Where(x => x.InvoiceNumber == vm.InvoiceNumber)
                 .OrderByDescending(x => x.DateCollected)
@@ -41,15 +41,15 @@ namespace OpsMax.Services
                     "This invoice has already been fully collected and is locked."
                 );
 
-            // 🔢 AUTO-CALCULATE ORDER STATUS
+            // 🔢 AUTO-CALCULATE STATUS
             var totalPurchased = vm.Lines.Sum(x => x.QtyPurchased);
             var totalCollected = vm.Lines.Sum(x => x.QtyCollected);
 
             int statusId =
-                totalCollected == 0 ? 1 :               // Open
-                totalCollected < totalPurchased ? 2 :   // Partially Collected
-                totalCollected == totalPurchased ? 3 :  // Completed
-                4;                                      // Over-collected (error)
+                totalCollected == 0 ? 1 :
+                totalCollected < totalPurchased ? 2 :
+                totalCollected == totalPurchased ? 3 :
+                4;
 
             // =========================
             // HEADER
@@ -59,6 +59,7 @@ namespace OpsMax.Services
                 DateCollected = DateTime.Now,
                 InvoiceNumberID = (int)vm.InvoiceNumberID,
                 InvoiceNumber = vm.InvoiceNumber,
+
                 CustomerID = vm.CustomerID,
                 CustomerName = vm.CustomerName,
                 InvoiceDate = vm.InvoiceDate,
@@ -70,15 +71,11 @@ namespace OpsMax.Services
                 OrderStatusID = statusId,
                 OrderBalance = vm.Lines.Sum(l => l.OrderBalance),
 
-                // 📎 ATTACHMENT
                 AttachmentPath = vm.AttachmentPath,
 
                 UserName = userName,
                 DateStamp = DateTime.Now,
 
-                // =========================
-                // LINES
-                // =========================
                 Lines = vm.Lines.Select(l => new CollectionLineEntity
                 {
                     ItemCodeID = l.ItemCodeID,
@@ -97,6 +94,9 @@ namespace OpsMax.Services
 
             _context.Collections.Add(header);
             await _context.SaveChangesAsync();
+
+            // 🔑 RETURN NEW ID FOR Details/{id}
+            return header.idOrderCollected;
         }
 
         // =========================
@@ -173,11 +173,6 @@ namespace OpsMax.Services
         {
             return await _context.Collections
                 .AnyAsync(x => x.idOrderCollected == id && x.OrderStatusID == 3);
-        }
-
-        public Task SaveCollectionAsync(CollectionSaveViewModel vm, string userName)
-        {
-            throw new NotImplementedException();
         }
     }
 }
