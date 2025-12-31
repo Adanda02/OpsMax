@@ -16,7 +16,7 @@ namespace OpsMax.Controllers
         private readonly ICollectionService _collectionService;
         private readonly IInvoiceService _invoiceService;
         private readonly IWebHostEnvironment _env;
-
+        private object newId;
         public const string UserName = "SYSTEM";
 
         public CollectionController(
@@ -174,8 +174,12 @@ namespace OpsMax.Controllers
                 vm.AttachmentPath = "/collectiondocs/" + fileName;
             }
 
-            await _collectionService.SaveCollectionAsync(vm, UserName);
-            return RedirectToAction(nameof(Index));
+            //await _collectionService.SaveCollectionAsync(vm, UserName);
+            //return RedirectToAction("Details", new { id = newId });
+
+            int newid = await _collectionService.SaveCollectionAsync(vm, UserName);
+            return RedirectToAction("Details", new { id = newid });
+
         }
 
         // =========================
