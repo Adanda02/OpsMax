@@ -44,6 +44,7 @@
             <label>Invoice Date:</label>
             @Html.DisplayFor(x => x.InvoiceDate)
         </div>
+
     </div>
 
     <div class="row mb-2">
@@ -56,22 +57,22 @@
             <label>Phone Number:</label>
             @Html.DisplayFor(x => x.PhoneNumber)
         </div>
-
-        <div class="col-md-4">
-            <label>Vehicle Reg:</label>
-            @Html.DisplayFor(x => x.VehicleReg)
-        </div>
-    </div>
-
-    <div class="row mb-2">
         <div class="col-md-4">
             <label>Collected Date:</label>
             @Html.DisplayFor(x => x.DateCollected)
         </div>
 
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-md-4">
+            <label>Vehicle Reg:</label>
+            @Html.DisplayFor(x => x.VehicleReg)
+        </div>
+
         <!-- ✅ REPLACED SECTION -->
         <div class="col-md-4">
-            <label>Fiscal Invoice / POD:</label><br />
+            <label>Fiscal Invoice / POD:</label>
 
             @if (!string.IsNullOrEmpty(Model.AttachmentPath))
             {
