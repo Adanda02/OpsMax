@@ -100,6 +100,7 @@ namespace OpsMax.Data
                 new OrderStatus { idStatus = 3, StatusCode = "Fully Collected", StatusDescription = "Fully Collected" },
                 new OrderStatus { idStatus = 4, StatusCode = "Over Collected", StatusDescription = "Over Collected" }
             );
+
         }
     }
 }
