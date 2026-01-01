@@ -95,7 +95,7 @@ namespace OpsMax.Services
             _context.Collections.Add(header);
             await _context.SaveChangesAsync();
 
-            // 🔑 RETURN NEW ID FOR Details/{id}
+            // 🔑 RETURN NEW ID
             return header.idOrderCollected;
         }
 
@@ -134,6 +134,16 @@ namespace OpsMax.Services
                 .Where(c => c.InvoiceNumber == invoiceNumber)
                 .OrderByDescending(c => c.DateCollected)
                 .FirstOrDefaultAsync();
+        }
+
+        // =========================
+        // SUMMARY (VIEW)
+        // =========================
+        public async Task<List<CollectionSummaryVM>> GetCollectionsSummaryAsync()
+        {
+            return await _context.CollectionsSummary
+                .OrderByDescending(x => x.DateCollected)
+                .ToListAsync();
         }
 
         // =========================

@@ -1,0 +1,49 @@
+﻿@using OpsMax.DTO.ViewModels
+@model IEnumerable<CollectionSummaryVM>
+
+<h2>Collections Summary</h2>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>Invoice Date</th>
+            <th>Invoice</th>
+            <th>Customer</th>
+            <th>Driver</th>
+            <th class="text-end">Purchased</th>
+            <th class="text-end">Collected</th>
+            <th class="text-end">Under</th>
+            <th class="text-end">Over</th>
+            <th class="text-end">Invoice Total</th>
+            <th>Status</th>
+            <th>Attachment</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var x in Model)
+        {
+            <tr>
+                <td>@x.InvoiceDate.ToShortDateString()</td>
+                <td>@x.InvoiceNumber</td>
+                <td>@x.CustomerName</td>
+                <td>@x.Driver</td>
+                <td class="text-end">@x.TotalPurchased</td>
+                <td class="text-end">@x.TotalCollected</td>
+                <td class="text-end text-warning">@x.UnderCollected</td>
+                <td class="text-end text-danger">@x.OverCollected</td>
+                <td class="text-end fw-bold">@x.InvoiceTotal</td>
+                <td>@(x.OrderStatusID == 3 ? "Completed" : "Open")</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(x.AttachmentPath))
+                    {
+                        <a href="@x.AttachmentPath" target="_blank" class="btn btn-sm btn-outline-secondary">View</a>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@x.idOrderCollected" class="btn btn-sm btn-info">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

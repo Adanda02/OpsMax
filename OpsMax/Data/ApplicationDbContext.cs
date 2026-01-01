@@ -1,6 +1,7 @@
-﻿using OpsMax.DTO;
+﻿using Microsoft.EntityFrameworkCore;
+using OpsMax.DTO;
+using OpsMax.DTO.ViewModels;
 using OpsMax.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace OpsMax.Data
 {
@@ -12,12 +13,17 @@ namespace OpsMax.Data
         }
 
         // =============================
-        // DB SETS (ENTITIES ONLY)
+        // DB SETS (ENTITIES)
         // =============================
         public DbSet<Category> Categories { get; set; }
         public DbSet<CollectionEntity> Collections { get; set; }
         public DbSet<CollectionLineEntity> CollectionLines { get; set; }
         public DbSet<OrderStatus> OrderStatuses { get; set; }
+
+        // =============================
+        // DB SETS (VIEWS / KEYLESS)
+        // =============================
+        public DbSet<CollectionSummaryVM> CollectionsSummary { get; set; }
 
         // =============================
         // MODEL CONFIGURATION
@@ -54,7 +60,8 @@ namespace OpsMax.Data
 
                 entity.HasOne(l => l.Collection)
                       .WithMany(h => h.Lines)
-                      .HasForeignKey(l => l.OrderCollectedID);
+                      .HasForeignKey(l => l.OrderCollectedID)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             // -----------------------------
@@ -72,7 +79,16 @@ namespace OpsMax.Data
             modelBuilder.Entity<InvoiceLineDto>(entity =>
             {
                 entity.HasNoKey();
-                entity.ToView(null);
+                entity.ToView(null); // Used for raw SQL
+            });
+
+            // -----------------------------
+            // VIEW: vw_CollectionsSummary
+            // -----------------------------
+            modelBuilder.Entity<CollectionSummaryVM>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView("vw_CollectionsSummary");
             });
 
             // -----------------------------
