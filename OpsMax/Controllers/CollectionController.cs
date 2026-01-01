@@ -35,7 +35,7 @@ namespace OpsMax.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var collections = await _collectionService.GetCollectionsAsync();
+            var collections = await _collectionService. GetCollectionsAsync();
             return View(collections);
         }
 
