@@ -16,7 +16,7 @@ namespace OpsMax.Controllers
         private readonly ICollectionService _collectionService;
         private readonly IInvoiceService _invoiceService;
         private readonly IWebHostEnvironment _env;
-        private object newId;
+
         public const string UserName = "SYSTEM";
 
         public CollectionController(
@@ -40,13 +40,25 @@ namespace OpsMax.Controllers
         }
 
         // =========================
+        // SUMMARY (VIEW)
+        // =========================
+        [HttpGet("Summary")]
+        public async Task<IActionResult> Summary()
+        {
+            var data = await _collectionService.GetCollectionsSummaryAsync();
+            return View(data);
+        }
+
+        // =========================
         // DETAILS
         // =========================
         [HttpGet("Details/{id:int}")]
         public async Task<IActionResult> Details(int id)
         {
             var entity = await _collectionService.GetCollectionByIdAsync(id);
-            if (entity == null) return NotFound();
+            if (entity == null)
+                return NotFound();
+
             return View(entity);
         }
 
@@ -74,9 +86,8 @@ namespace OpsMax.Controllers
                 return View("Create", new CollectionCreateViewModel());
             }
 
-            // 🔒 Check latest collection for this invoice
-            CollectionEntity? existing =
-                await _collectionService.GetLatestByInvoiceAsync(invoiceNumber);
+            // 🔒 Check latest collection
+            var existing = await _collectionService.GetLatestByInvoiceAsync(invoiceNumber);
 
             if (existing != null && existing.OrderStatusID == 3)
             {
@@ -111,7 +122,7 @@ namespace OpsMax.Controllers
                 return View("Create", lockedVm);
             }
 
-            // 🟢 Fresh or partially collected invoice
+            // 🟢 Fresh / Partial invoice
             var invoiceLines = await _invoiceService.GetInvoiceLinesAsync(invoiceNumber);
 
             if (!invoiceLines.Any())
@@ -122,7 +133,7 @@ namespace OpsMax.Controllers
 
             var header = invoiceLines.First();
 
-            var freshVm = new CollectionCreateViewModel
+            var vm = new CollectionCreateViewModel
             {
                 InvoiceNumberID = header.InvoiceNumberID,
                 InvoiceNumber = header.InvoiceNumber,
@@ -144,17 +155,16 @@ namespace OpsMax.Controllers
                 }).ToList()
             };
 
-            return View("Create", freshVm);
+            return View("Create", vm);
         }
 
         // =========================
-        // SAVE COLLECTION (WITH FILE UPLOAD)
+        // SAVE COLLECTION
         // =========================
         [HttpPost("Save")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Save(CollectionCreateViewModel vm)
         {
-            // 📎 Handle attachment upload
             if (vm.Attachment != null && vm.Attachment.Length > 0)
             {
                 var uploadsRoot = Path.Combine(_env.WebRootPath, "collectiondocs");
@@ -166,20 +176,14 @@ namespace OpsMax.Controllers
 
                 var fullPath = Path.Combine(uploadsRoot, fileName);
 
-                using (var stream = new FileStream(fullPath, FileMode.Create))
-                {
-                    await vm.Attachment.CopyToAsync(stream);
-                }
+                using var stream = new FileStream(fullPath, FileMode.Create);
+                await vm.Attachment.CopyToAsync(stream);
 
                 vm.AttachmentPath = "/collectiondocs/" + fileName;
             }
 
-            //await _collectionService.SaveCollectionAsync(vm, UserName);
-            //return RedirectToAction("Details", new { id = newId });
-
-            int newid = await _collectionService.SaveCollectionAsync(vm, UserName);
-            return RedirectToAction("Details", new { id = newid });
-
+            int newId = await _collectionService.SaveCollectionAsync(vm, UserName);
+            return RedirectToAction("Details", new { id = newId });
         }
 
         // =========================
@@ -192,7 +196,8 @@ namespace OpsMax.Controllers
                 return RedirectToAction("Details", new { id });
 
             var entity = await _collectionService.GetCollectionByIdAsync(id);
-            if (entity == null) return NotFound();
+            if (entity == null)
+                return NotFound();
 
             return View(entity);
         }
@@ -221,7 +226,8 @@ namespace OpsMax.Controllers
                 return RedirectToAction("Details", new { id });
 
             var entity = await _collectionService.GetCollectionByIdAsync(id);
-            if (entity == null) return NotFound();
+            if (entity == null)
+                return NotFound();
 
             return View(entity);
         }
