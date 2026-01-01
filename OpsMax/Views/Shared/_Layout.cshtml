@@ -66,6 +66,16 @@
 
                             <ul class="dropdown-menu" aria-labelledby="collectionDropdown">
 
+                                <!-- View Invoices Collected -->
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-controller="Collection"
+                                       asp-action="Summary">
+                                        <i class="bi bi-list-ul"></i> View Invoices Collected
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+
                                 <!-- View Collections -->
                                 <li>
                                     <a class="dropdown-item"
@@ -74,16 +84,6 @@
                                         <i class="bi bi-list-ul"></i> View Collections
                                     </a>
                                 </li>
-
-                                <!-- View Invoices Collected -->
-                                <li>
-                                    <a class="dropdown-item"
-                                       asp-controller="Collection"
-                                       asp-action="Index">
-                                        <i class="bi bi-list-ul"></i> View Invoices Collected
-                                    </a>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
 
                                 <!-- Search Collections -->
                                 <li>
