@@ -14,13 +14,14 @@
         <tr>
             <th>Date</th>
             <th>Invoice #</th>
-            <th>Customer</th>
-            <th>Driver</th>
+            <th>Customer Name</th>
+            <th>Collected By</th>
+            <th>Date Collected</th>
             <th class="text-end">Purchased</th>
             <th class="text-end">Collected</th>
             <th class="text-end">Under</th>
             <th class="text-end">Over</th>
-            <th class="text-end">Invoice Total</th>
+            <th class="text-end">Invoice Value</th>
             <th>Status</th>
             <th>Attachment</th>
             <th></th>
@@ -34,7 +35,7 @@
                 <td>@item.InvoiceNumber</td>
                 <td>@item.CustomerName</td>
                 <td>@item.Driver</td>
-
+                <td>@item.DateCollected</td>
                 <td class="text-end">@item.TotalPurchased.ToString("N2")</td>
                 <td class="text-end">@item.TotalCollected.ToString("N2")</td>
 
