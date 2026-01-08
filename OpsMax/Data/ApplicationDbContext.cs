@@ -20,10 +20,17 @@ namespace OpsMax.Data
         public DbSet<CollectionLineEntity> CollectionLines { get; set; }
         public DbSet<OrderStatus> OrderStatuses { get; set; }
 
+        public DbSet<PaymentSource> PaymentSources { get; set; }
+        public DbSet<PaymentSourceDocument> PaymentSourceDocuments { get; set; }
+
         // =============================
         // DB SETS (VIEWS / KEYLESS)
         // =============================
         public DbSet<CollectionSummaryVM> CollectionsSummary { get; set; }
+        //public object PaymentSourceDocuments { get; internal set; }
+        //public object PaymentSources { get; internal set; }
+
+
 
         // =============================
         // MODEL CONFIGURATION

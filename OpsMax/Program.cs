@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using OpsMax.Data;
-using OpsMax.Services.Interfaces;
 using OpsMax.Services;
+using OpsMax.Services.Interfaces;
+using OpsMax.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,27 +14,30 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // Razor runtime compilation
-builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+builder.Services.AddRazorPages()
+    .AddRazorRuntimeCompilation();
 
 // ----------------------------------------------------
 // 2. DATABASE CONTEXTS
 // ----------------------------------------------------
 
-// Default Identity / Admin DB (optional for your system)
+// Main Application DB
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
-// ZIM MEAL external Sage/Invoice database
+// External ZIM MEAL / Sage DB
 builder.Services.AddDbContext<ZimMealDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ZIMMEALConnection")));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("ZIMMEALConnection")));
 
 // ----------------------------------------------------
-// 3. BUSINESS SERVICES
+// 3. BUSINESS / DOMAIN SERVICES
 // ----------------------------------------------------
+
 builder.Services.AddScoped<ICollectionService, CollectionService>();
 builder.Services.AddScoped<IInvoiceService, InvoiceService>();
-
+builder.Services.AddScoped<IPaymentSourceService, PaymentSourceService>();
 
 // ----------------------------------------------------
 // 4. BUILD APP
@@ -55,7 +59,9 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
 
-// Default MVC route
+// ----------------------------------------------------
+// 6. ROUTING
+// ----------------------------------------------------
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

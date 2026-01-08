@@ -1,0 +1,116 @@
+﻿@model OpsMax.DTO.ViewModels.PaymentSourceCreateVM
+
+<form asp-action="Create"
+      method="post"
+      enctype="multipart/form-data">
+
+    @Html.AntiForgeryToken()
+
+    <!-- =========================
+         HEADER DETAILS
+         ========================= -->
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <label asp-for="SourceType" class="form-label"></label>
+            <select asp-for="SourceType" class="form-control">
+                <option value="">-- Select --</option>
+                <option value="AP">AP</option>
+                <option value="GL">GL</option>
+            </select>
+            <span asp-validation-for="SourceType" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="AccountId" class="form-label"></label>
+            <input asp-for="AccountId" class="form-control" placeholder="Account ID" />
+            <span asp-validation-for="AccountId" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="OrderReference" class="form-label"></label>
+            <input asp-for="OrderReference" class="form-control" placeholder="Order Reference" />
+            <span asp-validation-for="OrderReference" class="text-danger"></span>
+        </div>
+    </div>
+
+    <hr />
+
+    <!-- =========================
+         SUPPORTING DOCUMENTS
+         ========================= -->
+    <h5>Supporting Documents</h5>
+
+    <table class="table table-bordered" id="docTable">
+        <thead>
+            <tr>
+                <th style="width:40%">Document Type</th>
+                <th style="width:45%">File</th>
+                <th style="width:15%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <input name="DocumentTypes[0]"
+                           class="form-control"
+                           placeholder="Invoice / POD / GRV" />
+                </td>
+                <td>
+                    <input type="file"
+                           name="Files[0]"
+                           class="form-control" />
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button type="button"
+            class="btn btn-sm btn-secondary"
+            onclick="addDoc()">
+        + Add Another Document
+    </button>
+
+    <br /><br />
+
+    <button type="submit" class="btn btn-primary">
+        Save Payment Source
+    </button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        let docIndex = 1;
+
+        function addDoc() {
+            const row = `
+                <tr>
+                    <td>
+                        <input name="DocumentTypes[${docIndex}]"
+                               class="form-control"
+                               placeholder="Invoice / POD / GRV" />
+                    </td>
+                    <td>
+                        <input type="file"
+                               name="Files[${docIndex}]"
+                               class="form-control" />
+                    </td>
+                    <td>
+                        <button type="button"
+                                class="btn btn-sm btn-danger"
+                                onclick="this.closest('tr').remove()">
+                            X
+                        </button>
+                    </td>
+                </tr>`;
+
+            document
+                .querySelector("#docTable tbody")
+                .insertAdjacentHTML("beforeend", row);
+
+            docIndex++;
+        }
+    </script>
+}
