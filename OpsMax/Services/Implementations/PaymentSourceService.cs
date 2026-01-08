@@ -31,7 +31,7 @@ namespace OpsMax.Services.Implementations
             var source = new PaymentSource
             {
                 SourceType = vm.SourceType,
-                AccountId = vm.AccountId,
+                AccountID = vm.AccountId,
                 OrderReference = vm.OrderReference,
                 RaisedBy = user,
                 CreatedDate = DateTime.UtcNow,
@@ -57,7 +57,7 @@ namespace OpsMax.Services.Implementations
 
                 _context.PaymentSourceDocuments.Add(new PaymentSourceDocument
                 {
-                    PaymentSourceId = source.Id,
+                    PaymentSourceId = source.idPaymentSource,
                     DocumentType = vm.DocumentTypes.ElementAtOrDefault(i) ?? "Unknown",
                     FilePath = fileName,
                     UploadedBy = user,
@@ -66,7 +66,7 @@ namespace OpsMax.Services.Implementations
             }
 
             await _context.SaveChangesAsync();
-            return source.Id;
+            return source.idPaymentSource;
         }
 
         /// <summary>
@@ -75,12 +75,12 @@ namespace OpsMax.Services.Implementations
         public async Task<PaymentSourceDetailsVM> GetDetailsAsync(int id)
         {
             var header = await _context.PaymentSources
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.idPaymentSource == id);
 
             if (header == null) return null;
 
             var documents = await _context.PaymentSourceDocuments
-                .Where(d => d.PaymentSourceId == id)
+                .Where(d => d.PaymentSourceID == id)
                 .ToListAsync();
 
             return new PaymentSourceDetailsVM

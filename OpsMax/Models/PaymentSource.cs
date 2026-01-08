@@ -5,9 +5,11 @@ namespace OpsMax.Models
 {
     public class PaymentSource
     {
-        public int Id { get; set; }
+        public int idPaymentSource { get; set; }
         public string SourceType { get; set; }
-        public int AccountId { get; set; }
+        public int AccountID { get; set; }
+        public int Account { get; set; }
+        public int AccountName { get; set; }
         public string OrderReference { get; set; }
         public string RaisedBy { get; set; }
 
