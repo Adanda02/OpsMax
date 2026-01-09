@@ -2,8 +2,8 @@
 {
     public class PaymentSourceDocument
     {
-        public int Id { get; set; }
-        public int PaymentSourceId { get; set; }
+        public int idPaymentSourceDoc { get; set; }
+        //public int PaymentSourceId { get; set; }
         public int PaymentSourceID { get; internal set; }
         public string DocumentType { get; set; }
         public string FilePath { get; set; }

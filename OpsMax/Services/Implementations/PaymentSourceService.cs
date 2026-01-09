@@ -57,7 +57,7 @@ namespace OpsMax.Services.Implementations
 
                 _context.PaymentSourceDocuments.Add(new PaymentSourceDocument
                 {
-                    PaymentSourceId = source.idPaymentSource,
+                    PaymentSourceID = source.idPaymentSource,
                     DocumentType = vm.DocumentTypes.ElementAtOrDefault(i) ?? "Unknown",
                     FilePath = fileName,
                     UploadedBy = user,

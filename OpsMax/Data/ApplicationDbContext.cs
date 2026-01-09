@@ -87,7 +87,7 @@ namespace OpsMax.Data
 
                 entity.HasMany(p => p.Documents)
                       .WithOne(d => d.PaymentSource)
-                      .HasForeignKey(d => d.PaymentSourceId)
+                      .HasForeignKey(d => d.PaymentSourceID)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
@@ -97,7 +97,7 @@ namespace OpsMax.Data
             modelBuilder.Entity<PaymentSourceDocument>(entity =>
             {
                 entity.ToTable("PaymentSourceDocuments");
-                entity.HasKey(d => d.Id);
+                entity.HasKey(d => d.idPaymentSourceDoc);
             });
 
             // -----------------------------
