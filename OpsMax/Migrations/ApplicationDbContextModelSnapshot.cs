@@ -301,13 +301,19 @@ namespace OpsMax.Migrations
 
             modelBuilder.Entity("OpsMax.Models.PaymentSource", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("idPaymentSource")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("idPaymentSource"));
 
-                    b.Property<int>("AccountId")
+                    b.Property<int>("Account")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AccountID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AccountName")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
@@ -332,18 +338,18 @@ namespace OpsMax.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("idPaymentSource");
 
-                    b.ToTable("PaymentSources");
+                    b.ToTable("PaymentSources", (string)null);
                 });
 
             modelBuilder.Entity("OpsMax.Models.PaymentSourceDocument", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("idPaymentSourceDoc")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("idPaymentSourceDoc"));
 
                     b.Property<DateTime>("DateUploaded")
                         .HasColumnType("datetime2");
@@ -356,7 +362,7 @@ namespace OpsMax.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PaymentSourceId")
+                    b.Property<int>("PaymentSourceID")
                         .HasColumnType("int");
 
                     b.Property<string>("UploadedBy")
@@ -366,11 +372,11 @@ namespace OpsMax.Migrations
                     b.Property<DateTime>("UploadedDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("idPaymentSourceDoc");
 
-                    b.HasIndex("PaymentSourceId");
+                    b.HasIndex("PaymentSourceID");
 
-                    b.ToTable("PaymentSourceDocuments");
+                    b.ToTable("PaymentSourceDocuments", (string)null);
                 });
 
             modelBuilder.Entity("OpsMax.Models.CollectionEntity", b =>
@@ -397,7 +403,7 @@ namespace OpsMax.Migrations
                 {
                     b.HasOne("OpsMax.Models.PaymentSource", "PaymentSource")
                         .WithMany("Documents")
-                        .HasForeignKey("PaymentSourceId")
+                        .HasForeignKey("PaymentSourceID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

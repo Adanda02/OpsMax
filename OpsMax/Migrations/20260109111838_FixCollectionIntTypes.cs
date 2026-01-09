@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace OpsMax.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class FixCollectionIntTypes : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -42,6 +42,27 @@ namespace OpsMax.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PaymentSources",
+                columns: table => new
+                {
+                    idPaymentSource = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SourceType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AccountID = table.Column<int>(type: "int", nullable: false),
+                    Account = table.Column<int>(type: "int", nullable: false),
+                    AccountName = table.Column<int>(type: "int", nullable: false),
+                    OrderReference = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RaisedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateCaptured = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentSources", x => x.idPaymentSource);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "_tblCollection",
                 columns: table => new
                 {
@@ -70,6 +91,30 @@ namespace OpsMax.Migrations
                         column: x => x.OrderStatusID,
                         principalTable: "_tblOrderStatus",
                         principalColumn: "idStatus",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PaymentSourceDocuments",
+                columns: table => new
+                {
+                    idPaymentSourceDoc = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PaymentSourceID = table.Column<int>(type: "int", nullable: false),
+                    DocumentType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UploadedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateUploaded = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UploadedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentSourceDocuments", x => x.idPaymentSourceDoc);
+                    table.ForeignKey(
+                        name: "FK_PaymentSourceDocuments_PaymentSources_PaymentSourceID",
+                        column: x => x.PaymentSourceID,
+                        principalTable: "PaymentSources",
+                        principalColumn: "idPaymentSource",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -121,6 +166,11 @@ namespace OpsMax.Migrations
                 name: "IX__tblCollectionLines_OrderCollectedID",
                 table: "_tblCollectionLines",
                 column: "OrderCollectedID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaymentSourceDocuments_PaymentSourceID",
+                table: "PaymentSourceDocuments",
+                column: "PaymentSourceID");
         }
 
         /// <inheritdoc />
@@ -133,7 +183,13 @@ namespace OpsMax.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
+                name: "PaymentSourceDocuments");
+
+            migrationBuilder.DropTable(
                 name: "_tblCollection");
+
+            migrationBuilder.DropTable(
+                name: "PaymentSources");
 
             migrationBuilder.DropTable(
                 name: "_tblOrderStatus");

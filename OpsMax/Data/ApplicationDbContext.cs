@@ -27,10 +27,7 @@ namespace OpsMax.Data
         // DB SETS (VIEWS / KEYLESS)
         // =============================
         public DbSet<CollectionSummaryVM> CollectionsSummary { get; set; }
-        //public object PaymentSourceDocuments { get; internal set; }
-        //public object PaymentSources { get; internal set; }
-
-
+        public DbSet<InvoiceLineDto> InvoiceLines { get; set; }
 
         // =============================
         // MODEL CONFIGURATION
@@ -81,6 +78,29 @@ namespace OpsMax.Data
             });
 
             // -----------------------------
+            // PaymentSource → PaymentSources
+            // -----------------------------
+            modelBuilder.Entity<PaymentSource>(entity =>
+            {
+                entity.ToTable("PaymentSources");
+                entity.HasKey(e => e.idPaymentSource);
+
+                entity.HasMany(p => p.Documents)
+                      .WithOne(d => d.PaymentSource)
+                      .HasForeignKey(d => d.PaymentSourceID)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // -----------------------------
+            // PaymentSourceDocument → PaymentSourceDocuments
+            // -----------------------------
+            modelBuilder.Entity<PaymentSourceDocument>(entity =>
+            {
+                entity.ToTable("PaymentSourceDocuments");
+                entity.HasKey(d => d.idPaymentSourceDoc);
+            });
+
+            // -----------------------------
             // DTO: InvoiceLineDto (KEYLESS)
             // -----------------------------
             modelBuilder.Entity<InvoiceLineDto>(entity =>
@@ -107,7 +127,6 @@ namespace OpsMax.Data
                 new OrderStatus { idStatus = 3, StatusCode = "Fully Collected", StatusDescription = "Fully Collected" },
                 new OrderStatus { idStatus = 4, StatusCode = "Over Collected", StatusDescription = "Over Collected" }
             );
-
         }
     }
 }
