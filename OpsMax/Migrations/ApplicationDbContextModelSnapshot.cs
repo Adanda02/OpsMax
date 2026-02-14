@@ -70,56 +70,6 @@ namespace OpsMax.Migrations
                     b.ToView(null, (string)null);
                 });
 
-            modelBuilder.Entity("OpsMax.DTO.ViewModels.CollectionSummaryVM", b =>
-                {
-                    b.Property<string>("AttachmentPath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CustomerName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateCollected")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Driver")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("InvoiceDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("InvoiceNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("InvoiceTotal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("OrderStatusID")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("OverCollected")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("TotalCollected")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("TotalPurchased")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("UnderCollected")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("idOrderCollected")
-                        .HasColumnType("int");
-
-                    b.ToTable((string)null);
-
-                    b.ToView("vw_CollectionsSummary", (string)null);
-                });
-
             modelBuilder.Entity("OpsMax.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -377,6 +327,77 @@ namespace OpsMax.Migrations
                     b.HasIndex("PaymentSourceID");
 
                     b.ToTable("PaymentSourceDocuments", (string)null);
+                });
+
+            modelBuilder.Entity("OpsMax.Models.Views.CollectionSummaryView", b =>
+                {
+                    b.Property<string>("AttachmentPath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CustomerID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCollected")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateStamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Driver")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdOrderCollected")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("InvoiceDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InvoiceNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("InvoiceNumberID")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("InvoiceTotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("OrderStatusID")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("OverCollected")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TotalCollected")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalPurchased")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("UnderCollected")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VehicleReg")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("vw_CollectionsSummary", (string)null);
                 });
 
             modelBuilder.Entity("OpsMax.Models.CollectionEntity", b =>

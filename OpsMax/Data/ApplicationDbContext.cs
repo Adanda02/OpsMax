@@ -2,6 +2,7 @@
 using OpsMax.DTO;
 using OpsMax.DTO.ViewModels;
 using OpsMax.Models;
+using OpsMax.Models.Views;
 
 namespace OpsMax.Data
 {
@@ -24,10 +25,16 @@ namespace OpsMax.Data
         public DbSet<PaymentSourceDocument> PaymentSourceDocuments { get; set; }
 
         // =============================
-        // DB SETS (VIEWS / KEYLESS)
+        // DB SETS (VIEWS – KEYLESS)
         // =============================
-        public DbSet<CollectionSummaryVM> CollectionsSummary { get; set; }
+        public DbSet<CollectionSummaryView> CollectionsSummary { get; set; }
+
+        // =============================
+        // DB SETS (RAW SQL DTOs – KEYLESS)
+        // =============================
         public DbSet<InvoiceLineDto> InvoiceLines { get; set; }
+        public DbSet<SupplierGRVVM> SupplierGrvs { get; set; }
+        public DbSet<GLAccountVM> GLAccounts { get; set; }
 
         // =============================
         // MODEL CONFIGURATION
@@ -37,7 +44,7 @@ namespace OpsMax.Data
             base.OnModelCreating(modelBuilder);
 
             // -----------------------------
-            // Category → Categories
+            // CATEGORY
             // -----------------------------
             modelBuilder.Entity<Category>(entity =>
             {
@@ -46,7 +53,7 @@ namespace OpsMax.Data
             });
 
             // -----------------------------
-            // Collection HEADER → _tblCollection
+            // COLLECTION HEADER
             // -----------------------------
             modelBuilder.Entity<CollectionEntity>(entity =>
             {
@@ -55,7 +62,7 @@ namespace OpsMax.Data
             });
 
             // -----------------------------
-            // Collection LINES → _tblCollectionLines
+            // COLLECTION LINES
             // -----------------------------
             modelBuilder.Entity<CollectionLineEntity>(entity =>
             {
@@ -69,7 +76,7 @@ namespace OpsMax.Data
             });
 
             // -----------------------------
-            // OrderStatus → _tblOrderStatus
+            // ORDER STATUS
             // -----------------------------
             modelBuilder.Entity<OrderStatus>(entity =>
             {
@@ -78,7 +85,7 @@ namespace OpsMax.Data
             });
 
             // -----------------------------
-            // PaymentSource → PaymentSources
+            // PAYMENT SOURCE
             // -----------------------------
             modelBuilder.Entity<PaymentSource>(entity =>
             {
@@ -92,35 +99,47 @@ namespace OpsMax.Data
             });
 
             // -----------------------------
-            // PaymentSourceDocument → PaymentSourceDocuments
+            // PAYMENT SOURCE DOCUMENTS
             // -----------------------------
             modelBuilder.Entity<PaymentSourceDocument>(entity =>
             {
                 entity.ToTable("PaymentSourceDocuments");
-                entity.HasKey(d => d.idPaymentSourceDoc);
+                entity.HasKey(e => e.idPaymentSourceDoc);
             });
 
-            // -----------------------------
-            // DTO: InvoiceLineDto (KEYLESS)
-            // -----------------------------
-            modelBuilder.Entity<InvoiceLineDto>(entity =>
-            {
-                entity.HasNoKey();
-                entity.ToView(null); // Used for raw SQL
-            });
-
-            // -----------------------------
+            // =============================
             // VIEW: vw_CollectionsSummary
-            // -----------------------------
-            modelBuilder.Entity<CollectionSummaryVM>(entity =>
+            // =============================
+            modelBuilder.Entity<CollectionSummaryView>(entity =>
             {
                 entity.HasNoKey();
                 entity.ToView("vw_CollectionsSummary");
             });
 
-            // -----------------------------
-            // SEED ORDER STATUS
-            // -----------------------------
+            // =============================
+            // RAW SQL DTOs (NO TABLE / VIEW)
+            // =============================
+            modelBuilder.Entity<InvoiceLineDto>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView(null);
+            });
+
+            modelBuilder.Entity<SupplierGRVVM>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView(null);
+            });
+
+            modelBuilder.Entity<GLAccountVM>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView(null);
+            });
+
+            // =============================
+            // SEED DATA
+            // =============================
             modelBuilder.Entity<OrderStatus>().HasData(
                 new OrderStatus { idStatus = 1, StatusCode = "Not Collected", StatusDescription = "Not Collected" },
                 new OrderStatus { idStatus = 2, StatusCode = "Partially Collected", StatusDescription = "Partially Collected" },

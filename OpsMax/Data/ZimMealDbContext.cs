@@ -1,5 +1,6 @@
-﻿using OpsMax.DTO;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using OpsMax.DTO;
+using OpsMax.DTO.ViewModels;
 
 namespace OpsMax.Data
 {
@@ -11,16 +12,22 @@ namespace OpsMax.Data
         }
 
         // =====================================================
-        // STORED PROCEDURE / VIEW RESULTS (KEYLESS)
+        // KEYLESS DTOs / VIEW / RAW SQL RESULTS
         // =====================================================
         public DbSet<InvoiceLineDto> InvoiceLineDtos { get; set; }
+        public DbSet<SupplierGRVVM> SupplierGrvs { get; set; }
+        public DbSet<GLAccountVM> GLAccounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Stored procedure results do not have primary keys
-            modelBuilder.Entity<InvoiceLineDto>().HasNoKey();
-
             base.OnModelCreating(modelBuilder);
+
+            // -----------------------------
+            // Keyless DTOs
+            // -----------------------------
+            modelBuilder.Entity<InvoiceLineDto>().HasNoKey();
+            modelBuilder.Entity<SupplierGRVVM>().HasNoKey();
+            modelBuilder.Entity<GLAccountVM>().HasNoKey();
         }
     }
 }

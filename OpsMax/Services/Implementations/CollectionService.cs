@@ -1,6 +1,7 @@
 ﻿using OpsMax.Data;
 using OpsMax.DTO.ViewModels;
 using OpsMax.Models;
+using OpsMax.Models.Views;
 using OpsMax.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -95,12 +96,11 @@ namespace OpsMax.Services
             _context.Collections.Add(header);
             await _context.SaveChangesAsync();
 
-            // 🔑 RETURN NEW ID
             return header.idOrderCollected;
         }
 
         // =========================
-        // READ
+        // READ (TABLES)
         // =========================
         public async Task<List<CollectionEntity>> GetCollectionsAsync()
         {
@@ -139,9 +139,10 @@ namespace OpsMax.Services
         // =========================
         // SUMMARY (VIEW)
         // =========================
-        public async Task<List<CollectionSummaryVM>> GetCollectionsSummaryAsync()
+        public async Task<List<CollectionSummaryView>> GetCollectionsSummaryAsync()
         {
             return await _context.CollectionsSummary
+                .AsNoTracking()
                 .OrderByDescending(x => x.DateCollected)
                 .ToListAsync();
         }
@@ -183,6 +184,11 @@ namespace OpsMax.Services
         {
             return await _context.Collections
                 .AnyAsync(x => x.idOrderCollected == id && x.OrderStatusID == 3);
+        }
+
+        Task<List<CollectionSummaryVM>> ICollectionService.GetCollectionsSummaryAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

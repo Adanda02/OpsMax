@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,20 +7,45 @@ namespace OpsMax.DTO.ViewModels
 {
     public class PaymentSourceCreateVM
     {
+        // -----------------------------
+        // SOURCE TYPE
+        // -----------------------------
         [Required]
-        public string SourceType { get; set; }
+        [StringLength(10)]
+        public string SourceType { get; set; } // "AP" or "GL"
 
-        [Required]
-        public int AccountId { get; set; }
+        // -----------------------------
+        // AP (Accounts Payable)
+        // Used when SourceType == "AP"
+        // -----------------------------
+        public int? SupplierId { get; set; }
 
-        [Required]
         [StringLength(100)]
-        public string OrderReference { get; set; }
+        public string GrvNumber { get; set; }
 
-        // Uploaded documents
+        // -----------------------------
+        // GL (General Ledger)
+        // Used when SourceType == "GL"
+        // -----------------------------
+        public int? GlAccountId { get; set; }
+
+        [StringLength(100)]
+        public string Reference { get; set; }
+
+        // -----------------------------
+        // COMMON FIELDS
+        // -----------------------------
+        [Required]
+        public DateTime PaymentDate { get; set; }
+
+        // -----------------------------
+        // DOCUMENT UPLOADS
+        // -----------------------------
         public List<IFormFile> Files { get; set; } = new();
 
-        // Document types matching Files index
+        // Must match Files by index
         public List<string> DocumentTypes { get; set; } = new();
+        public int AccountId { get; internal set; }
+        public string OrderReference { get; internal set; }
     }
 }

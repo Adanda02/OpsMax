@@ -15,7 +15,9 @@ namespace OpsMax.Modules.Payments.Controllers
             _service = service;
         }
 
+        // -----------------------------
         // GET: /paymentsource/index
+        // -----------------------------
         [HttpGet("index")]
         public async Task<IActionResult> Index()
         {
@@ -23,26 +25,45 @@ namespace OpsMax.Modules.Payments.Controllers
             return View(allSources);
         }
 
+        // -----------------------------
         // GET: /paymentsource/create
+        // -----------------------------
         [HttpGet("create")]
         public IActionResult Create()
         {
-            return View();
+            // Use strongly-typed Page VM instead of ViewBag
+            var vm = new PaymentSourceCreatePageVM
+            {
+                Form = new PaymentSourceCreateVM(),
+                Suppliers = _service.GetSuppliers(),
+                GlAccounts = _service.GetGLAccounts()
+            };
+
+            return View(vm);
         }
 
+        // -----------------------------
         // POST: /paymentsource/create
+        // -----------------------------
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(PaymentSourceCreateVM vm)
+        public async Task<IActionResult> Create(PaymentSourceCreatePageVM pageVm)
         {
             if (!ModelState.IsValid)
-                return View(vm);
+            {
+                // Reload suppliers/GL accounts for redisplay
+                pageVm.Suppliers = _service.GetSuppliers();
+                pageVm.GlAccounts = _service.GetGLAccounts();
+                return View(pageVm);
+            }
 
-            var id = await _service.CreateAsync(vm, User.Identity.Name);
+            var id = await _service.CreateAsync(pageVm.Form, User.Identity?.Name);
             return RedirectToAction(nameof(Details), new { id });
         }
 
-        // GET: /paymentsource/details/5
+        // -----------------------------
+        // GET: /paymentsource/details/{id}
+        // -----------------------------
         [HttpGet("details/{id:int}")]
         public async Task<IActionResult> Details(int id)
         {
