@@ -50,27 +50,27 @@ namespace OpsMax.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // -----------------------------------------------------
+            // -----------------------------
             // CATEGORY
-            // -----------------------------------------------------
+            // -----------------------------
             modelBuilder.Entity<Category>(entity =>
             {
                 entity.ToTable("Categories");
                 entity.HasKey(e => e.Id);
             });
 
-            // -----------------------------------------------------
+            // -----------------------------
             // COLLECTION HEADER
-            // -----------------------------------------------------
+            // -----------------------------
             modelBuilder.Entity<CollectionEntity>(entity =>
             {
                 entity.ToTable("_tblCollection");
                 entity.HasKey(e => e.idOrderCollected);
             });
 
-            // -----------------------------------------------------
+            // -----------------------------
             // COLLECTION LINES
-            // -----------------------------------------------------
+            // -----------------------------
             modelBuilder.Entity<CollectionLineEntity>(entity =>
             {
                 entity.ToTable("_tblCollectionLines");
@@ -82,18 +82,18 @@ namespace OpsMax.Data
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // -----------------------------------------------------
+            // -----------------------------
             // ORDER STATUS
-            // -----------------------------------------------------
+            // -----------------------------
             modelBuilder.Entity<OrderStatus>(entity =>
             {
                 entity.ToTable("_tblOrderStatus");
                 entity.HasKey(e => e.idStatus);
             });
 
-            // -----------------------------------------------------
+            // -----------------------------
             // PAYMENT SOURCE
-            // -----------------------------------------------------
+            // -----------------------------
             modelBuilder.Entity<PaymentSource>(entity =>
             {
                 entity.ToTable("PaymentSources");
@@ -105,93 +105,79 @@ namespace OpsMax.Data
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // -----------------------------------------------------
+            // -----------------------------
             // PAYMENT SOURCE DOCUMENTS
-            // -----------------------------------------------------
+            // -----------------------------
             modelBuilder.Entity<PaymentSourceDocument>(entity =>
             {
                 entity.ToTable("PaymentSourceDocuments");
                 entity.HasKey(e => e.idPaymentSourceDoc);
             });
 
-            // -----------------------------------------------------
+            // -----------------------------
             // TRUCK
-            // -----------------------------------------------------
+            // -----------------------------
             modelBuilder.Entity<Truck>(entity =>
             {
                 entity.ToTable("Trucks");
                 entity.HasKey(e => e.idTruck);
             });
 
-            // -----------------------------------------------------
+            // -----------------------------
             // DRIVER
-            // -----------------------------------------------------
+            // -----------------------------
             modelBuilder.Entity<Driver>(entity =>
             {
                 entity.ToTable("Drivers");
                 entity.HasKey(e => e.idDrivers);
             });
 
-            // -----------------------------------------------------
+            // -----------------------------
             // LOAD
-            // -----------------------------------------------------
+            // -----------------------------
             modelBuilder.Entity<Load>(entity =>
             {
                 entity.ToTable("Loads");
                 entity.HasKey(e => e.idLoad);
             });
 
-            // -----------------------------------------------------
+            // -----------------------------
             // LOAD DOCUMENT
-            // -----------------------------------------------------
+            // -----------------------------
             modelBuilder.Entity<LoadDocument>(entity =>
             {
                 entity.ToTable("LoadDocuments");
                 entity.HasKey(e => e.idLoadDocuments);
             });
 
-            // -----------------------------------------------------
+            // -----------------------------
             // CUSTOMER ALLOCATION
-            // -----------------------------------------------------
+            // -----------------------------
             modelBuilder.Entity<CustomerAllocation>(entity =>
             {
                 entity.ToTable("CustomerAllocations");
                 entity.HasKey(e => e.idCustomerAllocations);
             });
 
-            // =====================================================
-            // VIEW: vw_CollectionsSummary
-            // =====================================================
+            // -----------------------------
+            // COLLECTION SUMMARY VIEW
+            // -----------------------------
             modelBuilder.Entity<CollectionSummaryView>(entity =>
             {
                 entity.HasNoKey();
                 entity.ToView("vw_CollectionsSummary");
             });
 
-            // =====================================================
+            // -----------------------------
             // RAW SQL DTOs (NO TABLE / VIEW)
-            // =====================================================
-            modelBuilder.Entity<InvoiceLineDto>(entity =>
-            {
-                entity.HasNoKey();
-                entity.ToView(null);
-            });
+            // -----------------------------
+            modelBuilder.Entity<InvoiceLineDto>(entity => { entity.HasNoKey(); entity.ToView(null); });
+            modelBuilder.Entity<SupplierGRVVM>(entity => { entity.HasNoKey(); entity.ToView(null); });
+            modelBuilder.Entity<GLAccountVM>(entity => { entity.HasNoKey(); entity.ToView(null); });
 
-            modelBuilder.Entity<SupplierGRVVM>(entity =>
-            {
-                entity.HasNoKey();
-                entity.ToView(null);
-            });
-
-            modelBuilder.Entity<GLAccountVM>(entity =>
-            {
-                entity.HasNoKey();
-                entity.ToView(null);
-            });
-
-            // =====================================================
+            // -----------------------------
             // SEED DATA
-            // =====================================================
+            // -----------------------------
             modelBuilder.Entity<OrderStatus>().HasData(
                 new OrderStatus { idStatus = 1, StatusCode = "Not Collected", StatusDescription = "Not Collected" },
                 new OrderStatus { idStatus = 2, StatusCode = "Partially Collected", StatusDescription = "Partially Collected" },

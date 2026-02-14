@@ -1,73 +1,114 @@
-﻿@model OpsMax.Models.Load
+﻿@model OpsMax.ViewModels.LoadCreateViewModel
+
+@{
+    ViewData["Title"] = "Create Load";
+}
 
 <h2>Create Load</h2>
 
-<form asp-action="Create">
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
     <div class="row">
 
+        <!-- Supplier -->
         <div class="col-md-6 mb-3">
-            <label asp-for="SupplierID"></label>
-            <input asp-for="SupplierID" class="form-control" />
+            <label asp-for="Load.SupplierID" class="form-label"></label>
+            <input asp-for="Load.SupplierID" class="form-control" />
+            <span asp-validation-for="Load.SupplierID" class="text-danger"></span>
         </div>
 
+        <!-- Stock Code -->
         <div class="col-md-6 mb-3">
-            <label asp-for="MaizeStockCodeID"></label>
-            <input asp-for="MaizeStockCodeID" class="form-control" />
+            <label asp-for="Load.MaizeStockCodeID" class="form-label"></label>
+            <input asp-for="Load.MaizeStockCodeID" class="form-control" />
+            <span asp-validation-for="Load.MaizeStockCodeID" class="text-danger"></span>
         </div>
 
+        <!-- Truck -->
         <div class="col-md-6 mb-3">
-            <label asp-for="TruckID">Truck</label>
-            <select asp-for="TruckID" class="form-select"
-                    asp-items="@(new SelectList(ViewBag.Trucks, "TruckID", "RegistrationNumber"))">
-                <option value="">Select Truck</option>
+            <label asp-for="Load.TruckID" class="form-label">Truck</label>
+            <select asp-for="Load.TruckID"
+                    asp-items="Model.Trucks"
+                    class="form-select">
+                <option value="">-- Select Truck --</option>
             </select>
+            <span asp-validation-for="Load.TruckID" class="text-danger"></span>
         </div>
 
+        <!-- Driver -->
         <div class="col-md-6 mb-3">
-            <label asp-for="DriverID">Driver</label>
-            <select asp-for="DriverID" class="form-select"
-                    asp-items="@(new SelectList(ViewBag.Drivers, "DriverID", "FullName"))">
-                <option value="">Select Driver</option>
+            <label asp-for="Load.DriverID" class="form-label">Driver</label>
+            <select asp-for="Load.DriverID"
+                    asp-items="Model.Drivers"
+                    class="form-select">
+                <option value="">-- Select Driver --</option>
             </select>
+            <span asp-validation-for="Load.DriverID" class="text-danger"></span>
         </div>
 
+        <!-- Loaded Quantity -->
         <div class="col-md-4 mb-3">
-            <label asp-for="LoadedQuantity"></label>
-            <input asp-for="LoadedQuantity" class="form-control" id="loadedQty" />
+            <label asp-for="Load.LoadedQuantity" class="form-label"></label>
+            <input asp-for="Load.LoadedQuantity"
+                   class="form-control"
+                   id="loadedQty" />
+            <span asp-validation-for="Load.LoadedQuantity" class="text-danger"></span>
         </div>
 
+        <!-- Actual Quantity -->
         <div class="col-md-4 mb-3">
-            <label asp-for="ActualQuantity"></label>
-            <input asp-for="ActualQuantity" class="form-control" id="actualQty" />
+            <label asp-for="Load.ActualQuantity" class="form-label"></label>
+            <input asp-for="Load.ActualQuantity"
+                   class="form-control"
+                   id="actualQty" />
+            <span asp-validation-for="Load.ActualQuantity" class="text-danger"></span>
         </div>
 
+        <!-- Shortage (Auto Calculated) -->
         <div class="col-md-4 mb-3">
-            <label asp-for="ShortageQuantity"></label>
-            <input asp-for="ShortageQuantity" class="form-control" readonly id="shortageQty" />
+            <label asp-for="Load.ShortageQuantity" class="form-label"></label>
+            <input asp-for="Load.ShortageQuantity"
+                   class="form-control"
+                   id="shortageQty"
+                   readonly />
         </div>
 
+        <!-- Load Date -->
         <div class="col-md-6 mb-3">
-            <label asp-for="LoadDate"></label>
-            <input asp-for="LoadDate" type="date" class="form-control" />
+            <label asp-for="Load.LoadDate" class="form-label"></label>
+            <input asp-for="Load.LoadDate"
+                   type="date"
+                   class="form-control" />
         </div>
 
+        <!-- Estimated Arrival -->
         <div class="col-md-6 mb-3">
-            <label asp-for="EstimatedArrivalDate"></label>
-            <input asp-for="EstimatedArrivalDate" type="date" class="form-control" />
+            <label asp-for="Load.EstimatedArrivalDate" class="form-label"></label>
+            <input asp-for="Load.EstimatedArrivalDate"
+                   type="date"
+                   class="form-control" />
         </div>
 
     </div>
 
-    <button class="btn btn-success">Save</button>
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
 
-<script>
-    document.getElementById("actualQty").addEventListener("input", calculate);
-    document.getElementById("loadedQty").addEventListener("input", calculate);
-
-    function calculate() {
-        var loaded = parseFloat(document.getElementById("loadedQty").value) || 0;
-        var actual = parseFloat(document.getElementById("actualQty").value) || 0;
-        document.getElementById("shortageQty").value = loaded - actual;
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-</script>
+
+    <script>
+        document.getElementById("actualQty").addEventListener("input", calculate);
+        document.getElementById("loadedQty").addEventListener("input", calculate);
+
+        function calculate() {
+            var loaded = parseFloat(document.getElementById("loadedQty").value) || 0;
+            var actual = parseFloat(document.getElementById("actualQty").value) || 0;
+            document.getElementById("shortageQty").value = loaded - actual;
+        }
+    </script>
+}

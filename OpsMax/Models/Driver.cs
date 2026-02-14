@@ -1,4 +1,4 @@
-﻿using Microsoft.Build.Framework;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace OpsMax.Models
 {
@@ -10,9 +10,7 @@ namespace OpsMax.Models
         public string FullName { get; set; }
 
         public string NationalID { get; set; }
-
         public string Phone { get; set; }
-
         public string LicenseNumber { get; set; }
 
         public DateTime LicenseExpiry { get; set; }
@@ -21,5 +19,4 @@ namespace OpsMax.Models
 
         public ICollection<Load> Loads { get; set; }
     }
-
 }

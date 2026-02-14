@@ -1,0 +1,46 @@
+﻿@model OpsMax.Models.Driver
+
+<h2>Create Driver</h2>
+
+<form asp-action="Create">
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="FullName" class="form-label"></label>
+            <input asp-for="FullName" class="form-control" />
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="NationalID" class="form-label"></label>
+            <input asp-for="NationalID" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="Phone" class="form-label"></label>
+            <input asp-for="Phone" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="LicenseNumber" class="form-label"></label>
+            <input asp-for="LicenseNumber" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="LicenseExpiry" class="form-label"></label>
+            <input asp-for="LicenseExpiry" type="date" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="Status" class="form-label"></label>
+            <select asp-for="Status" class="form-select">
+                <option>Active</option>
+                <option>Inactive</option>
+            </select>
+        </div>
+
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
