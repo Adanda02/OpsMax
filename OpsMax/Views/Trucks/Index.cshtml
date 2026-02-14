@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Truck>
+
+<h2>Trucks</h2>
+
+<a asp-action="Create" class="btn btn-primary">Add Truck</a>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Reg No</th>
+        <th>Capacity</th>
+        <th>Owner</th>
+        <th>Status</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.RegistrationNumber</td>
+            <td>@item.CapacityTonnes</td>
+            <td>@item.Owner</td>
+            <td>@item.Status</td>
+        </tr>
+    }
+</table>

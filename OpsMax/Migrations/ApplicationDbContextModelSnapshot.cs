@@ -70,6 +70,42 @@ namespace OpsMax.Migrations
                     b.ToView(null, (string)null);
                 });
 
+            modelBuilder.Entity("OpsMax.DTO.ViewModels.GLAccountVM", b =>
+                {
+                    b.Property<string>("AccountCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("GlAccountId")
+                        .HasColumnType("int");
+
+                    b.ToTable((string)null);
+
+                    b.ToView(null, (string)null);
+                });
+
+            modelBuilder.Entity("OpsMax.DTO.ViewModels.SupplierGRVVM", b =>
+                {
+                    b.Property<string>("GrvNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SupplierId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SupplierName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable((string)null);
+
+                    b.ToView(null, (string)null);
+                });
+
             modelBuilder.Entity("OpsMax.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -201,6 +237,171 @@ namespace OpsMax.Migrations
                     b.ToTable("_tblCollectionLines", (string)null);
                 });
 
+            modelBuilder.Entity("OpsMax.Models.CustomerAllocation", b =>
+                {
+                    b.Property<int>("idCustomerAllocations")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("idCustomerAllocations"));
+
+                    b.Property<DateTime>("AllocatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CustomerID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LoadID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("QuotationNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SalesOrderNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("SellingPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("idCustomerAllocations");
+
+                    b.HasIndex("LoadID");
+
+                    b.ToTable("CustomerAllocations", (string)null);
+                });
+
+            modelBuilder.Entity("OpsMax.Models.Driver", b =>
+                {
+                    b.Property<int>("idDrivers")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("idDrivers"));
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LicenseExpiry")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LicenseNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NationalID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("idDrivers");
+
+                    b.ToTable("Drivers", (string)null);
+                });
+
+            modelBuilder.Entity("OpsMax.Models.Load", b =>
+                {
+                    b.Property<int>("idLoad")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("idLoad"));
+
+                    b.Property<decimal>("ActualQuantity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("ArrivalDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DriverID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EstimatedArrivalDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("LoadDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("LoadedQuantity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("MaizeStockCodeID")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("ShortageQuantity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SupplierID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TruckID")
+                        .HasColumnType("int");
+
+                    b.HasKey("idLoad");
+
+                    b.HasIndex("DriverID");
+
+                    b.HasIndex("TruckID");
+
+                    b.ToTable("Loads", (string)null);
+                });
+
+            modelBuilder.Entity("OpsMax.Models.LoadDocument", b =>
+                {
+                    b.Property<int>("idLoadDocuments")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("idLoadDocuments"));
+
+                    b.Property<int>("DocumentType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LoadID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UploadedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UploadedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("idLoadDocuments");
+
+                    b.HasIndex("LoadID");
+
+                    b.ToTable("LoadDocuments", (string)null);
+                });
+
             modelBuilder.Entity("OpsMax.Models.OrderStatus", b =>
                 {
                     b.Property<int>("idStatus")
@@ -329,6 +530,37 @@ namespace OpsMax.Migrations
                     b.ToTable("PaymentSourceDocuments", (string)null);
                 });
 
+            modelBuilder.Entity("OpsMax.Models.Truck", b =>
+                {
+                    b.Property<int>("idTruck")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("idTruck"));
+
+                    b.Property<decimal>("CapacityTonnes")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Owner")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RegistrationNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("idTruck");
+
+                    b.ToTable("Trucks", (string)null);
+                });
+
             modelBuilder.Entity("OpsMax.Models.Views.CollectionSummaryView", b =>
                 {
                     b.Property<string>("AttachmentPath")
@@ -420,6 +652,47 @@ namespace OpsMax.Migrations
                     b.Navigation("Collection");
                 });
 
+            modelBuilder.Entity("OpsMax.Models.CustomerAllocation", b =>
+                {
+                    b.HasOne("OpsMax.Models.Load", "Load")
+                        .WithMany("Allocations")
+                        .HasForeignKey("LoadID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Load");
+                });
+
+            modelBuilder.Entity("OpsMax.Models.Load", b =>
+                {
+                    b.HasOne("OpsMax.Models.Driver", "Driver")
+                        .WithMany("Loads")
+                        .HasForeignKey("DriverID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OpsMax.Models.Truck", "Truck")
+                        .WithMany("Loads")
+                        .HasForeignKey("TruckID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Driver");
+
+                    b.Navigation("Truck");
+                });
+
+            modelBuilder.Entity("OpsMax.Models.LoadDocument", b =>
+                {
+                    b.HasOne("OpsMax.Models.Load", "Load")
+                        .WithMany("Documents")
+                        .HasForeignKey("LoadID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Load");
+                });
+
             modelBuilder.Entity("OpsMax.Models.PaymentSourceDocument", b =>
                 {
                     b.HasOne("OpsMax.Models.PaymentSource", "PaymentSource")
@@ -436,6 +709,18 @@ namespace OpsMax.Migrations
                     b.Navigation("Lines");
                 });
 
+            modelBuilder.Entity("OpsMax.Models.Driver", b =>
+                {
+                    b.Navigation("Loads");
+                });
+
+            modelBuilder.Entity("OpsMax.Models.Load", b =>
+                {
+                    b.Navigation("Allocations");
+
+                    b.Navigation("Documents");
+                });
+
             modelBuilder.Entity("OpsMax.Models.OrderStatus", b =>
                 {
                     b.Navigation("CollectionsEntity");
@@ -444,6 +729,11 @@ namespace OpsMax.Migrations
             modelBuilder.Entity("OpsMax.Models.PaymentSource", b =>
                 {
                     b.Navigation("Documents");
+                });
+
+            modelBuilder.Entity("OpsMax.Models.Truck", b =>
+                {
+                    b.Navigation("Loads");
                 });
 #pragma warning restore 612, 618
         }

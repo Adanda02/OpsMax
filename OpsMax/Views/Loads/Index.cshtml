@@ -1,0 +1,47 @@
+﻿@model IEnumerable<OpsMax.Models.Load>
+
+@{
+    ViewData["Title"] = "Loads";
+}
+
+<h2>Loads</h2>
+
+<a asp-action="Create" class="btn btn-primary mb-3">
+    <i class="bi bi-plus-circle"></i> Create Load
+</a>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>SupplierID</th>
+            <th>Truck</th>
+            <th>Driver</th>
+            <th>Loaded</th>
+            <th>Actual</th>
+            <th>Shortage</th>
+            <th>Status</th>
+            <th>Load Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.SupplierID</td>
+                <td>@item.Truck?.RegistrationNumber</td>
+                <td>@item.Driver?.FullName</td>
+                <td>@item.LoadedQuantity</td>
+                <td>@item.ActualQuantity</td>
+                <td>@item.ShortageQuantity</td>
+                <td>@item.Status</td>
+                <td>@item.LoadDate.ToShortDateString()</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.idLoad">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@item.idLoad">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.idLoad">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

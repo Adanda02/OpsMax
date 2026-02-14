@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace OpsMax.Migrations
 {
     /// <inheritdoc />
-    public partial class FixCollectionIntTypes : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -42,6 +42,24 @@ namespace OpsMax.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Drivers",
+                columns: table => new
+                {
+                    idDrivers = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NationalID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LicenseNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LicenseExpiry = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Drivers", x => x.idDrivers);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PaymentSources",
                 columns: table => new
                 {
@@ -60,6 +78,23 @@ namespace OpsMax.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PaymentSources", x => x.idPaymentSource);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Trucks",
+                columns: table => new
+                {
+                    idTruck = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CapacityTonnes = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Owner = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Trucks", x => x.idTruck);
                 });
 
             migrationBuilder.CreateTable(
@@ -119,6 +154,43 @@ namespace OpsMax.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Loads",
+                columns: table => new
+                {
+                    idLoad = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SupplierID = table.Column<int>(type: "int", nullable: false),
+                    MaizeStockCodeID = table.Column<int>(type: "int", nullable: false),
+                    LoadedQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ActualQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ShortageQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TruckID = table.Column<int>(type: "int", nullable: false),
+                    DriverID = table.Column<int>(type: "int", nullable: false),
+                    LoadDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EstimatedArrivalDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ArrivalDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Loads", x => x.idLoad);
+                    table.ForeignKey(
+                        name: "FK_Loads_Drivers_DriverID",
+                        column: x => x.DriverID,
+                        principalTable: "Drivers",
+                        principalColumn: "idDrivers",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Loads_Trucks_TruckID",
+                        column: x => x.TruckID,
+                        principalTable: "Trucks",
+                        principalColumn: "idTruck",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "_tblCollectionLines",
                 columns: table => new
                 {
@@ -146,6 +218,54 @@ namespace OpsMax.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CustomerAllocations",
+                columns: table => new
+                {
+                    idCustomerAllocations = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LoadID = table.Column<int>(type: "int", nullable: false),
+                    CustomerID = table.Column<int>(type: "int", nullable: false),
+                    SellingPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    QuotationNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SalesOrderNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AllocatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CustomerAllocations", x => x.idCustomerAllocations);
+                    table.ForeignKey(
+                        name: "FK_CustomerAllocations_Loads_LoadID",
+                        column: x => x.LoadID,
+                        principalTable: "Loads",
+                        principalColumn: "idLoad",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LoadDocuments",
+                columns: table => new
+                {
+                    idLoadDocuments = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LoadID = table.Column<int>(type: "int", nullable: false),
+                    DocumentType = table.Column<int>(type: "int", nullable: false),
+                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UploadedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UploadedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LoadDocuments", x => x.idLoadDocuments);
+                    table.ForeignKey(
+                        name: "FK_LoadDocuments_Loads_LoadID",
+                        column: x => x.LoadID,
+                        principalTable: "Loads",
+                        principalColumn: "idLoad",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "_tblOrderStatus",
                 columns: new[] { "idStatus", "StatusCode", "StatusDescription" },
@@ -168,6 +288,26 @@ namespace OpsMax.Migrations
                 column: "OrderCollectedID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CustomerAllocations_LoadID",
+                table: "CustomerAllocations",
+                column: "LoadID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LoadDocuments_LoadID",
+                table: "LoadDocuments",
+                column: "LoadID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Loads_DriverID",
+                table: "Loads",
+                column: "DriverID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Loads_TruckID",
+                table: "Loads",
+                column: "TruckID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PaymentSourceDocuments_PaymentSourceID",
                 table: "PaymentSourceDocuments",
                 column: "PaymentSourceID");
@@ -183,16 +323,31 @@ namespace OpsMax.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
+                name: "CustomerAllocations");
+
+            migrationBuilder.DropTable(
+                name: "LoadDocuments");
+
+            migrationBuilder.DropTable(
                 name: "PaymentSourceDocuments");
 
             migrationBuilder.DropTable(
                 name: "_tblCollection");
 
             migrationBuilder.DropTable(
+                name: "Loads");
+
+            migrationBuilder.DropTable(
                 name: "PaymentSources");
 
             migrationBuilder.DropTable(
                 name: "_tblOrderStatus");
+
+            migrationBuilder.DropTable(
+                name: "Drivers");
+
+            migrationBuilder.DropTable(
+                name: "Trucks");
         }
     }
 }

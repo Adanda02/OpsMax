@@ -1,0 +1,73 @@
+﻿@model OpsMax.Models.Load
+
+<h2>Create Load</h2>
+
+<form asp-action="Create">
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="SupplierID"></label>
+            <input asp-for="SupplierID" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="MaizeStockCodeID"></label>
+            <input asp-for="MaizeStockCodeID" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="TruckID">Truck</label>
+            <select asp-for="TruckID" class="form-select"
+                    asp-items="@(new SelectList(ViewBag.Trucks, "TruckID", "RegistrationNumber"))">
+                <option value="">Select Truck</option>
+            </select>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="DriverID">Driver</label>
+            <select asp-for="DriverID" class="form-select"
+                    asp-items="@(new SelectList(ViewBag.Drivers, "DriverID", "FullName"))">
+                <option value="">Select Driver</option>
+            </select>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="LoadedQuantity"></label>
+            <input asp-for="LoadedQuantity" class="form-control" id="loadedQty" />
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="ActualQuantity"></label>
+            <input asp-for="ActualQuantity" class="form-control" id="actualQty" />
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="ShortageQuantity"></label>
+            <input asp-for="ShortageQuantity" class="form-control" readonly id="shortageQty" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="LoadDate"></label>
+            <input asp-for="LoadDate" type="date" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="EstimatedArrivalDate"></label>
+            <input asp-for="EstimatedArrivalDate" type="date" class="form-control" />
+        </div>
+
+    </div>
+
+    <button class="btn btn-success">Save</button>
+</form>
+
+<script>
+    document.getElementById("actualQty").addEventListener("input", calculate);
+    document.getElementById("loadedQty").addEventListener("input", calculate);
+
+    function calculate() {
+        var loaded = parseFloat(document.getElementById("loadedQty").value) || 0;
+        var actual = parseFloat(document.getElementById("actualQty").value) || 0;
+        document.getElementById("shortageQty").value = loaded - actual;
+    }
+</script>
