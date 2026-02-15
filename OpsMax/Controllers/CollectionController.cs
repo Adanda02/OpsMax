@@ -1,4 +1,4 @@
-﻿using OpsMax.DTO.ViewModels;
+﻿using OpsMax.ViewModels;
 using OpsMax.Models;
 using OpsMax.Services.Interfaces;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using OpsMax.ViewModels;
 
 namespace OpsMax.Controllers
 {

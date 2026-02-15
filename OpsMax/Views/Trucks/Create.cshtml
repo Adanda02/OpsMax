@@ -1,0 +1,49 @@
+﻿@model OpsMax.Models.Truck
+
+@{
+    ViewData["Title"] = "Create Truck";
+}
+
+<h2>Create Truck</h2>
+
+<form asp-action="Create" method="post">
+
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group mb-3">
+        <label asp-for="RegistrationNumber" class="form-label"></label>
+        <input asp-for="RegistrationNumber" class="form-control" />
+        <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="CapacityTonnes" class="form-label"></label>
+        <input asp-for="CapacityTonnes" type="number" step="0.01" class="form-control" />
+        <span asp-validation-for="CapacityTonnes" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Owner" class="form-label"></label>
+        <input asp-for="Owner" class="form-control" />
+        <span asp-validation-for="Owner" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Status" class="form-label"></label>
+        <select asp-for="Status" class="form-control">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+            <option value="Maintenance">Maintenance</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,96 @@
+﻿@model OpsMax.ViewModels.LoadCreateViewModel
+
+@{
+    ViewData["Title"] = "Create Load";
+}
+
+<h2>Create Load</h2>
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+
+        <!-- Supplier Dropdown -->
+        <div class="col-md-6 mb-3">
+            <label asp-for="Load.DCLink" class="form-label">Supplier</label>
+            <select asp-for="Load.DCLink" class="form-select" asp-items="Model.Vendors">
+                <option value="">-- Select Supplier --</option>
+            </select>
+            <span asp-validation-for="Load.DCLink" class="text-danger"></span>
+        </div>
+
+        <!-- Stock Code -->
+        <div class="col-md-6 mb-3">
+            <label asp-for="Load.MaizeStockCodeID" class="form-label">Stock Code</label>
+            <input asp-for="Load.MaizeStockCodeID" class="form-control" />
+            <span asp-validation-for="Load.MaizeStockCodeID" class="text-danger"></span>
+        </div>
+
+        <!-- Truck Dropdown -->
+        <div class="col-md-6 mb-3">
+            <label asp-for="Load.TruckID" class="form-label">Truck</label>
+            <select asp-for="Load.TruckID" class="form-select" asp-items="Model.Trucks">
+                <option value="">-- Select Truck --</option>
+            </select>
+            <span asp-validation-for="Load.TruckID" class="text-danger"></span>
+        </div>
+
+        <!-- Driver Dropdown -->
+        <div class="col-md-6 mb-3">
+            <label asp-for="Load.DriverID" class="form-label">Driver</label>
+            <select asp-for="Load.DriverID" class="form-select" asp-items="Model.Drivers">
+                <option value="">-- Select Driver --</option>
+            </select>
+            <span asp-validation-for="Load.DriverID" class="text-danger"></span>
+        </div>
+
+        <!-- Quantities -->
+        <div class="col-md-4 mb-3">
+            <label asp-for="Load.LoadedQuantity" class="form-label"></label>
+            <input asp-for="Load.LoadedQuantity" class="form-control" id="loadedQty" />
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="Load.ActualQuantity" class="form-label"></label>
+            <input asp-for="Load.ActualQuantity" class="form-control" id="actualQty" />
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="Load.ShortageQuantity" class="form-label"></label>
+            <input asp-for="Load.ShortageQuantity" class="form-control" id="shortageQty" readonly />
+        </div>
+
+        <!-- Dates -->
+        <div class="col-md-6 mb-3">
+            <label asp-for="Load.LoadDate" class="form-label"></label>
+            <input asp-for="Load.LoadDate" type="date" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="Load.EstimatedArrivalDate" class="form-label"></label>
+            <input asp-for="Load.EstimatedArrivalDate" type="date" class="form-control" />
+        </div>
+
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <script>
+        const loadedQty = document.getElementById("loadedQty");
+        const actualQty = document.getElementById("actualQty");
+        const shortageQty = document.getElementById("shortageQty");
+
+        function calculateShortage() {
+            const loaded = parseFloat(loadedQty.value) || 0;
+            const actual = parseFloat(actualQty.value) || 0;
+            shortageQty.value = loaded - actual;
+        }
+
+        loadedQty.addEventListener("input", calculateShortage);
+        actualQty.addEventListener("input", calculateShortage);
+    </script>
+}

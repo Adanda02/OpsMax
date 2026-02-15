@@ -72,6 +72,30 @@
                             </ul>
                         </li>
 
+                        <!-- LOADS DROPDOWN -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="loadsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Loads
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="loadsDropdown">
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Drivers" asp-action="Index">
+                                        <i class="bi bi-person-lines-fill"></i> Drivers
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Trucks" asp-action="Index">
+                                        <i class="bi bi-truck"></i> Trucks
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Loads" asp-action="Index">
+                                        <i class="bi bi-box-seam"></i> Loads
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
                     </ul>
 
                     <!-- RIGHT-ALIGNED GLOBAL SEARCH -->

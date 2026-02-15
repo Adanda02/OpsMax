@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OpsMax.DTO;
-using OpsMax.DTO.ViewModels;
 using OpsMax.Models;
+using OpsMax.Models.Views;
+using OpsMax.ViewModels;
 
 namespace OpsMax.Data
 {
@@ -12,56 +13,61 @@ namespace OpsMax.Data
         {
         }
 
-        // =============================
+        // =========================================================
         // DB SETS (ENTITIES)
-        // =============================
+        // =========================================================
         public DbSet<Category> Categories { get; set; }
         public DbSet<CollectionEntity> Collections { get; set; }
         public DbSet<CollectionLineEntity> CollectionLines { get; set; }
         public DbSet<OrderStatus> OrderStatuses { get; set; }
-
         public DbSet<PaymentSource> PaymentSources { get; set; }
         public DbSet<PaymentSourceDocument> PaymentSourceDocuments { get; set; }
+        public DbSet<Truck> Trucks { get; set; }
+        public DbSet<Driver> Drivers { get; set; }
 
-        // =============================
-        // DB SETS (VIEWS / KEYLESS)
-        // =============================
-        public DbSet<CollectionSummaryVM> CollectionsSummary { get; set; }
+        // Map Vendor table but keep property name as Suppliers for dropdowns
+        public DbSet<Vendor> Vendors { get; set; }
+
+        public DbSet<Load> Loads { get; set; }
+        public DbSet<LoadDocument> LoadDocuments { get; set; }
+        public DbSet<CustomerAllocation> CustomerAllocations { get; set; }
+
+        // =========================================================
+        // DB SETS (VIEWS – KEYLESS)
+        // =========================================================
+        public DbSet<CollectionSummaryView> CollectionsSummary { get; set; }
+
+        // =========================================================
+        // DB SETS (RAW SQL DTOs – KEYLESS)
+        // =========================================================
         public DbSet<InvoiceLineDto> InvoiceLines { get; set; }
+        public DbSet<SupplierGRVVM> SupplierGrvs { get; set; }
+        public DbSet<GLAccountVM> GLAccounts { get; set; }
 
-        // =============================
+        // =========================================================
         // MODEL CONFIGURATION
-        // =============================
+        // =========================================================
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             // -----------------------------
-            // Category → Categories
+            // CATEGORY
             // -----------------------------
-            modelBuilder.Entity<Category>(entity =>
-            {
-                entity.ToTable("Categories");
-                entity.HasKey(e => e.Id);
-            });
+            modelBuilder.Entity<Category>().ToTable("Categories").HasKey(e => e.Id);
 
             // -----------------------------
-            // Collection HEADER → _tblCollection
+            // COLLECTION HEADER
             // -----------------------------
-            modelBuilder.Entity<CollectionEntity>(entity =>
-            {
-                entity.ToTable("_tblCollection");
-                entity.HasKey(e => e.idOrderCollected);
-            });
+            modelBuilder.Entity<CollectionEntity>().ToTable("_tblCollection").HasKey(e => e.idOrderCollected);
 
             // -----------------------------
-            // Collection LINES → _tblCollectionLines
+            // COLLECTION LINES
             // -----------------------------
             modelBuilder.Entity<CollectionLineEntity>(entity =>
             {
                 entity.ToTable("_tblCollectionLines");
                 entity.HasKey(e => e.idOrderLineCollected);
-
                 entity.HasOne(l => l.Collection)
                       .WithMany(h => h.Lines)
                       .HasForeignKey(l => l.OrderCollectedID)
@@ -69,57 +75,77 @@ namespace OpsMax.Data
             });
 
             // -----------------------------
-            // OrderStatus → _tblOrderStatus
+            // ORDER STATUS
             // -----------------------------
-            modelBuilder.Entity<OrderStatus>(entity =>
-            {
-                entity.ToTable("_tblOrderStatus");
-                entity.HasKey(e => e.idStatus);
-            });
+            modelBuilder.Entity<OrderStatus>().ToTable("_tblOrderStatus").HasKey(e => e.idStatus);
 
             // -----------------------------
-            // PaymentSource → PaymentSources
+            // PAYMENT SOURCE
             // -----------------------------
             modelBuilder.Entity<PaymentSource>(entity =>
             {
                 entity.ToTable("PaymentSources");
                 entity.HasKey(e => e.idPaymentSource);
-
                 entity.HasMany(p => p.Documents)
                       .WithOne(d => d.PaymentSource)
                       .HasForeignKey(d => d.PaymentSourceID)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
+            modelBuilder.Entity<PaymentSourceDocument>().ToTable("PaymentSourceDocuments").HasKey(e => e.idPaymentSourceDoc);
+
             // -----------------------------
-            // PaymentSourceDocument → PaymentSourceDocuments
+            // TRUCK
             // -----------------------------
-            modelBuilder.Entity<PaymentSourceDocument>(entity =>
+            modelBuilder.Entity<Truck>().ToTable("Trucks").HasKey(e => e.idTruck);
+
+            // -----------------------------
+            // DRIVER
+            // -----------------------------
+            modelBuilder.Entity<Driver>().ToTable("Drivers").HasKey(e => e.idDrivers);
+
+            // -----------------------------
+            // VENDOR / SUPPLIER
+            // -----------------------------
+            modelBuilder.Entity<Vendor>(entity =>
             {
-                entity.ToTable("PaymentSourceDocuments");
-                entity.HasKey(d => d.idPaymentSourceDoc);
+                entity.ToTable("Vendor"); // exact table name in Zim Meal / Sage DB
+                entity.HasKey(e => e.DCLink);
             });
 
             // -----------------------------
-            // DTO: InvoiceLineDto (KEYLESS)
+            // LOAD
             // -----------------------------
-            modelBuilder.Entity<InvoiceLineDto>(entity =>
-            {
-                entity.HasNoKey();
-                entity.ToView(null); // Used for raw SQL
-            });
+            modelBuilder.Entity<Load>().ToTable("Loads").HasKey(e => e.idLoad);
 
             // -----------------------------
-            // VIEW: vw_CollectionsSummary
+            // LOAD DOCUMENT
             // -----------------------------
-            modelBuilder.Entity<CollectionSummaryVM>(entity =>
+            modelBuilder.Entity<LoadDocument>().ToTable("LoadDocuments").HasKey(e => e.idLoadDocuments);
+
+            // -----------------------------
+            // CUSTOMER ALLOCATION
+            // -----------------------------
+            modelBuilder.Entity<CustomerAllocation>().ToTable("CustomerAllocations").HasKey(e => e.idCustomerAllocations);
+
+            // -----------------------------
+            // COLLECTION SUMMARY VIEW
+            // -----------------------------
+            modelBuilder.Entity<CollectionSummaryView>(entity =>
             {
                 entity.HasNoKey();
                 entity.ToView("vw_CollectionsSummary");
             });
 
             // -----------------------------
-            // SEED ORDER STATUS
+            // RAW SQL DTOs (KEYLESS)
+            // -----------------------------
+            modelBuilder.Entity<InvoiceLineDto>(entity => entity.HasNoKey().ToView(null));
+            modelBuilder.Entity<SupplierGRVVM>(entity => entity.HasNoKey().ToView(null));
+            modelBuilder.Entity<GLAccountVM>(entity => entity.HasNoKey().ToView(null));
+
+            // -----------------------------
+            // SEED DATA
             // -----------------------------
             modelBuilder.Entity<OrderStatus>().HasData(
                 new OrderStatus { idStatus = 1, StatusCode = "Not Collected", StatusDescription = "Not Collected" },

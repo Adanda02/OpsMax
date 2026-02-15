@@ -1,0 +1,52 @@
+﻿@model IEnumerable<OpsMax.Models.Driver>
+
+@{
+    ViewData["Title"] = "Drivers";
+}
+
+<h2>Drivers</h2>
+
+<a asp-action="Create" class="btn btn-primary mb-3">
+    Add Driver
+</a>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>National ID</th>
+            <th>Phone</th>
+            <th>License</th>
+            <th>Expiry</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.FullName</td>
+                <td>@item.NationalID</td>
+                <td>@item.Phone</td>
+                <td>@item.LicenseNumber</td>
+                <td>@item.LicenseExpiry.ToShortDateString()</td>
+                <td>
+                    @if (item.LicenseExpiry < DateTime.Now)
+                    {
+                        <span class="text-danger">Expired</span>
+                    }
+                    else
+                    {
+                        @item.Status
+                    }
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.idDrivers">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@item.idDrivers">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.idDrivers">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
