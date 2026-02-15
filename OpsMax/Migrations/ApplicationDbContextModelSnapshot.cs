@@ -242,11 +242,11 @@ namespace OpsMax.Migrations
 
             modelBuilder.Entity("OpsMax.Models.Driver", b =>
                 {
-                    b.Property<int>("idDrivers")
+                    b.Property<int>("idDriver")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("idDrivers"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("idDriver"));
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -275,7 +275,7 @@ namespace OpsMax.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("idDrivers");
+                    b.HasKey("idDriver");
 
                     b.ToTable("Drivers", (string)null);
                 });
@@ -304,7 +304,7 @@ namespace OpsMax.Migrations
                     b.Property<int>("DCLink")
                         .HasColumnType("int");
 
-                    b.Property<int>("DriverID")
+                    b.Property<int>("DriveridDriver")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("EstimatedArrivalDate")
@@ -329,19 +329,25 @@ namespace OpsMax.Migrations
                     b.Property<int>("StockLink")
                         .HasColumnType("int");
 
-                    b.Property<int>("TruckID")
+                    b.Property<int>("TruckidTruck")
                         .HasColumnType("int");
 
                     b.Property<int>("VendorDCLink")
                         .HasColumnType("int");
 
+                    b.Property<int>("idDriver")
+                        .HasColumnType("int");
+
+                    b.Property<int>("idTruck")
+                        .HasColumnType("int");
+
                     b.HasKey("idLoad");
 
-                    b.HasIndex("DriverID");
+                    b.HasIndex("DriveridDriver");
 
                     b.HasIndex("StockItemStockLink");
 
-                    b.HasIndex("TruckID");
+                    b.HasIndex("TruckidTruck");
 
                     b.HasIndex("VendorDCLink");
 
@@ -727,7 +733,7 @@ namespace OpsMax.Migrations
                 {
                     b.HasOne("OpsMax.Models.Driver", "Driver")
                         .WithMany()
-                        .HasForeignKey("DriverID")
+                        .HasForeignKey("DriveridDriver")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -739,7 +745,7 @@ namespace OpsMax.Migrations
 
                     b.HasOne("OpsMax.Models.Truck", "Truck")
                         .WithMany()
-                        .HasForeignKey("TruckID")
+                        .HasForeignKey("TruckidTruck")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

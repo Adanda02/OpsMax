@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OpsMax.Models
 {
+    [Table("StkItm")]
     public class StkItm
     {
         [Key]

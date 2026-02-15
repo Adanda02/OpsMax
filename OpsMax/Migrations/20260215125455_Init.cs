@@ -45,7 +45,7 @@ namespace OpsMax.Migrations
                 name: "Drivers",
                 columns: table => new
                 {
-                    idDrivers = table.Column<int>(type: "int", nullable: false)
+                    idDriver = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FullName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     NationalID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -56,7 +56,7 @@ namespace OpsMax.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Drivers", x => x.idDrivers);
+                    table.PrimaryKey("PK_Drivers", x => x.idDriver);
                 });
 
             migrationBuilder.CreateTable(
@@ -194,8 +194,10 @@ namespace OpsMax.Migrations
                     LoadedQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ActualQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ShortageQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TruckID = table.Column<int>(type: "int", nullable: false),
-                    DriverID = table.Column<int>(type: "int", nullable: false),
+                    idTruck = table.Column<int>(type: "int", nullable: false),
+                    TruckidTruck = table.Column<int>(type: "int", nullable: false),
+                    idDriver = table.Column<int>(type: "int", nullable: false),
+                    DriveridDriver = table.Column<int>(type: "int", nullable: false),
                     LoadDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EstimatedArrivalDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ArrivalDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -207,10 +209,10 @@ namespace OpsMax.Migrations
                 {
                     table.PrimaryKey("PK_Loads", x => x.idLoad);
                     table.ForeignKey(
-                        name: "FK_Loads_Drivers_DriverID",
-                        column: x => x.DriverID,
+                        name: "FK_Loads_Drivers_DriveridDriver",
+                        column: x => x.DriveridDriver,
                         principalTable: "Drivers",
-                        principalColumn: "idDrivers",
+                        principalColumn: "idDriver",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Loads_StkItm_StockItemStockLink",
@@ -219,8 +221,8 @@ namespace OpsMax.Migrations
                         principalColumn: "StockLink",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Loads_Trucks_TruckID",
-                        column: x => x.TruckID,
+                        name: "FK_Loads_Trucks_TruckidTruck",
+                        column: x => x.TruckidTruck,
                         principalTable: "Trucks",
                         principalColumn: "idTruck",
                         onDelete: ReferentialAction.Cascade);
@@ -340,9 +342,9 @@ namespace OpsMax.Migrations
                 column: "LoadID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Loads_DriverID",
+                name: "IX_Loads_DriveridDriver",
                 table: "Loads",
-                column: "DriverID");
+                column: "DriveridDriver");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Loads_StockItemStockLink",
@@ -350,9 +352,9 @@ namespace OpsMax.Migrations
                 column: "StockItemStockLink");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Loads_TruckID",
+                name: "IX_Loads_TruckidTruck",
                 table: "Loads",
-                column: "TruckID");
+                column: "TruckidTruck");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Loads_VendorDCLink",

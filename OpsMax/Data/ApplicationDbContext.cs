@@ -102,7 +102,7 @@ namespace OpsMax.Data
             // -----------------------------
             // DRIVER
             // -----------------------------
-            modelBuilder.Entity<Driver>().ToTable("Drivers").HasKey(e => e.idDrivers);
+            modelBuilder.Entity<Driver>().ToTable("Drivers").HasKey(e => e.idDriver);
 
             // -----------------------------
             // VENDOR / SUPPLIER

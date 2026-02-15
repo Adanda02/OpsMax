@@ -13,18 +13,19 @@ namespace OpsMax.Data
         }
 
         // =====================================================
-        // PHYSICAL TABLES IN ZIM MEAL / SAGE DATABASE
+        // PHYSICAL TABLES (Sage / ZimMeal Database)
         // =====================================================
         public DbSet<Vendor> Vendors { get; set; }
-        public DbSet<StkItm> StockItems { get; set; }   // Renamed to StockItems for consistency
+        public DbSet<StkItm> StockItems { get; set; }   // Maps to dbo.StkItm
+
 
         // =====================================================
-        // KEYLESS MODELS (SP RESULTS / VIEWS / RAW SQL DTOs)
+        // KEYLESS MODELS (SP Results / Views / Raw SQL DTOs)
         // =====================================================
         public DbSet<InvoiceLineDto> InvoiceLineDtos { get; set; }
         public DbSet<SupplierGRVVM> SupplierGrvs { get; set; }
         public DbSet<GLAccountVM> GLAccounts { get; set; }
-        public object StkItm { get; internal set; }
+
 
         // =====================================================
         // MODEL CONFIGURATION
@@ -37,6 +38,7 @@ namespace OpsMax.Data
             ConfigureKeylessModels(modelBuilder);
         }
 
+
         // =====================================================
         // CONFIGURE PHYSICAL SAGE TABLES
         // =====================================================
@@ -47,23 +49,26 @@ namespace OpsMax.Data
             // -----------------------------
             modelBuilder.Entity<Vendor>(entity =>
             {
-                entity.ToTable("Vendor", "dbo");      // Change schema if needed
+                entity.ToTable("Vendor", "dbo");
                 entity.HasKey(v => v.DCLink);
+
                 entity.Property(v => v.DCLink)
-                      .ValueGeneratedNever();       // PK is managed by Sage
+                      .ValueGeneratedNever(); // PK managed by Sage
             });
 
             // -----------------------------
-            // Stock Item Table
+            // Stock Item Table (StkItm)
             // -----------------------------
             modelBuilder.Entity<StkItm>(entity =>
             {
-                entity.ToTable("StkItm", "dbo");     // Correct schema (was dbo, causing error)
+                entity.ToTable("StkItem", "dbo");   // Correct physical table
                 entity.HasKey(s => s.StockLink);
+
                 entity.Property(s => s.StockLink)
-                      .ValueGeneratedNever();       // PK is managed by Sage
+                      .ValueGeneratedNever(); // PK managed by Sage
             });
         }
+
 
         // =====================================================
         // CONFIGURE KEYLESS MODELS

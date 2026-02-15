@@ -148,7 +148,7 @@ namespace OpsMax.Controllers
         // =====================================================
         private async Task PopulateDropdowns(LoadCreateViewModel vm)
         {
-            // Vendors from ZimMeal (Sage)
+            // Vendors from ZimMeal/Sage
             vm.Vendors = await _zimContext.Vendors
                 .OrderBy(v => v.Name)
                 .Select(v => new SelectListItem
@@ -158,7 +158,7 @@ namespace OpsMax.Controllers
                 })
                 .ToListAsync();
 
-            // Stock Items from ZimMeal (Sage)
+            // Stock Items from ZimMeal/Sage
             vm.StockItems = await _zimContext.StockItems
                 .OrderBy(s => s.Description_1)
                 .Select(s => new SelectListItem
@@ -185,7 +185,7 @@ namespace OpsMax.Controllers
                 .OrderBy(d => d.FullName)
                 .Select(d => new SelectListItem
                 {
-                    Value = d.idDrivers.ToString(),
+                    Value = d.idDriver.ToString(),
                     Text = d.FullName
                 })
                 .ToListAsync();

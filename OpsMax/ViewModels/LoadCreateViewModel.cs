@@ -1,41 +1,42 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using OpsMax.Data;
 using OpsMax.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using OpsMax.Data;
 
 namespace OpsMax.ViewModels
 {
     // =========================================
-    // ViewModel for creating a Load
+    // ViewModel for Creating / Editing a Load
     // =========================================
     public class LoadCreateViewModel
     {
         // Main Load entity
-        public Load Load { get; set; }
+        public Load Load { get; set; } = new Load();
 
-        // Dropdowns for selection
-        public IEnumerable<SelectListItem> Vendors { get; set; }     // From Vendor table
-        public IEnumerable<SelectListItem> StockItems { get; set; }  // From StockItem table
-        public IEnumerable<SelectListItem> Trucks { get; set; }      // From Truck table
-        public IEnumerable<SelectListItem> Drivers { get; set; }     // From Driver table
+        // Dropdown lists
+        public List<SelectListItem> Vendors { get; set; } = new();
+        public List<SelectListItem> StockItems { get; set; } = new();
+        public List<SelectListItem> Trucks { get; set; } = new();
+        public List<SelectListItem> Drivers { get; set; } = new();
     }
 
     // =========================================
-    // Extension/helper class for populating dropdowns
+    // Extension Helper for Populating Dropdowns
     // =========================================
     public static class LoadViewModelExtensions
     {
-        public static async Task PopulateDropdownsAsync(this LoadCreateViewModel vm,
-                                                        ZimMealDbContext _zimContext,
-                                                        ApplicationDbContext _context)
+        public static async Task PopulateDropdownsAsync(
+            this LoadCreateViewModel vm,
+            ZimMealDbContext zimContext,
+            ApplicationDbContext context)
         {
             // -----------------------------
-            // Vendors (from ZimMeal/Sage)
+            // Vendors (from ZimMeal DB)
             // -----------------------------
-            vm.Vendors = await _zimContext.Vendors
+            vm.Vendors = await zimContext.Vendors
                 .OrderBy(v => v.Name)
                 .Select(v => new SelectListItem
                 {
@@ -45,9 +46,9 @@ namespace OpsMax.ViewModels
                 .ToListAsync();
 
             // -----------------------------
-            // Stock Items (from ZimMeal/Sage)
+            // Stock Items (from ZimMeal DB)
             // -----------------------------
-            vm.StockItems = await _zimContext.StockItems
+            vm.StockItems = await zimContext.StockItems
                 .OrderBy(s => s.Description_1)
                 .Select(s => new SelectListItem
                 {
@@ -57,9 +58,9 @@ namespace OpsMax.ViewModels
                 .ToListAsync();
 
             // -----------------------------
-            // Trucks (from main app DB)
+            // Trucks (from OpsMax DB)
             // -----------------------------
-            vm.Trucks = await _context.Trucks
+            vm.Trucks = await context.Trucks
                 .Where(t => t.Status == "Active")
                 .OrderBy(t => t.RegistrationNumber)
                 .Select(t => new SelectListItem
@@ -70,14 +71,14 @@ namespace OpsMax.ViewModels
                 .ToListAsync();
 
             // -----------------------------
-            // Drivers (from main app DB)
+            // Drivers (from OpsMax DB)
             // -----------------------------
-            vm.Drivers = await _context.Drivers
+            vm.Drivers = await context.Drivers
                 .Where(d => d.Status == "Active")
                 .OrderBy(d => d.FullName)
                 .Select(d => new SelectListItem
                 {
-                    Value = d.idDrivers.ToString(),
+                    Value = d.idDriver.ToString(),
                     Text = d.FullName
                 })
                 .ToListAsync();

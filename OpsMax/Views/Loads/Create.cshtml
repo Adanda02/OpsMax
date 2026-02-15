@@ -31,46 +31,46 @@
 
         <!-- Truck Dropdown -->
         <div class="col-md-6 mb-3">
-            <label asp-for="Load.TruckID" class="form-label">Truck</label>
-            <select asp-for="Load.TruckID" class="form-select" asp-items="Model.Trucks">
+            <label asp-for="Load.idTruck" class="form-label">Truck</label>
+            <select asp-for="Load.idTruck" class="form-select" asp-items="Model.Trucks">
                 <option value="">-- Select Truck --</option>
             </select>
-            <span asp-validation-for="Load.TruckID" class="text-danger"></span>
+            <span asp-validation-for="Load.idTruck" class="text-danger"></span>
         </div>
 
         <!-- Driver Dropdown -->
         <div class="col-md-6 mb-3">
-            <label asp-for="Load.DriverID" class="form-label">Driver</label>
-            <select asp-for="Load.DriverID" class="form-select" asp-items="Model.Drivers">
+            <label asp-for="Load.idDriver" class="form-label">Driver</label>
+            <select asp-for="Load.idDriver" class="form-select" asp-items="Model.Drivers">
                 <option value="">-- Select Driver --</option>
             </select>
-            <span asp-validation-for="Load.DriverID" class="text-danger"></span>
+            <span asp-validation-for="Load.idDriver" class="text-danger"></span>
         </div>
 
         <!-- Quantities -->
         <div class="col-md-4 mb-3">
-            <label asp-for="Load.LoadedQuantity" class="form-label"></label>
+            <label asp-for="Load.LoadedQuantity" class="form-label">Loaded Quantity</label>
             <input asp-for="Load.LoadedQuantity" class="form-control" id="loadedQty" />
         </div>
 
         <div class="col-md-4 mb-3">
-            <label asp-for="Load.ActualQuantity" class="form-label"></label>
+            <label asp-for="Load.ActualQuantity" class="form-label">Actual Quantity</label>
             <input asp-for="Load.ActualQuantity" class="form-control" id="actualQty" />
         </div>
 
         <div class="col-md-4 mb-3">
-            <label asp-for="Load.ShortageQuantity" class="form-label"></label>
+            <label asp-for="Load.ShortageQuantity" class="form-label">Shortage Quantity</label>
             <input asp-for="Load.ShortageQuantity" class="form-control" id="shortageQty" readonly />
         </div>
 
         <!-- Dates -->
         <div class="col-md-6 mb-3">
-            <label asp-for="Load.LoadDate" class="form-label"></label>
+            <label asp-for="Load.LoadDate" class="form-label">Load Date</label>
             <input asp-for="Load.LoadDate" type="date" class="form-control" />
         </div>
 
         <div class="col-md-6 mb-3">
-            <label asp-for="Load.EstimatedArrivalDate" class="form-label"></label>
+            <label asp-for="Load.EstimatedArrivalDate" class="form-label">Estimated Arrival</label>
             <input asp-for="Load.EstimatedArrivalDate" type="date" class="form-control" />
         </div>
 

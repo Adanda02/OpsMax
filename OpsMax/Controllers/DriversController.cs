@@ -30,7 +30,7 @@ namespace OpsMax.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var driver = await _context.Drivers
-                .FirstOrDefaultAsync(d => d.idDrivers == id);
+                .FirstOrDefaultAsync(d => d.idDriver == id);
 
             if (driver == null)
                 return NotFound();
@@ -74,7 +74,7 @@ namespace OpsMax.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Driver model)
         {
-            if (id != model.idDrivers)
+            if (id != model.idDriver)
                 return NotFound();
 
             if (!ModelState.IsValid)

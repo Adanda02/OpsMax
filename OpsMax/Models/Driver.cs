@@ -8,7 +8,7 @@ namespace OpsMax.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int idDrivers { get; set; }
+        public int idDriver { get; set; }
 
         [Required(ErrorMessage = "Full Name is required")]
         [StringLength(150)]
