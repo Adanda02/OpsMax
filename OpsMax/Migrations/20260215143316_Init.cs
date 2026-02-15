@@ -197,7 +197,7 @@ namespace OpsMax.Migrations
                     LoadDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EstimatedArrivalDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ArrivalDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

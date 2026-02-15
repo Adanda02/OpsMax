@@ -1,98 +1,121 @@
-﻿@model OpsMax.ViewModels.LoadCreateViewModel
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using OpsMax.Data;
+using OpsMax.Models;
+using OpsMax.ViewModels;
+using System;
+using System.Threading.Tasks;
 
-@{
-    ViewData["Title"] = "Create Load";
-}
+namespace OpsMax.Controllers
+{
+    public class LoadController : Controller
+    {
+        private readonly ApplicationDbContext _context;
 
-<h2>Create Load</h2>
-
-<form asp-action="Create" method="post">
-    @Html.AntiForgeryToken()
-
-    <div class="row">
-
-        <!-- Supplier Dropdown -->
-        <div class="col-md-6 mb-3">
-            <label asp-for="Load.DCLink" class="form-label">Supplier</label>
-            <select asp-for="Load.DCLink" class="form-select" asp-items="Model.Vendors">
-                <option value="">-- Select Supplier --</option>
-            </select>
-            <span asp-validation-for="Load.DCLink" class="text-danger"></span>
-        </div>
-
-        <!-- Stock Item Dropdown -->
-        <div class="col-md-6 mb-3">
-            <label asp-for="Load.StockLink" class="form-label">Stock Item</label>
-            <select asp-for="Load.StockLink" class="form-select" asp-items="Model.StockItems">
-                <option value="">-- Select Stock Item --</option>
-            </select>
-            <span asp-validation-for="Load.StockLink" class="text-danger"></span>
-        </div>
-
-        <!-- Truck Dropdown -->
-        <div class="col-md-6 mb-3">
-            <label asp-for="Load.idTruck" class="form-label">Truck</label>
-            <select asp-for="Load.idTruck" class="form-select" asp-items="Model.Trucks">
-                <option value="">-- Select Truck --</option>
-            </select>
-            <span asp-validation-for="Load.idTruck" class="text-danger"></span>
-        </div>
-
-        <!-- Driver Dropdown -->
-        <div class="col-md-6 mb-3">
-            <label asp-for="Load.idDriver" class="form-label">Driver</label>
-            <select asp-for="Load.idDriver" class="form-select" asp-items="Model.Drivers">
-                <option value="">-- Select Driver --</option>
-            </select>
-            <span asp-validation-for="Load.idDriver" class="text-danger"></span>
-        </div>
-
-        <!-- Quantities -->
-        <div class="col-md-4 mb-3">
-            <label asp-for="Load.LoadedQuantity" class="form-label">Loaded Quantity</label>
-            <input asp-for="Load.LoadedQuantity" class="form-control" id="loadedQty" />
-        </div>
-
-        <div class="col-md-4 mb-3">
-            <label asp-for="Load.ActualQuantity" class="form-label">Actual Quantity</label>
-            <input asp-for="Load.ActualQuantity" class="form-control" id="actualQty" />
-        </div>
-
-        <div class="col-md-4 mb-3">
-            <label asp-for="Load.ShortageQuantity" class="form-label">Shortage Quantity</label>
-            <input asp-for="Load.ShortageQuantity" class="form-control" id="shortageQty" readonly />
-        </div>
-
-        <!-- Dates -->
-        <div class="col-md-6 mb-3">
-            <label asp-for="Load.LoadDate" class="form-label">Load Date</label>
-            <input asp-for="Load.LoadDate" type="date" class="form-control" />
-        </div>
-
-        <div class="col-md-6 mb-3">
-            <label asp-for="Load.EstimatedArrivalDate" class="form-label">Estimated Arrival</label>
-            <input asp-for="Load.EstimatedArrivalDate" type="date" class="form-control" />
-        </div>
-
-    </div>
-
-    <button type="submit" class="btn btn-success">Save</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
-
-@section Scripts {
-    <script>
-        const loadedQty = document.getElementById("loadedQty");
-        const actualQty = document.getElementById("actualQty");
-        const shortageQty = document.getElementById("shortageQty");
-
-        function calculateShortage() {
-            const loaded = parseFloat(loadedQty.value) || 0;
-            const actual = parseFloat(actualQty.value) || 0;
-            shortageQty.value = loaded - actual;
+        public LoadController(ApplicationDbContext context)
+        {
+            _context = context;
         }
 
-        loadedQty.addEventListener("input", calculateShortage);
-        actualQty.addEventListener("input", calculateShortage);
-    </script>
-}
+        // GET: Load/Create
+        public async Task<IActionResult>
+    Create()
+    {
+    var viewModel = new LoadCreateViewModel
+    {
+    Load = new Load()
+    };
+
+    await PopulateDropdowns(viewModel);
+    return View(viewModel);
+    }
+
+    // POST: Load/Create
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult>
+        Create(LoadCreateViewModel viewModel)
+        {
+        if (!ModelState.IsValid)
+        {
+        await PopulateDropdowns(viewModel);
+        return View(viewModel);
+        }
+
+        var load = viewModel.Load;
+
+        // Validate all dropdowns selected
+        if (load.DCLink == 0 || load.StockLink == 0 || load.idTruck == 0 || load.idDriver == 0)
+        {
+        ModelState.AddModelError("", "All dropdowns must be selected.");
+        await PopulateDropdowns(viewModel);
+        return View(viewModel);
+        }
+
+        // Calculate shortage
+        load.ShortageQuantity = load.LoadedQuantity - load.ActualQuantity;
+
+        // Audit
+        load.CreatedBy = User?.Identity?.Name ?? "System";
+        load.CreatedDate = DateTime.Now;
+        load.Status = "Loaded";
+
+        _context.Loads.Add(load);
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index));
+        }
+
+        // Helper: Populate dropdowns
+        private async Task PopulateDropdowns(LoadCreateViewModel vm)
+        {
+        vm.Vendors = await _context.Vendors
+        .OrderBy(v => v.Name)
+        .Select(v => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+        {
+        Value = v.DCLink.ToString(),
+        Text = $"{v.Account} - {v.Name}"
+        }).ToListAsync();
+
+        vm.StockItems = await _context.StockItems
+        .OrderBy(s => s.Description_1)
+        .Select(s => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+        {
+        Value = s.StockLink.ToString(),
+        Text = $"{s.Code} - {s.Description_1}"
+        }).ToListAsync();
+
+        vm.Trucks = await _context.Trucks
+        .Where(t => t.Status == "Active")
+        .OrderBy(t => t.RegistrationNumber)
+        .Select(t => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+        {
+        Value = t.idTruck.ToString(),
+        Text = t.RegistrationNumber
+        }).ToListAsync();
+
+        vm.Drivers = await _context.Drivers
+        .Where(d => d.Status == "Active")
+        .OrderBy(d => d.FullName)
+        .Select(d => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+        {
+        Value = d.idDriver.ToString(),
+        Text = d.FullName
+        }).ToListAsync();
+        }
+
+        // GET: Load/Index
+        public async Task<IActionResult>
+            Index()
+            {
+            var loads = await _context.Loads
+            .Include(l => l.Truck)
+            .Include(l => l.Driver)
+            .Include(l => l.Vendor)
+            .Include(l => l.StockItem)
+            .ToListAsync();
+
+            return View(loads);
+            }
+            }
+            }

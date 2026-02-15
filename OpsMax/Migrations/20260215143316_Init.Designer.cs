@@ -12,7 +12,7 @@ using OpsMax.Data;
 namespace OpsMax.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260215140005_Init")]
+    [Migration("20260215143316_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -321,7 +321,8 @@ namespace OpsMax.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("StockLink")
                         .HasColumnType("int");

@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace OpsMax.Models
 {
+    /// <summary>
+    /// Represents a Load entity in the system.
+    /// Links to Sage/ZimMeal suppliers and stock items, and local Trucks/Drivers.
+    /// </summary>
     public class Load
     {
         // =============================
@@ -13,23 +17,23 @@ namespace OpsMax.Models
         // =============================
         // Supplier (From Sage / ZimMeal)
         // =============================
-        public int DCLink { get; set; }     // Maps to Vendor.DCLink
-        public Vendor Vendor { get; set; }
+        public int DCLink { get; set; }          // FK to Vendor.DCLink
+        public Vendor Vendor { get; set; }       // Navigation property
 
         // =============================
         // Stock Item (From Sage / ZimMeal)
         // =============================
-        public int StockLink { get; set; }  // Maps to StkItm.StockLink
-        public StkItm StockItem { get; set; }
+        public int StockLink { get; set; }       // FK to StkItm.StockLink
+        public StkItm StockItem { get; set; }    // Navigation property
 
         // =============================
         // Transport
         // =============================
-        public int idTruck { get; set; }
-        public Truck Truck { get; set; }
+        public int idTruck { get; set; }         // FK to Truck
+        public Truck Truck { get; set; }         // Navigation property
 
-        public int idDriver { get; set; }
-        public Driver Driver { get; set; }
+        public int idDriver { get; set; }        // FK to Driver
+        public Driver Driver { get; set; }       // Navigation property
 
         // =============================
         // Quantities
@@ -49,7 +53,6 @@ namespace OpsMax.Models
         // Status & Audit
         // =============================
         public string Status { get; set; } = "Loaded";
-
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 

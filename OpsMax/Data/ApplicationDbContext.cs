@@ -135,26 +135,29 @@ namespace OpsMax.Data
                 entity.ToTable("Loads");
                 entity.HasKey(e => e.idLoad);
 
-                // Truck (OpsMax)
+                entity.Property(e => e.Status)
+                      .HasMaxLength(50);
+
+                // Truck relationship
                 entity.HasOne(l => l.Truck)
                       .WithMany()
                       .HasForeignKey(l => l.idTruck)
                       .OnDelete(DeleteBehavior.Restrict);
 
-                // Driver (OpsMax)
+                // Driver relationship
                 entity.HasOne(l => l.Driver)
                       .WithMany()
                       .HasForeignKey(l => l.idDriver)
                       .OnDelete(DeleteBehavior.Restrict);
 
-                // Vendor (Sage/ZimMeal)
+                // Vendor relationship (Sage/ZimMeal)
                 entity.HasOne(l => l.Vendor)
                       .WithMany()
                       .HasForeignKey(l => l.DCLink)
                       .HasPrincipalKey(v => v.DCLink)
                       .OnDelete(DeleteBehavior.Restrict);
 
-                // Stock Item (Sage/ZimMeal)
+                // StockItem relationship (Sage/ZimMeal)
                 entity.HasOne(l => l.StockItem)
                       .WithMany()
                       .HasForeignKey(l => l.StockLink)
