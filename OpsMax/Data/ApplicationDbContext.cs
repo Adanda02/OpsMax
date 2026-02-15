@@ -25,7 +25,7 @@ namespace OpsMax.Data
         public DbSet<Truck> Trucks { get; set; }
         public DbSet<Driver> Drivers { get; set; }
 
-        // Map Vendor table but keep property name as Suppliers for dropdowns
+        // Vendors (Sage/ZimMeal)
         public DbSet<Vendor> Vendors { get; set; }
 
         public DbSet<Load> Loads { get; set; }
@@ -54,12 +54,16 @@ namespace OpsMax.Data
             // -----------------------------
             // CATEGORY
             // -----------------------------
-            modelBuilder.Entity<Category>().ToTable("Categories").HasKey(e => e.Id);
+            modelBuilder.Entity<Category>()
+                .ToTable("Categories")
+                .HasKey(e => e.Id);
 
             // -----------------------------
             // COLLECTION HEADER
             // -----------------------------
-            modelBuilder.Entity<CollectionEntity>().ToTable("_tblCollection").HasKey(e => e.idOrderCollected);
+            modelBuilder.Entity<CollectionEntity>()
+                .ToTable("_tblCollection")
+                .HasKey(e => e.idOrderCollected);
 
             // -----------------------------
             // COLLECTION LINES
@@ -68,6 +72,7 @@ namespace OpsMax.Data
             {
                 entity.ToTable("_tblCollectionLines");
                 entity.HasKey(e => e.idOrderLineCollected);
+
                 entity.HasOne(l => l.Collection)
                       .WithMany(h => h.Lines)
                       .HasForeignKey(l => l.OrderCollectedID)
@@ -77,7 +82,9 @@ namespace OpsMax.Data
             // -----------------------------
             // ORDER STATUS
             // -----------------------------
-            modelBuilder.Entity<OrderStatus>().ToTable("_tblOrderStatus").HasKey(e => e.idStatus);
+            modelBuilder.Entity<OrderStatus>()
+                .ToTable("_tblOrderStatus")
+                .HasKey(e => e.idStatus);
 
             // -----------------------------
             // PAYMENT SOURCE
@@ -86,47 +93,88 @@ namespace OpsMax.Data
             {
                 entity.ToTable("PaymentSources");
                 entity.HasKey(e => e.idPaymentSource);
+
                 entity.HasMany(p => p.Documents)
                       .WithOne(d => d.PaymentSource)
                       .HasForeignKey(d => d.PaymentSourceID)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            modelBuilder.Entity<PaymentSourceDocument>().ToTable("PaymentSourceDocuments").HasKey(e => e.idPaymentSourceDoc);
+            modelBuilder.Entity<PaymentSourceDocument>()
+                .ToTable("PaymentSourceDocuments")
+                .HasKey(e => e.idPaymentSourceDoc);
 
             // -----------------------------
             // TRUCK
             // -----------------------------
-            modelBuilder.Entity<Truck>().ToTable("Trucks").HasKey(e => e.idTruck);
+            modelBuilder.Entity<Truck>()
+                .ToTable("Trucks")
+                .HasKey(e => e.idTruck);
 
             // -----------------------------
             // DRIVER
             // -----------------------------
-            modelBuilder.Entity<Driver>().ToTable("Drivers").HasKey(e => e.idDriver);
+            modelBuilder.Entity<Driver>()
+                .ToTable("Drivers")
+                .HasKey(e => e.idDriver);
 
             // -----------------------------
-            // VENDOR / SUPPLIER
+            // VENDOR / SUPPLIER (Sage/ZimMeal)
             // -----------------------------
             modelBuilder.Entity<Vendor>(entity =>
             {
-                entity.ToTable("Vendor"); // exact table name in Zim Meal / Sage DB
+                entity.ToTable("Vendor");
                 entity.HasKey(e => e.DCLink);
             });
 
             // -----------------------------
             // LOAD
             // -----------------------------
-            modelBuilder.Entity<Load>().ToTable("Loads").HasKey(e => e.idLoad);
+            modelBuilder.Entity<Load>(entity =>
+            {
+                entity.ToTable("Loads");
+                entity.HasKey(e => e.idLoad);
+
+                // Truck (OpsMax)
+                entity.HasOne(l => l.Truck)
+                      .WithMany()
+                      .HasForeignKey(l => l.idTruck)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Driver (OpsMax)
+                entity.HasOne(l => l.Driver)
+                      .WithMany()
+                      .HasForeignKey(l => l.idDriver)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Vendor (Sage/ZimMeal)
+                entity.HasOne(l => l.Vendor)
+                      .WithMany()
+                      .HasForeignKey(l => l.DCLink)
+                      .HasPrincipalKey(v => v.DCLink)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Stock Item (Sage/ZimMeal)
+                entity.HasOne(l => l.StockItem)
+                      .WithMany()
+                      .HasForeignKey(l => l.StockLink)
+                      .HasPrincipalKey(s => s.StockLink)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
 
             // -----------------------------
             // LOAD DOCUMENT
             // -----------------------------
-            modelBuilder.Entity<LoadDocument>().ToTable("LoadDocuments").HasKey(e => e.idLoadDocuments);
+            modelBuilder.Entity<LoadDocument>()
+                .ToTable("LoadDocuments")
+                .HasKey(e => e.idLoadDocuments);
 
             // -----------------------------
             // CUSTOMER ALLOCATION
             // -----------------------------
-            modelBuilder.Entity<CustomerAllocation>().ToTable("CustomerAllocations").HasKey(e => e.idCustomerAllocations);
+            modelBuilder.Entity<CustomerAllocation>()
+                .ToTable("CustomerAllocations")
+                .HasKey(e => e.idCustomerAllocations);
 
             // -----------------------------
             // COLLECTION SUMMARY VIEW

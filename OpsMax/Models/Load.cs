@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OpsMax.Models
 {
@@ -13,20 +11,16 @@ namespace OpsMax.Models
         public int idLoad { get; set; }
 
         // =============================
-        // Supplier & Stock (From Sage / ZimMeal)
+        // Supplier (From Sage / ZimMeal)
         // =============================
-        public int DCLink { get; set; }          // Maps to DCLink
+        public int DCLink { get; set; }     // Maps to Vendor.DCLink
         public Vendor Vendor { get; set; }
 
-        public int StockLink { get; set; }       // Maps to StockLink
+        // =============================
+        // Stock Item (From Sage / ZimMeal)
+        // =============================
+        public int StockLink { get; set; }  // Maps to StkItm.StockLink
         public StkItm StockItem { get; set; }
-
-        // =============================
-        // Quantities
-        // =============================
-        public decimal LoadedQuantity { get; set; }
-        public decimal ActualQuantity { get; set; }
-        public decimal ShortageQuantity { get; set; }
 
         // =============================
         // Transport
@@ -38,10 +32,17 @@ namespace OpsMax.Models
         public Driver Driver { get; set; }
 
         // =============================
+        // Quantities
+        // =============================
+        public decimal LoadedQuantity { get; set; }
+        public decimal ActualQuantity { get; set; }
+        public decimal ShortageQuantity { get; set; }
+
+        // =============================
         // Dates
         // =============================
         public DateTime LoadDate { get; set; }
-        public DateTime EstimatedArrivalDate { get; set; }
+        public DateTime? EstimatedArrivalDate { get; set; }
         public DateTime? ArrivalDate { get; set; }
 
         // =============================

@@ -188,18 +188,14 @@ namespace OpsMax.Migrations
                     idLoad = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DCLink = table.Column<int>(type: "int", nullable: false),
-                    VendorDCLink = table.Column<int>(type: "int", nullable: false),
                     StockLink = table.Column<int>(type: "int", nullable: false),
-                    StockItemStockLink = table.Column<int>(type: "int", nullable: false),
+                    idTruck = table.Column<int>(type: "int", nullable: false),
+                    idDriver = table.Column<int>(type: "int", nullable: false),
                     LoadedQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ActualQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ShortageQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    idTruck = table.Column<int>(type: "int", nullable: false),
-                    TruckidTruck = table.Column<int>(type: "int", nullable: false),
-                    idDriver = table.Column<int>(type: "int", nullable: false),
-                    DriveridDriver = table.Column<int>(type: "int", nullable: false),
                     LoadDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EstimatedArrivalDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EstimatedArrivalDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ArrivalDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -209,29 +205,29 @@ namespace OpsMax.Migrations
                 {
                     table.PrimaryKey("PK_Loads", x => x.idLoad);
                     table.ForeignKey(
-                        name: "FK_Loads_Drivers_DriveridDriver",
-                        column: x => x.DriveridDriver,
+                        name: "FK_Loads_Drivers_idDriver",
+                        column: x => x.idDriver,
                         principalTable: "Drivers",
                         principalColumn: "idDriver",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Loads_StkItm_StockItemStockLink",
-                        column: x => x.StockItemStockLink,
+                        name: "FK_Loads_StkItm_StockLink",
+                        column: x => x.StockLink,
                         principalTable: "StkItm",
                         principalColumn: "StockLink",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Loads_Trucks_TruckidTruck",
-                        column: x => x.TruckidTruck,
+                        name: "FK_Loads_Trucks_idTruck",
+                        column: x => x.idTruck,
                         principalTable: "Trucks",
                         principalColumn: "idTruck",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Loads_Vendor_VendorDCLink",
-                        column: x => x.VendorDCLink,
+                        name: "FK_Loads_Vendor_DCLink",
+                        column: x => x.DCLink,
                         principalTable: "Vendor",
                         principalColumn: "DCLink",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -342,24 +338,24 @@ namespace OpsMax.Migrations
                 column: "LoadID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Loads_DriveridDriver",
+                name: "IX_Loads_DCLink",
                 table: "Loads",
-                column: "DriveridDriver");
+                column: "DCLink");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Loads_StockItemStockLink",
+                name: "IX_Loads_idDriver",
                 table: "Loads",
-                column: "StockItemStockLink");
+                column: "idDriver");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Loads_TruckidTruck",
+                name: "IX_Loads_idTruck",
                 table: "Loads",
-                column: "TruckidTruck");
+                column: "idTruck");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Loads_VendorDCLink",
+                name: "IX_Loads_StockLink",
                 table: "Loads",
-                column: "VendorDCLink");
+                column: "StockLink");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PaymentSourceDocuments_PaymentSourceID",

@@ -304,10 +304,7 @@ namespace OpsMax.Migrations
                     b.Property<int>("DCLink")
                         .HasColumnType("int");
 
-                    b.Property<int>("DriveridDriver")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EstimatedArrivalDate")
+                    b.Property<DateTime?>("EstimatedArrivalDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("LoadDate")
@@ -323,16 +320,7 @@ namespace OpsMax.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StockItemStockLink")
-                        .HasColumnType("int");
-
                     b.Property<int>("StockLink")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TruckidTruck")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VendorDCLink")
                         .HasColumnType("int");
 
                     b.Property<int>("idDriver")
@@ -343,13 +331,13 @@ namespace OpsMax.Migrations
 
                     b.HasKey("idLoad");
 
-                    b.HasIndex("DriveridDriver");
+                    b.HasIndex("DCLink");
 
-                    b.HasIndex("StockItemStockLink");
+                    b.HasIndex("StockLink");
 
-                    b.HasIndex("TruckidTruck");
+                    b.HasIndex("idDriver");
 
-                    b.HasIndex("VendorDCLink");
+                    b.HasIndex("idTruck");
 
                     b.ToTable("Loads", (string)null);
                 });
@@ -731,28 +719,28 @@ namespace OpsMax.Migrations
 
             modelBuilder.Entity("OpsMax.Models.Load", b =>
                 {
-                    b.HasOne("OpsMax.Models.Driver", "Driver")
+                    b.HasOne("OpsMax.Models.Vendor", "Vendor")
                         .WithMany()
-                        .HasForeignKey("DriveridDriver")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("DCLink")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("OpsMax.Models.StkItm", "StockItem")
                         .WithMany()
-                        .HasForeignKey("StockItemStockLink")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("StockLink")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("OpsMax.Models.Driver", "Driver")
+                        .WithMany()
+                        .HasForeignKey("idDriver")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("OpsMax.Models.Truck", "Truck")
                         .WithMany()
-                        .HasForeignKey("TruckidTruck")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OpsMax.Models.Vendor", "Vendor")
-                        .WithMany()
-                        .HasForeignKey("VendorDCLink")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("idTruck")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Driver");

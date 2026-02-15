@@ -3,24 +3,20 @@
   "WorkspaceRootPath": "C:\\Programming\\C-Sharp\\OpsMax\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\views\\loads\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\views\\loads\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\viewmodels\\loadcreateviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\viewmodels\\loadcreateviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\models\\stockitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\models\\stockitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\models\\load.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\models\\load.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\models\\truck.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\models\\truck.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\controllers\\loadscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\controllers\\loadscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,14 +35,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Data\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "OpsMax\\Data\\ApplicationDbContext.cs",
-              "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Data\\ApplicationDbContext.cs",
-              "RelativeToolTip": "OpsMax\\Data\\ApplicationDbContext.cs",
-              "ViewState": "AgIAAIgAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-15T13:16:53.263Z",
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Views\\Loads\\Create.cshtml",
+              "RelativeDocumentMoniker": "OpsMax\\Views\\Loads\\Create.cshtml",
+              "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Views\\Loads\\Create.cshtml",
+              "RelativeToolTip": "OpsMax\\Views\\Loads\\Create.cshtml",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAAAGIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-15T14:16:47.865Z",
               "EditorCaption": ""
             },
             {
@@ -57,46 +53,36 @@
               "RelativeDocumentMoniker": "OpsMax\\ViewModels\\LoadCreateViewModel.cs",
               "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\ViewModels\\LoadCreateViewModel.cs",
               "RelativeToolTip": "OpsMax\\ViewModels\\LoadCreateViewModel.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADMAAAAAAAAAAAAAAFcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-15T13:13:57.788Z",
+              "WhenOpened": "2026-02-15T14:16:30.073Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "StockItem.cs",
-              "DocumentMoniker": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Models\\StockItem.cs",
-              "RelativeDocumentMoniker": "OpsMax\\Models\\StockItem.cs",
-              "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Models\\StockItem.cs",
-              "RelativeToolTip": "OpsMax\\Models\\StockItem.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-15T13:13:33.453Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "Load.cs",
               "DocumentMoniker": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Models\\Load.cs",
               "RelativeDocumentMoniker": "OpsMax\\Models\\Load.cs",
               "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Models\\Load.cs",
               "RelativeToolTip": "OpsMax\\Models\\Load.cs",
-              "ViewState": "AgIAAB8AAAAAAAAAAADwvwsAAAAoAAAAAAAAAA==",
+              "ViewState": "AgIAACMAAAAAAAAAAAAowD4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-15T13:09:52.528Z"
+              "WhenOpened": "2026-02-15T14:16:09.925Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Truck.cs",
-              "DocumentMoniker": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Models\\Truck.cs",
-              "RelativeDocumentMoniker": "OpsMax\\Models\\Truck.cs",
-              "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Models\\Truck.cs",
-              "RelativeToolTip": "OpsMax\\Models\\Truck.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "LoadsController.cs",
+              "DocumentMoniker": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Controllers\\LoadsController.cs",
+              "RelativeDocumentMoniker": "OpsMax\\Controllers\\LoadsController.cs",
+              "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Controllers\\LoadsController.cs",
+              "RelativeToolTip": "OpsMax\\Controllers\\LoadsController.cs",
+              "ViewState": "AgIAAJ4AAAAAAAAAAAAAAMIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-15T13:09:47.216Z"
+              "WhenOpened": "2026-02-15T14:15:48.721Z",
+              "EditorCaption": ""
             }
           ]
         }
