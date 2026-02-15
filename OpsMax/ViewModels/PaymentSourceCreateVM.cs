@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace OpsMax.DTO.ViewModels
+namespace OpsMax.ViewModels
 {
     public class PaymentSourceCreateVM
     {

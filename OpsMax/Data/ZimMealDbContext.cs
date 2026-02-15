@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OpsMax.DTO;
-using OpsMax.DTO.ViewModels;
+using OpsMax.ViewModels;
 
 namespace OpsMax.Data
 {

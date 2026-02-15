@@ -1,16 +1,17 @@
-﻿
-    using global::OpsMax.Models;
-    using Microsoft.AspNetCore.Mvc.Rendering;
-    using OpsMax.Models;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using OpsMax.Models;
+using System.Collections.Generic;
 
-    namespace OpsMax.ViewModels
+namespace OpsMax.ViewModels
+{
+    public class LoadCreateViewModel
     {
-        public class LoadCreateViewModel
-        {
-            public Load Load { get; set; }
+        public Load Load { get; set; }
 
-            public IEnumerable<SelectListItem> Trucks { get; set; }
-            public IEnumerable<SelectListItem> Drivers { get; set; }
-        }
+        // Dropdowns
+        public IEnumerable<SelectListItem> Vendors { get; set; }   // Populated from Vendor table
+        public IEnumerable<SelectListItem> Trucks { get; set; }
+        public IEnumerable<SelectListItem> Drivers { get; set; }
     }
+}
 

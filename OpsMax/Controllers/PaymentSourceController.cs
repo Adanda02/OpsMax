@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OpsMax.DTO.ViewModels;
+using OpsMax.ViewModels;
 using OpsMax.Services.Interfaces;
+using OpsMax.ViewModels;
 using System.Threading.Tasks;
 
 namespace OpsMax.Modules.Payments.Controllers

@@ -11,83 +11,65 @@
 
     <div class="row">
 
-        <!-- Supplier -->
+        <!-- Supplier Dropdown -->
         <div class="col-md-6 mb-3">
-            <label asp-for="Load.SupplierID" class="form-label"></label>
-            <input asp-for="Load.SupplierID" class="form-control" />
-            <span asp-validation-for="Load.SupplierID" class="text-danger"></span>
+            <label asp-for="Load.DCLink" class="form-label">Supplier</label>
+            <select asp-for="Load.DCLink" class="form-select" asp-items="Model.Vendors">
+                <option value="">-- Select Supplier --</option>
+            </select>
+            <span asp-validation-for="Load.DCLink" class="text-danger"></span>
         </div>
 
         <!-- Stock Code -->
         <div class="col-md-6 mb-3">
-            <label asp-for="Load.MaizeStockCodeID" class="form-label"></label>
+            <label asp-for="Load.MaizeStockCodeID" class="form-label">Stock Code</label>
             <input asp-for="Load.MaizeStockCodeID" class="form-control" />
             <span asp-validation-for="Load.MaizeStockCodeID" class="text-danger"></span>
         </div>
 
-        <!-- Truck -->
+        <!-- Truck Dropdown -->
         <div class="col-md-6 mb-3">
             <label asp-for="Load.TruckID" class="form-label">Truck</label>
-            <select asp-for="Load.TruckID"
-                    asp-items="Model.Trucks"
-                    class="form-select">
+            <select asp-for="Load.TruckID" class="form-select" asp-items="Model.Trucks">
                 <option value="">-- Select Truck --</option>
             </select>
             <span asp-validation-for="Load.TruckID" class="text-danger"></span>
         </div>
 
-        <!-- Driver -->
+        <!-- Driver Dropdown -->
         <div class="col-md-6 mb-3">
             <label asp-for="Load.DriverID" class="form-label">Driver</label>
-            <select asp-for="Load.DriverID"
-                    asp-items="Model.Drivers"
-                    class="form-select">
+            <select asp-for="Load.DriverID" class="form-select" asp-items="Model.Drivers">
                 <option value="">-- Select Driver --</option>
             </select>
             <span asp-validation-for="Load.DriverID" class="text-danger"></span>
         </div>
 
-        <!-- Loaded Quantity -->
+        <!-- Quantities -->
         <div class="col-md-4 mb-3">
             <label asp-for="Load.LoadedQuantity" class="form-label"></label>
-            <input asp-for="Load.LoadedQuantity"
-                   class="form-control"
-                   id="loadedQty" />
-            <span asp-validation-for="Load.LoadedQuantity" class="text-danger"></span>
+            <input asp-for="Load.LoadedQuantity" class="form-control" id="loadedQty" />
         </div>
 
-        <!-- Actual Quantity -->
         <div class="col-md-4 mb-3">
             <label asp-for="Load.ActualQuantity" class="form-label"></label>
-            <input asp-for="Load.ActualQuantity"
-                   class="form-control"
-                   id="actualQty" />
-            <span asp-validation-for="Load.ActualQuantity" class="text-danger"></span>
+            <input asp-for="Load.ActualQuantity" class="form-control" id="actualQty" />
         </div>
 
-        <!-- Shortage (Auto Calculated) -->
         <div class="col-md-4 mb-3">
             <label asp-for="Load.ShortageQuantity" class="form-label"></label>
-            <input asp-for="Load.ShortageQuantity"
-                   class="form-control"
-                   id="shortageQty"
-                   readonly />
+            <input asp-for="Load.ShortageQuantity" class="form-control" id="shortageQty" readonly />
         </div>
 
-        <!-- Load Date -->
+        <!-- Dates -->
         <div class="col-md-6 mb-3">
             <label asp-for="Load.LoadDate" class="form-label"></label>
-            <input asp-for="Load.LoadDate"
-                   type="date"
-                   class="form-control" />
+            <input asp-for="Load.LoadDate" type="date" class="form-control" />
         </div>
 
-        <!-- Estimated Arrival -->
         <div class="col-md-6 mb-3">
             <label asp-for="Load.EstimatedArrivalDate" class="form-label"></label>
-            <input asp-for="Load.EstimatedArrivalDate"
-                   type="date"
-                   class="form-control" />
+            <input asp-for="Load.EstimatedArrivalDate" type="date" class="form-control" />
         </div>
 
     </div>
@@ -97,18 +79,18 @@
 </form>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-
     <script>
-        document.getElementById("actualQty").addEventListener("input", calculate);
-        document.getElementById("loadedQty").addEventListener("input", calculate);
+        const loadedQty = document.getElementById("loadedQty");
+        const actualQty = document.getElementById("actualQty");
+        const shortageQty = document.getElementById("shortageQty");
 
-        function calculate() {
-            var loaded = parseFloat(document.getElementById("loadedQty").value) || 0;
-            var actual = parseFloat(document.getElementById("actualQty").value) || 0;
-            document.getElementById("shortageQty").value = loaded - actual;
+        function calculateShortage() {
+            const loaded = parseFloat(loadedQty.value) || 0;
+            const actual = parseFloat(actualQty.value) || 0;
+            shortageQty.value = loaded - actual;
         }
+
+        loadedQty.addEventListener("input", calculateShortage);
+        actualQty.addEventListener("input", calculateShortage);
     </script>
 }

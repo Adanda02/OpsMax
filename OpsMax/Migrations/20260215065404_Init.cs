@@ -98,6 +98,20 @@ namespace OpsMax.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Vendor",
+                columns: table => new
+                {
+                    Name = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DCLink = table.Column<int>(type: "int", nullable: false),
+                    Name1 = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vendor", x => x.Name);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "_tblCollection",
                 columns: table => new
                 {
@@ -159,7 +173,8 @@ namespace OpsMax.Migrations
                 {
                     idLoad = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SupplierID = table.Column<int>(type: "int", nullable: false),
+                    DCLink = table.Column<int>(type: "int", nullable: false),
+                    VendorDCLink = table.Column<int>(type: "int", nullable: false),
                     MaizeStockCodeID = table.Column<int>(type: "int", nullable: false),
                     LoadedQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ActualQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -187,6 +202,12 @@ namespace OpsMax.Migrations
                         column: x => x.TruckID,
                         principalTable: "Trucks",
                         principalColumn: "idTruck",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Loads_Vendor_VendorDCLink",
+                        column: x => x.VendorDCLink,
+                        principalTable: "Vendor",
+                        principalColumn: "Name",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -308,6 +329,11 @@ namespace OpsMax.Migrations
                 column: "TruckID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Loads_VendorDCLink",
+                table: "Loads",
+                column: "VendorDCLink");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PaymentSourceDocuments_PaymentSourceID",
                 table: "PaymentSourceDocuments",
                 column: "PaymentSourceID");
@@ -348,6 +374,9 @@ namespace OpsMax.Migrations
 
             migrationBuilder.DropTable(
                 name: "Trucks");
+
+            migrationBuilder.DropTable(
+                name: "Vendor");
         }
     }
 }

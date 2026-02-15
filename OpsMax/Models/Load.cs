@@ -1,11 +1,16 @@
-﻿namespace OpsMax.Models
+﻿using OpsMax.Models;
+
+namespace OpsMax.Models
 {
     public class Load
     {
         public int idLoad { get; set; }
 
         // From Sage
-        public int SupplierID { get; set; }
+        public int DCLink { get; set; }
+        public Vendor Vendor { get; set; } // EF navigation property
+
+
         public int MaizeStockCodeID { get; set; }
 
         public decimal LoadedQuantity { get; set; }
@@ -30,5 +35,4 @@
         public ICollection<LoadDocument> Documents { get; set; }
         public ICollection<CustomerAllocation> Allocations { get; set; }
     }
-
 }

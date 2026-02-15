@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using OpsMax.Data;
-using OpsMax.DTO.ViewModels;
 using OpsMax.Models;
 using OpsMax.Services.Interfaces;
+using OpsMax.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;

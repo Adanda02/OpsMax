@@ -1,5 +1,4 @@
 ﻿using OpsMax.Data;
-using OpsMax.DTO.ViewModels;
 using OpsMax.Models;
 using OpsMax.Models.Views;
 using OpsMax.Services.Interfaces;
@@ -8,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OpsMax.ViewModels;
 
 namespace OpsMax.Services
 {

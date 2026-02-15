@@ -1,5 +1,5 @@
-﻿using OpsMax.DTO.ViewModels;
-using OpsMax.Models;
+﻿using OpsMax.Models;
+using OpsMax.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

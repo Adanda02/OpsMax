@@ -1,6 +1,6 @@
 ﻿using OpsMax.Models;
 
-namespace OpsMax.DTO.ViewModels
+namespace OpsMax.ViewModels
 {
     public class PaymentSourceDetailsVM
 

@@ -10,6 +10,7 @@
     <p><strong>Phone:</strong> @Model.Phone</p>
     <p><strong>License Number:</strong> @Model.LicenseNumber</p>
     <p><strong>License Expiry:</strong> @Model.LicenseExpiry.ToShortDateString()</p>
+
     <p>
         <strong>Status:</strong>
         @if (Model.LicenseExpiry < DateTime.Now)
@@ -21,30 +22,6 @@
             @Model.Status
         }
     </p>
-</div>
-
-<div class="card p-3">
-    <h5>Assigned Loads</h5>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Load Date</th>
-                <th>Truck</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var load in Model.Loads ?? new List<OpsMax.Models.Load>())
-            {
-                <tr>
-                    <td>@load.LoadDate.ToShortDateString()</td>
-                    <td>@load.Truck?.RegistrationNumber</td>
-                    <td>@load.Status</td>
-                </tr>
-            }
-        </tbody>
-    </table>
 </div>
 
 <a asp-action="Index" class="btn btn-secondary mt-3">Back</a>

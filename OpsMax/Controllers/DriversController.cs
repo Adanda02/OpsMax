@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using OpsMax.Data;
 using OpsMax.Models;
+using System.Threading.Tasks;
 
 namespace OpsMax.Controllers
 {
@@ -19,9 +20,7 @@ namespace OpsMax.Controllers
         // ================================
         public async Task<IActionResult> Index()
         {
-            var drivers = await _context.Drivers
-                .Include(d => d.Loads) // optional: include loads
-                .ToListAsync();
+            var drivers = await _context.Drivers.ToListAsync();
             return View(drivers);
         }
 
@@ -31,10 +30,11 @@ namespace OpsMax.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var driver = await _context.Drivers
-                .Include(d => d.Loads)
                 .FirstOrDefaultAsync(d => d.idDrivers == id);
 
-            if (driver == null) return NotFound();
+            if (driver == null)
+                return NotFound();
+
             return View(driver);
         }
 
@@ -50,10 +50,12 @@ namespace OpsMax.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Driver model)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+                return View(model);
 
             _context.Drivers.Add(model);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -64,6 +66,7 @@ namespace OpsMax.Controllers
         {
             var driver = await _context.Drivers.FindAsync(id);
             if (driver == null) return NotFound();
+
             return View(driver);
         }
 
@@ -71,9 +74,11 @@ namespace OpsMax.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Driver model)
         {
-            if (id != model.idDrivers) return NotFound();
+            if (id != model.idDrivers)
+                return NotFound();
 
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+                return View(model);
 
             _context.Update(model);
             await _context.SaveChangesAsync();
@@ -88,6 +93,7 @@ namespace OpsMax.Controllers
         {
             var driver = await _context.Drivers.FindAsync(id);
             if (driver == null) return NotFound();
+
             return View(driver);
         }
 
@@ -101,6 +107,7 @@ namespace OpsMax.Controllers
                 _context.Drivers.Remove(driver);
                 await _context.SaveChangesAsync();
             }
+
             return RedirectToAction(nameof(Index));
         }
     }

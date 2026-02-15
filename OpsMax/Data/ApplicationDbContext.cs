@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OpsMax.DTO;
-using OpsMax.DTO.ViewModels;
 using OpsMax.Models;
 using OpsMax.Models.Views;
+using OpsMax.ViewModels;
 
 namespace OpsMax.Data
 {
@@ -17,16 +17,17 @@ namespace OpsMax.Data
         // DB SETS (ENTITIES)
         // =========================================================
         public DbSet<Category> Categories { get; set; }
-
         public DbSet<CollectionEntity> Collections { get; set; }
         public DbSet<CollectionLineEntity> CollectionLines { get; set; }
         public DbSet<OrderStatus> OrderStatuses { get; set; }
-
         public DbSet<PaymentSource> PaymentSources { get; set; }
         public DbSet<PaymentSourceDocument> PaymentSourceDocuments { get; set; }
-
         public DbSet<Truck> Trucks { get; set; }
         public DbSet<Driver> Drivers { get; set; }
+
+        // Map Vendor table but keep property name as Suppliers for dropdowns
+        public DbSet<Vendor> Vendors { get; set; }
+
         public DbSet<Load> Loads { get; set; }
         public DbSet<LoadDocument> LoadDocuments { get; set; }
         public DbSet<CustomerAllocation> CustomerAllocations { get; set; }
@@ -53,20 +54,12 @@ namespace OpsMax.Data
             // -----------------------------
             // CATEGORY
             // -----------------------------
-            modelBuilder.Entity<Category>(entity =>
-            {
-                entity.ToTable("Categories");
-                entity.HasKey(e => e.Id);
-            });
+            modelBuilder.Entity<Category>().ToTable("Categories").HasKey(e => e.Id);
 
             // -----------------------------
             // COLLECTION HEADER
             // -----------------------------
-            modelBuilder.Entity<CollectionEntity>(entity =>
-            {
-                entity.ToTable("_tblCollection");
-                entity.HasKey(e => e.idOrderCollected);
-            });
+            modelBuilder.Entity<CollectionEntity>().ToTable("_tblCollection").HasKey(e => e.idOrderCollected);
 
             // -----------------------------
             // COLLECTION LINES
@@ -75,7 +68,6 @@ namespace OpsMax.Data
             {
                 entity.ToTable("_tblCollectionLines");
                 entity.HasKey(e => e.idOrderLineCollected);
-
                 entity.HasOne(l => l.Collection)
                       .WithMany(h => h.Lines)
                       .HasForeignKey(l => l.OrderCollectedID)
@@ -85,11 +77,7 @@ namespace OpsMax.Data
             // -----------------------------
             // ORDER STATUS
             // -----------------------------
-            modelBuilder.Entity<OrderStatus>(entity =>
-            {
-                entity.ToTable("_tblOrderStatus");
-                entity.HasKey(e => e.idStatus);
-            });
+            modelBuilder.Entity<OrderStatus>().ToTable("_tblOrderStatus").HasKey(e => e.idStatus);
 
             // -----------------------------
             // PAYMENT SOURCE
@@ -98,66 +86,47 @@ namespace OpsMax.Data
             {
                 entity.ToTable("PaymentSources");
                 entity.HasKey(e => e.idPaymentSource);
-
                 entity.HasMany(p => p.Documents)
                       .WithOne(d => d.PaymentSource)
                       .HasForeignKey(d => d.PaymentSourceID)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // -----------------------------
-            // PAYMENT SOURCE DOCUMENTS
-            // -----------------------------
-            modelBuilder.Entity<PaymentSourceDocument>(entity =>
-            {
-                entity.ToTable("PaymentSourceDocuments");
-                entity.HasKey(e => e.idPaymentSourceDoc);
-            });
+            modelBuilder.Entity<PaymentSourceDocument>().ToTable("PaymentSourceDocuments").HasKey(e => e.idPaymentSourceDoc);
 
             // -----------------------------
             // TRUCK
             // -----------------------------
-            modelBuilder.Entity<Truck>(entity =>
-            {
-                entity.ToTable("Trucks");
-                entity.HasKey(e => e.idTruck);
-            });
+            modelBuilder.Entity<Truck>().ToTable("Trucks").HasKey(e => e.idTruck);
 
             // -----------------------------
             // DRIVER
             // -----------------------------
-            modelBuilder.Entity<Driver>(entity =>
+            modelBuilder.Entity<Driver>().ToTable("Drivers").HasKey(e => e.idDrivers);
+
+            // -----------------------------
+            // VENDOR / SUPPLIER
+            // -----------------------------
+            modelBuilder.Entity<Vendor>(entity =>
             {
-                entity.ToTable("Drivers");
-                entity.HasKey(e => e.idDrivers);
+                entity.ToTable("Vendor"); // exact table name in Zim Meal / Sage DB
+                entity.HasKey(e => e.DCLink);
             });
 
             // -----------------------------
             // LOAD
             // -----------------------------
-            modelBuilder.Entity<Load>(entity =>
-            {
-                entity.ToTable("Loads");
-                entity.HasKey(e => e.idLoad);
-            });
+            modelBuilder.Entity<Load>().ToTable("Loads").HasKey(e => e.idLoad);
 
             // -----------------------------
             // LOAD DOCUMENT
             // -----------------------------
-            modelBuilder.Entity<LoadDocument>(entity =>
-            {
-                entity.ToTable("LoadDocuments");
-                entity.HasKey(e => e.idLoadDocuments);
-            });
+            modelBuilder.Entity<LoadDocument>().ToTable("LoadDocuments").HasKey(e => e.idLoadDocuments);
 
             // -----------------------------
             // CUSTOMER ALLOCATION
             // -----------------------------
-            modelBuilder.Entity<CustomerAllocation>(entity =>
-            {
-                entity.ToTable("CustomerAllocations");
-                entity.HasKey(e => e.idCustomerAllocations);
-            });
+            modelBuilder.Entity<CustomerAllocation>().ToTable("CustomerAllocations").HasKey(e => e.idCustomerAllocations);
 
             // -----------------------------
             // COLLECTION SUMMARY VIEW
@@ -169,11 +138,11 @@ namespace OpsMax.Data
             });
 
             // -----------------------------
-            // RAW SQL DTOs (NO TABLE / VIEW)
+            // RAW SQL DTOs (KEYLESS)
             // -----------------------------
-            modelBuilder.Entity<InvoiceLineDto>(entity => { entity.HasNoKey(); entity.ToView(null); });
-            modelBuilder.Entity<SupplierGRVVM>(entity => { entity.HasNoKey(); entity.ToView(null); });
-            modelBuilder.Entity<GLAccountVM>(entity => { entity.HasNoKey(); entity.ToView(null); });
+            modelBuilder.Entity<InvoiceLineDto>(entity => entity.HasNoKey().ToView(null));
+            modelBuilder.Entity<SupplierGRVVM>(entity => entity.HasNoKey().ToView(null));
+            modelBuilder.Entity<GLAccountVM>(entity => entity.HasNoKey().ToView(null));
 
             // -----------------------------
             // SEED DATA
