@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using OpsMax.Data;
 using OpsMax.Models;
 using OpsMax.ViewModels;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace OpsMax.Controllers
 {
@@ -83,10 +86,8 @@ namespace OpsMax.Controllers
 
             var load = viewModel.Load;
 
-            // Defensive calculation
-            load.ShortageQuantity =
-                (load.LoadedQuantity) -
-                (load.ActualQuantity);
+            // Calculate shortage
+            load.ShortageQuantity = load.LoadedQuantity - load.ActualQuantity;
 
             load.CreatedBy = User?.Identity?.Name ?? "System";
             load.CreatedDate = DateTime.Now;
@@ -132,9 +133,9 @@ namespace OpsMax.Controllers
                 return View(viewModel);
             }
 
+            // Recalculate shortage
             viewModel.Load.ShortageQuantity =
-                (viewModel.Load.LoadedQuantity) -
-                (viewModel.Load.ActualQuantity);
+                viewModel.Load.LoadedQuantity - viewModel.Load.ActualQuantity;
 
             _context.Update(viewModel.Load);
             await _context.SaveChangesAsync();
@@ -143,13 +144,11 @@ namespace OpsMax.Controllers
         }
 
         // =====================================================
-        // DROPDOWN POPULATION (MERGED & CLEAN)
+        // DROPDOWN POPULATION (Vendors, StockItems, Trucks, Drivers)
         // =====================================================
         private async Task PopulateDropdowns(LoadCreateViewModel vm)
         {
-            // ===============================
-            // Vendors (Sage)
-            // ===============================
+            // Vendors from ZimMeal (Sage)
             vm.Vendors = await _zimContext.Vendors
                 .OrderBy(v => v.Name)
                 .Select(v => new SelectListItem
@@ -159,9 +158,7 @@ namespace OpsMax.Controllers
                 })
                 .ToListAsync();
 
-            // ===============================
-            // Stock Items (Sage)
-            // ===============================
+            // Stock Items from ZimMeal (Sage)
             vm.StockItems = await _zimContext.StockItems
                 .OrderBy(s => s.Description_1)
                 .Select(s => new SelectListItem
@@ -171,9 +168,7 @@ namespace OpsMax.Controllers
                 })
                 .ToListAsync();
 
-            // ===============================
-            // Trucks (OpsMax)
-            // ===============================
+            // Trucks from OpsMax
             vm.Trucks = await _context.Trucks
                 .Where(t => t.Status == "Active")
                 .OrderBy(t => t.RegistrationNumber)
@@ -184,9 +179,7 @@ namespace OpsMax.Controllers
                 })
                 .ToListAsync();
 
-            // ===============================
-            // Drivers (OpsMax)
-            // ===============================
+            // Drivers from OpsMax
             vm.Drivers = await _context.Drivers
                 .Where(d => d.Status == "Active")
                 .OrderBy(d => d.FullName)

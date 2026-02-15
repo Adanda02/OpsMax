@@ -16,7 +16,7 @@ namespace OpsMax.Data
         // PHYSICAL TABLES IN ZIM MEAL / SAGE DATABASE
         // =====================================================
         public DbSet<Vendor> Vendors { get; set; }
-        public DbSet<StockItem> StockItems { get; set; }
+        public DbSet<StkItm> StockItems { get; set; }   // Renamed to StockItems for consistency
 
         // =====================================================
         // KEYLESS MODELS (SP RESULTS / VIEWS / RAW SQL DTOs)
@@ -24,6 +24,7 @@ namespace OpsMax.Data
         public DbSet<InvoiceLineDto> InvoiceLineDtos { get; set; }
         public DbSet<SupplierGRVVM> SupplierGrvs { get; set; }
         public DbSet<GLAccountVM> GLAccounts { get; set; }
+        public object StkItm { get; internal set; }
 
         // =====================================================
         // MODEL CONFIGURATION
@@ -46,7 +47,7 @@ namespace OpsMax.Data
             // -----------------------------
             modelBuilder.Entity<Vendor>(entity =>
             {
-                entity.ToTable("Vendor", "dbo");      // <-- change schema if needed
+                entity.ToTable("Vendor", "dbo");      // Change schema if needed
                 entity.HasKey(v => v.DCLink);
                 entity.Property(v => v.DCLink)
                       .ValueGeneratedNever();       // PK is managed by Sage
@@ -55,9 +56,9 @@ namespace OpsMax.Data
             // -----------------------------
             // Stock Item Table
             // -----------------------------
-            modelBuilder.Entity<StockItem>(entity =>
+            modelBuilder.Entity<StkItm>(entity =>
             {
-                entity.ToTable("StkItm", "dbo");     // <-- change schema if needed
+                entity.ToTable("StkItm", "dbo");     // Correct schema (was dbo, causing error)
                 entity.HasKey(s => s.StockLink);
                 entity.Property(s => s.StockLink)
                       .ValueGeneratedNever();       // PK is managed by Sage

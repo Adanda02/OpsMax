@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OpsMax.Models
 {
-    public class StockItem
+    public class StkItm
     {
         [Key]
-        public int StockLink { get; set; }  // matches PK in StkItm
+        public int StockLink { get; set; }      // Primary Key in StkItm
 
         [StringLength(50)]
         public string Code { get; set; }
@@ -14,6 +13,6 @@ namespace OpsMax.Models
         [StringLength(200)]
         public string Description_1 { get; set; }
 
-        // add other columns if needed
+        // Add other columns if needed
     }
 }

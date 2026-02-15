@@ -47,10 +47,10 @@ namespace OpsMax.Migrations
                 {
                     idDrivers = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NationalID = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LicenseNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    NationalID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    LicenseNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LicenseExpiry = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -81,14 +81,28 @@ namespace OpsMax.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StkItm",
+                columns: table => new
+                {
+                    StockLink = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description_1 = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StkItm", x => x.StockLink);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Trucks",
                 columns: table => new
                 {
                     idTruck = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RegistrationNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CapacityTonnes = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Owner = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Owner = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -101,14 +115,14 @@ namespace OpsMax.Migrations
                 name: "Vendor",
                 columns: table => new
                 {
-                    Name = table.Column<int>(type: "int", nullable: false)
+                    DCLink = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DCLink = table.Column<int>(type: "int", nullable: false),
-                    Name1 = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Account = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Vendor", x => x.Name);
+                    table.PrimaryKey("PK_Vendor", x => x.DCLink);
                 });
 
             migrationBuilder.CreateTable(
@@ -175,7 +189,8 @@ namespace OpsMax.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DCLink = table.Column<int>(type: "int", nullable: false),
                     VendorDCLink = table.Column<int>(type: "int", nullable: false),
-                    MaizeStockCodeID = table.Column<int>(type: "int", nullable: false),
+                    StockLink = table.Column<int>(type: "int", nullable: false),
+                    StockItemStockLink = table.Column<int>(type: "int", nullable: false),
                     LoadedQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ActualQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ShortageQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -198,6 +213,12 @@ namespace OpsMax.Migrations
                         principalColumn: "idDrivers",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_Loads_StkItm_StockItemStockLink",
+                        column: x => x.StockItemStockLink,
+                        principalTable: "StkItm",
+                        principalColumn: "StockLink",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Loads_Trucks_TruckID",
                         column: x => x.TruckID,
                         principalTable: "Trucks",
@@ -207,7 +228,7 @@ namespace OpsMax.Migrations
                         name: "FK_Loads_Vendor_VendorDCLink",
                         column: x => x.VendorDCLink,
                         principalTable: "Vendor",
-                        principalColumn: "Name",
+                        principalColumn: "DCLink",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -324,6 +345,11 @@ namespace OpsMax.Migrations
                 column: "DriverID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Loads_StockItemStockLink",
+                table: "Loads",
+                column: "StockItemStockLink");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Loads_TruckID",
                 table: "Loads",
                 column: "TruckID");
@@ -371,6 +397,9 @@ namespace OpsMax.Migrations
 
             migrationBuilder.DropTable(
                 name: "Drivers");
+
+            migrationBuilder.DropTable(
+                name: "StkItm");
 
             migrationBuilder.DropTable(
                 name: "Trucks");
