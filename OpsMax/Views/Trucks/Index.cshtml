@@ -1,0 +1,50 @@
+﻿@model IEnumerable<OpsMax.Models.Truck>
+
+@{
+    ViewData["Title"] = "Trucks";
+}
+
+<h2>Trucks</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add New Truck</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Registration</th>
+            <th>Capacity (Tonnes)</th>
+            <th>Owner</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.RegistrationNumber</td>
+                    <td>@item.CapacityTonnes</td>
+                    <td>@item.Owner</td>
+                    <td>@item.Status</td>
+                    <td>@item.CreatedDate.ToString("yyyy-MM-dd")</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.idTruck" class="btn btn-sm btn-warning">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.idTruck" class="btn btn-sm btn-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.idTruck" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="text-center">No trucks found.</td>
+            </tr>
+        }
+    </tbody>
+</table>

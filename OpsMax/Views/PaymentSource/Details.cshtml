@@ -1,0 +1,32 @@
+﻿@using OpsMax.ViewModels
+@model PaymentSourceDetailsVM
+
+<h3>Order: @Model.Header?.OrderReference</h3>
+<p>Status: @Model.Header?.Status</p>
+
+@if (Model.Documents != null && Model.Documents.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Document Type</th>
+                <th>File</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var d in Model.Documents)
+            {
+                <tr>
+                    <td>@d.DocumentType</td>
+                    <td>
+                        <a href="/sourcedocs/@d.FilePath" target="_blank">View</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No documents uploaded.</p>
+}

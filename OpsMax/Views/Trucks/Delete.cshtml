@@ -1,0 +1,19 @@
+﻿@model OpsMax.Models.Truck
+
+@{
+    ViewData["Title"] = "Delete Truck";
+}
+
+<h2>Delete Truck</h2>
+
+<h4 class="text-danger">Are you sure you want to delete this truck?</h4>
+
+<div>
+    <strong>@Model.RegistrationNumber</strong>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="idTruck" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

@@ -1,0 +1,74 @@
+﻿@model OpsMax.Models.Load
+
+<h2>Load Details</h2>
+
+<div class="card p-3 mb-3">
+    <h5>Basic Information</h5>
+    <p><strong>Supplier:</strong> @Model.DCLink</p>
+    <p><strong>Truck:</strong> @Model.Truck?.RegistrationNumber</p>
+    <p><strong>Driver:</strong> @Model.Driver?.FullName</p>
+    <p><strong>Status:</strong> @Model.Status</p>
+</div>
+
+<div class="card p-3 mb-3">
+    <h5>Quantities</h5>
+    <p>Loaded: @Model.LoadedQuantity</p>
+    <p>Actual: @Model.ActualQuantity</p>
+    <p>Shortage: @Model.ShortageQuantity</p>
+</div>
+
+<div class="card p-3 mb-3">
+    <h5>Documents</h5>
+
+    <a asp-controller="LoadDocuments"
+       asp-action="Upload"
+       asp-route-loadId="@Model.idLoad"
+       class="btn btn-sm btn-secondary mb-2">
+        Upload Document
+    </a>
+
+    <table class="table">
+        <tr>
+            <th>Type</th>
+            <th>File</th>
+        </tr>
+        @foreach (var doc in Model.Documents ?? new List<LoadDocument>())
+        {
+            <tr>
+                <td>@doc.DocumentType</td>
+                <td>
+                    <a href="@doc.FilePath" target="_blank">View</a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+<div class="card p-3">
+    <h5>Customer Allocations</h5>
+
+    <a asp-controller="CustomerAllocation"
+       asp-action="Create"
+       asp-route-loadId="@Model.idLoad"
+       class="btn btn-sm btn-primary mb-2">
+        Allocate
+    </a>
+
+    <table class="table">
+        <tr>
+            <th>CustomerID</th>
+            <th>Selling Price</th>
+            <th>Status</th>
+        </tr>
+        @foreach (var alloc in Model.Allocations ?? new List<CustomerAllocation>())
+        {
+            <tr>
+                <td>@alloc.CustomerID</td>
+                <td>@alloc.SellingPrice</td>
+                <td>@alloc.Status</td>
+            </tr>
+        }
+    </table>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Back</a>
