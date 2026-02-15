@@ -20,11 +20,13 @@
             <span asp-validation-for="Load.DCLink" class="text-danger"></span>
         </div>
 
-        <!-- Stock Code -->
+        <!-- Stock Item Dropdown -->
         <div class="col-md-6 mb-3">
-            <label asp-for="Load.MaizeStockCodeID" class="form-label">Stock Code</label>
-            <input asp-for="Load.MaizeStockCodeID" class="form-control" />
-            <span asp-validation-for="Load.MaizeStockCodeID" class="text-danger"></span>
+            <label asp-for="Load.StockLink" class="form-label">Stock Item</label>
+            <select asp-for="Load.StockLink" class="form-select" asp-items="Model.StockItems">
+                <option value="">-- Select Stock Item --</option>
+            </select>
+            <span asp-validation-for="Load.StockLink" class="text-danger"></span>
         </div>
 
         <!-- Truck Dropdown -->

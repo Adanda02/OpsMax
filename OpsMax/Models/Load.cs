@@ -11,8 +11,8 @@ namespace OpsMax.Models
         public Vendor Vendor { get; set; } // EF navigation property
 
 
-        public int MaizeStockCodeID { get; set; }
-
+        public int StockLink { get; set; }
+        public StockItem StockItem { get; set; } // EF navigation property
         public decimal LoadedQuantity { get; set; }
         public decimal ActualQuantity { get; set; }
         public decimal ShortageQuantity { get; set; }

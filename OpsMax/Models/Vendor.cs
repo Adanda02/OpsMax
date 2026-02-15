@@ -3,17 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OpsMax.Models
 {
-    [Table("Vendor")] // Maps this entity to the exact table in the Sage database
+    [Table("Vendor")]
     public class Vendor
     {
-        [Key] // Primary key
-        [Column("DCLink")] // Matches the column in the database
-        public int VendorID { get; set; }
+        [Key]
+        public int DCLink { get; set; }
 
-        [Column("Name")] // Matches the column in the database
-        public int DCLink { get; internal set; }
-        public string Name { get; internal set; }
-
-        // Optional: add more columns if needed
+        public string Name { get; set; }
+        public string Account { get; set; }
     }
 }
