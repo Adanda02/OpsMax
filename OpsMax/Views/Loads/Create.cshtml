@@ -1,121 +1,88 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using OpsMax.Data;
-using OpsMax.Models;
-using OpsMax.ViewModels;
-using System;
-using System.Threading.Tasks;
+﻿@model OpsMax.ViewModels.LoadCreateViewModel
 
-namespace OpsMax.Controllers
-{
-    public class LoadController : Controller
-    {
-        private readonly ApplicationDbContext _context;
+@{
+    ViewData["Title"] = "Create Load";
+}
 
-        public LoadController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+<div class="container mt-4">
+    <h2>Create Load</h2>
 
-        // GET: Load/Create
-        public async Task<IActionResult>
-    Create()
-    {
-    var viewModel = new LoadCreateViewModel
-    {
-    Load = new Load()
-    };
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
 
-    await PopulateDropdowns(viewModel);
-    return View(viewModel);
-    }
+        <!-- Supplier -->
+        <div class="mb-3">
+            <label class="form-label">Supplier</label>
+            <select asp-for="Load.DCLink"
+                    asp-items="Model.Vendors"
+                    class="form-select">
+                <option value="">-- Select Supplier --</option>
+            </select>
+        </div>
 
-    // POST: Load/Create
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult>
-        Create(LoadCreateViewModel viewModel)
-        {
-        if (!ModelState.IsValid)
-        {
-        await PopulateDropdowns(viewModel);
-        return View(viewModel);
-        }
+        <!-- Stock Item -->
+        <div class="mb-3">
+            <label class="form-label">Stock Item</label>
+            <select asp-for="Load.StockLink"
+                    asp-items="Model.StockItems"
+                    class="form-select">
+                <option value="">-- Select Stock Item --</option>
+            </select>
+        </div>
 
-        var load = viewModel.Load;
+        <!-- Truck -->
+        <div class="mb-3">
+            <label class="form-label">Truck</label>
+            <select asp-for="Load.idTruck"
+                    asp-items="Model.Trucks"
+                    class="form-select">
+                <option value="">-- Select Truck --</option>
+            </select>
+        </div>
 
-        // Validate all dropdowns selected
-        if (load.DCLink == 0 || load.StockLink == 0 || load.idTruck == 0 || load.idDriver == 0)
-        {
-        ModelState.AddModelError("", "All dropdowns must be selected.");
-        await PopulateDropdowns(viewModel);
-        return View(viewModel);
-        }
+        <!-- Driver -->
+        <div class="mb-3">
+            <label class="form-label">Driver</label>
+            <select asp-for="Load.idDriver"
+                    asp-items="Model.Drivers"
+                    class="form-select">
+                <option value="">-- Select Driver --</option>
+            </select>
+        </div>
 
-        // Calculate shortage
-        load.ShortageQuantity = load.LoadedQuantity - load.ActualQuantity;
+        <!-- Quantity -->
+        <div class="mb-3">
+            <label class="form-label">Loaded Quantity</label>
+            <input asp-for="Load.LoadedQuantity"
+                   class="form-control" />
+        </div>
 
-        // Audit
-        load.CreatedBy = User?.Identity?.Name ?? "System";
-        load.CreatedDate = DateTime.Now;
-        load.Status = "Loaded";
+        <!-- Load Date -->
+        <div class="mb-3">
+            <label class="form-label">Load Date</label>
+            <input asp-for="Load.LoadDate"
+                   type="date"
+                   class="form-control" />
+        </div>
 
-        _context.Loads.Add(load);
-        await _context.SaveChangesAsync();
+        <!-- Estimated Arrival -->
+        <div class="mb-3">
+            <label class="form-label">Estimated Arrival</label>
+            <input asp-for="Load.EstimatedArrivalDate"
+                   type="date"
+                   class="form-control" />
+        </div>
 
-        return RedirectToAction(nameof(Index));
-        }
+        <button type="submit" class="btn btn-success">
+            Save Load
+        </button>
 
-        // Helper: Populate dropdowns
-        private async Task PopulateDropdowns(LoadCreateViewModel vm)
-        {
-        vm.Vendors = await _context.Vendors
-        .OrderBy(v => v.Name)
-        .Select(v => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
-        {
-        Value = v.DCLink.ToString(),
-        Text = $"{v.Account} - {v.Name}"
-        }).ToListAsync();
+        <a asp-action="Index" class="btn btn-secondary">
+            Cancel
+        </a>
+    </form>
+</div>
 
-        vm.StockItems = await _context.StockItems
-        .OrderBy(s => s.Description_1)
-        .Select(s => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
-        {
-        Value = s.StockLink.ToString(),
-        Text = $"{s.Code} - {s.Description_1}"
-        }).ToListAsync();
-
-        vm.Trucks = await _context.Trucks
-        .Where(t => t.Status == "Active")
-        .OrderBy(t => t.RegistrationNumber)
-        .Select(t => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
-        {
-        Value = t.idTruck.ToString(),
-        Text = t.RegistrationNumber
-        }).ToListAsync();
-
-        vm.Drivers = await _context.Drivers
-        .Where(d => d.Status == "Active")
-        .OrderBy(d => d.FullName)
-        .Select(d => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
-        {
-        Value = d.idDriver.ToString(),
-        Text = d.FullName
-        }).ToListAsync();
-        }
-
-        // GET: Load/Index
-        public async Task<IActionResult>
-            Index()
-            {
-            var loads = await _context.Loads
-            .Include(l => l.Truck)
-            .Include(l => l.Driver)
-            .Include(l => l.Vendor)
-            .Include(l => l.StockItem)
-            .ToListAsync();
-
-            return View(loads);
-            }
-            }
-            }
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

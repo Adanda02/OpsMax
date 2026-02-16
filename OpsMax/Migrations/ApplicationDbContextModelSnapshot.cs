@@ -288,16 +288,6 @@ namespace OpsMax.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("idLoad"));
 
-                    b.Property<decimal>("ActualQuantity")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime?>("ArrivalDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -311,9 +301,6 @@ namespace OpsMax.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("LoadedQuantity")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("ShortageQuantity")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Status")

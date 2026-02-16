@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OpsMax.Data;
 using OpsMax.Models;
@@ -23,9 +22,9 @@ namespace OpsMax.Controllers
             _zimContext = zimContext;
         }
 
-        // =====================================================
-        // INDEX
-        // =====================================================
+        // ==========================================
+        // GET: Loads
+        // ==========================================
         public async Task<IActionResult> Index()
         {
             var loads = await _context.Loads
@@ -37,28 +36,12 @@ namespace OpsMax.Controllers
             return View(loads);
         }
 
-        // =====================================================
-        // DETAILS
-        // =====================================================
-        public async Task<IActionResult> Details(int id)
-        {
-            var load = await _context.Loads
-                .Include(l => l.Truck)
-                .Include(l => l.Driver)
-                .FirstOrDefaultAsync(l => l.idLoad == id);
-
-            if (load == null)
-                return NotFound();
-
-            return View(load);
-        }
-
-        // =====================================================
-        // CREATE (GET)
-        // =====================================================
+        // ==========================================
+        // GET: Loads/Create
+        // ==========================================
         public async Task<IActionResult> Create()
         {
-            var viewModel = new LoadCreateViewModel
+            var vm = new LoadCreateViewModel
             {
                 Load = new Load
                 {
@@ -67,128 +50,41 @@ namespace OpsMax.Controllers
                 }
             };
 
-            await PopulateDropdowns(viewModel);
-            return View(viewModel);
+            await vm.PopulateDropdownsAsync(_zimContext, _context);
+
+            return View(vm);
         }
 
-        // =====================================================
-        // CREATE (POST)
-        // =====================================================
+        // ==========================================
+        // POST: Loads/Create
+        // ==========================================
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(LoadCreateViewModel viewModel)
+        public async Task<IActionResult> Create(LoadCreateViewModel vm)
         {
             if (!ModelState.IsValid)
             {
-                await PopulateDropdowns(viewModel);
-                return View(viewModel);
+                await vm.PopulateDropdownsAsync(_zimContext, _context);
+                return View(vm);
             }
 
-            var load = viewModel.Load;
+            var load = vm.Load;
 
-            // Calculate shortage
-            load.ShortageQuantity = load.LoadedQuantity - load.ActualQuantity;
+            if (load.DCLink == 0 || load.StockLink == 0 ||
+                load.idTruck == 0 || load.idDriver == 0)
+            {
+                ModelState.AddModelError("", "All dropdowns must be selected.");
+                await vm.PopulateDropdownsAsync(_zimContext, _context);
+                return View(vm);
+            }
 
-            load.CreatedBy = User?.Identity?.Name ?? "System";
             load.CreatedDate = DateTime.Now;
-            load.Status ??= "Loaded";
+            load.Status = "Loaded";
 
             _context.Loads.Add(load);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
-        }
-
-        // =====================================================
-        // EDIT (GET)
-        // =====================================================
-        public async Task<IActionResult> Edit(int id)
-        {
-            var load = await _context.Loads.FindAsync(id);
-            if (load == null)
-                return NotFound();
-
-            var vm = new LoadCreateViewModel
-            {
-                Load = load
-            };
-
-            await PopulateDropdowns(vm);
-            return View(vm);
-        }
-
-        // =====================================================
-        // EDIT (POST)
-        // =====================================================
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, LoadCreateViewModel viewModel)
-        {
-            if (id != viewModel.Load.idLoad)
-                return NotFound();
-
-            if (!ModelState.IsValid)
-            {
-                await PopulateDropdowns(viewModel);
-                return View(viewModel);
-            }
-
-            // Recalculate shortage
-            viewModel.Load.ShortageQuantity =
-                viewModel.Load.LoadedQuantity - viewModel.Load.ActualQuantity;
-
-            _context.Update(viewModel.Load);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        // =====================================================
-        // DROPDOWN POPULATION (Vendors, StockItems, Trucks, Drivers)
-        // =====================================================
-        private async Task PopulateDropdowns(LoadCreateViewModel vm)
-        {
-            // Vendors from ZimMeal/Sage
-            vm.Vendors = await _zimContext.Vendors
-                .OrderBy(v => v.Name)
-                .Select(v => new SelectListItem
-                {
-                    Value = v.DCLink.ToString(),
-                    Text = $"{v.Account} - {v.Name}"
-                })
-                .ToListAsync();
-
-            // Stock Items from ZimMeal/Sage
-            vm.StockItems = await _zimContext.StockItems
-                .OrderBy(s => s.Description_1)
-                .Select(s => new SelectListItem
-                {
-                    Value = s.StockLink.ToString(),
-                    Text = $"{s.Code} - {s.Description_1}"
-                })
-                .ToListAsync();
-
-            // Trucks from OpsMax
-            vm.Trucks = await _context.Trucks
-                .Where(t => t.Status == "Active")
-                .OrderBy(t => t.RegistrationNumber)
-                .Select(t => new SelectListItem
-                {
-                    Value = t.idTruck.ToString(),
-                    Text = t.RegistrationNumber
-                })
-                .ToListAsync();
-
-            // Drivers from OpsMax
-            vm.Drivers = await _context.Drivers
-                .Where(d => d.Status == "Active")
-                .OrderBy(d => d.FullName)
-                .Select(d => new SelectListItem
-                {
-                    Value = d.idDriver.ToString(),
-                    Text = d.FullName
-                })
-                .ToListAsync();
         }
     }
 }

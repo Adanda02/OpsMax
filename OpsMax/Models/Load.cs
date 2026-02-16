@@ -39,21 +39,21 @@ namespace OpsMax.Models
         // Quantities
         // =============================
         public decimal LoadedQuantity { get; set; }
-        public decimal ActualQuantity { get; set; }
-        public decimal ShortageQuantity { get; set; }
+        //public decimal ActualQuantity { get; set; }
+        //public decimal ShortageQuantity { get; set; }
 
         // =============================
         // Dates
         // =============================
         public DateTime LoadDate { get; set; }
         public DateTime? EstimatedArrivalDate { get; set; }
-        public DateTime? ArrivalDate { get; set; }
+        //public DateTime? ArrivalDate { get; set; }
 
         // =============================
         // Status & Audit
         // =============================
         public string Status { get; set; } = "Loaded";
-        public string CreatedBy { get; set; }
+        ////public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
         // =============================
