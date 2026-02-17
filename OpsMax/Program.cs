@@ -39,6 +39,8 @@ builder.Services.AddScoped<ICollectionService, CollectionService>();
 builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 builder.Services.AddScoped<IPaymentSourceService, PaymentSourceService>();
 
+builder.Services.AddScoped<ILoadService, LoadService>();
+
 // ----------------------------------------------------
 // 4. BUILD APP
 // ----------------------------------------------------

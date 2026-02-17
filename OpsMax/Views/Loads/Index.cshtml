@@ -1,51 +1,33 @@
 ﻿@model IEnumerable<OpsMax.Models.Load>
 
-@{
-    ViewData["Title"] = "Loads";
-}
+<h2>Loads</h2>
 
-<div class="container mt-4">
+<a asp-action="Create" class="btn btn-success">New Load</a>
 
-    <div class="d-flex justify-content-between mb-3">
-        <h2>Loads</h2>
-        <a asp-action="Create" class="btn btn-primary">
-            Create Load
-        </a>
-    </div>
-
-    @if (!Model.Any())
-    {
-        <div class="alert alert-info">
-            No loads created yet.
-        </div>
-    }
-    else
-    {
-        <table class="table table-bordered table-striped">
-            <thead class="table-dark">
-                <tr>
-                    <th>Load #</th>
-                    <th>Truck</th>
-                    <th>Driver</th>
-                    <th>Qty</th>
-                    <th>Status</th>
-                    <th>Load Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.idLoad</td>
-                        <td>@item.Truck?.RegistrationNumber</td>
-                        <td>@item.Driver?.FullName</td>
-                        <td>@item.LoadedQuantity</td>
-                        <td>@item.Status</td>
-                        <td>@item.LoadDate.ToString("dd MMM yyyy")</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-
-</div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Supplier</th>
+            <th>Stock</th>
+            <th>Truck</th>
+            <th>Driver</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>Load Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.DCLink</td>
+                <td>@item.StockLink</td>
+                <td>@item.idTruck</td>
+                <td>@item.idDriver</td>
+                <td>@item.LoadedQuantity</td>
+                <td>@item.Status</td>
+                <td>@item.LoadDate</td>
+            </tr>
+        }
+    </tbody>
+</table>

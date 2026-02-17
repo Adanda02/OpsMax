@@ -3,8 +3,32 @@
   "WorkspaceRootPath": "C:\\Programming\\C-Sharp\\OpsMax\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\models\\load.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\models\\load.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\views\\loads\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\views\\loads\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\services\\interfaces\\iloadservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\services\\interfaces\\iloadservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\services\\implementations\\loadservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\services\\implementations\\loadservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\controllers\\loadscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\controllers\\loadscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\models\\vendor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\models\\vendor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|c:\\programming\\c-sharp\\opsmax\\opsmax\\data\\zimmealdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6596BDB-7FE1-C1C7-9E21-9D36F102D817}|OpsMax\\OpsMax.csproj|solutionrelative:opsmax\\data\\zimmealdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,16 +46,93 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Views\\Loads\\Create.cshtml",
+              "RelativeDocumentMoniker": "OpsMax\\Views\\Loads\\Create.cshtml",
+              "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Views\\Loads\\Create.cshtml",
+              "RelativeToolTip": "OpsMax\\Views\\Loads\\Create.cshtml",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAACwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-17T14:04:29.485Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ILoadService.cs",
+              "DocumentMoniker": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Services\\Interfaces\\ILoadService.cs",
+              "RelativeDocumentMoniker": "OpsMax\\Services\\Interfaces\\ILoadService.cs",
+              "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Services\\Interfaces\\ILoadService.cs",
+              "RelativeToolTip": "OpsMax\\Services\\Interfaces\\ILoadService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-17T14:04:09.865Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LoadService.cs",
+              "DocumentMoniker": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Services\\Implementations\\LoadService.cs",
+              "RelativeDocumentMoniker": "OpsMax\\Services\\Implementations\\LoadService.cs",
+              "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Services\\Implementations\\LoadService.cs",
+              "RelativeToolTip": "OpsMax\\Services\\Implementations\\LoadService.cs",
+              "ViewState": "AgIAADgAAAAAAAAAAAAuwFwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-17T14:03:57.096Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Load.cs",
+              "DocumentMoniker": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Models\\Load.cs",
+              "RelativeDocumentMoniker": "OpsMax\\Models\\Load.cs",
+              "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Models\\Load.cs",
+              "RelativeToolTip": "OpsMax\\Models\\Load.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAgwBUAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-17T14:03:36.636Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "LoadsController.cs",
               "DocumentMoniker": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Controllers\\LoadsController.cs",
               "RelativeDocumentMoniker": "OpsMax\\Controllers\\LoadsController.cs",
               "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Controllers\\LoadsController.cs",
               "RelativeToolTip": "OpsMax\\Controllers\\LoadsController.cs",
-              "ViewState": "AgIAADsAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAiwCkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-16T15:33:30.492Z",
+              "WhenOpened": "2026-02-17T14:03:13.732Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Vendor.cs",
+              "DocumentMoniker": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Models\\Vendor.cs",
+              "RelativeDocumentMoniker": "OpsMax\\Models\\Vendor.cs",
+              "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Models\\Vendor.cs",
+              "RelativeToolTip": "OpsMax\\Models\\Vendor.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAA+wAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-17T13:37:51.982Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ZimMealDbContext.cs",
+              "DocumentMoniker": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Data\\ZimMealDbContext.cs",
+              "RelativeDocumentMoniker": "OpsMax\\Data\\ZimMealDbContext.cs",
+              "ToolTip": "C:\\Programming\\C-Sharp\\OpsMax\\OpsMax\\Data\\ZimMealDbContext.cs",
+              "RelativeToolTip": "OpsMax\\Data\\ZimMealDbContext.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAYwCcAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-17T13:37:46.055Z"
             }
           ]
         }

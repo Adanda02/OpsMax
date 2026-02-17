@@ -9,195 +9,91 @@ namespace OpsMax.Data
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
+            : base(options) { }
 
-        // =========================================================
-        // DB SETS (ENTITIES)
-        // =========================================================
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<CollectionEntity> Collections { get; set; }
-        public DbSet<CollectionLineEntity> CollectionLines { get; set; }
-        public DbSet<OrderStatus> OrderStatuses { get; set; }
-        public DbSet<PaymentSource> PaymentSources { get; set; }
-        public DbSet<PaymentSourceDocument> PaymentSourceDocuments { get; set; }
-        public DbSet<Truck> Trucks { get; set; }
-        public DbSet<Driver> Drivers { get; set; }
-
-        // Vendors (Sage/ZimMeal)
-        public DbSet<Vendor> Vendors { get; set; }
+        // =============================
+        // DbSets – Tables
+        // =============================
 
         public DbSet<Load> Loads { get; set; }
         public DbSet<LoadDocument> LoadDocuments { get; set; }
         public DbSet<CustomerAllocation> CustomerAllocations { get; set; }
+        public DbSet<Truck> Trucks { get; set; }
+        public DbSet<Driver> Drivers { get; set; }
+        public DbSet<OrderStatus> OrderStatuses { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<CollectionEntity> Collections { get; set; }
+        public DbSet<CollectionLineEntity> CollectionLines { get; set; }
+        public DbSet<PaymentSource> PaymentSources { get; set; }
+        public DbSet<PaymentSourceDocument> PaymentSourceDocuments { get; set; }
 
-        // =========================================================
-        // DB SETS (VIEWS – KEYLESS)
-        // =========================================================
+        // =============================
+        // DbSets – Database Views
+        // =============================
+
         public DbSet<CollectionSummaryView> CollectionsSummary { get; set; }
 
-        // =========================================================
-        // DB SETS (RAW SQL DTOs – KEYLESS)
-        // =========================================================
-        public DbSet<InvoiceLineDto> InvoiceLines { get; set; }
-        public DbSet<SupplierGRVVM> SupplierGrvs { get; set; }
-        public DbSet<GLAccountVM> GLAccounts { get; set; }
-
-        // =========================================================
-        // MODEL CONFIGURATION
-        // =========================================================
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // -----------------------------
-            // CATEGORY
-            // -----------------------------
-            modelBuilder.Entity<Category>()
-                .ToTable("Categories")
-                .HasKey(e => e.Id);
+            // =============================
+            // SQL VIEW CONFIGURATION
+            // =============================
+            modelBuilder.Entity<CollectionSummaryView>()
+                .HasNoKey()
+                .ToView("CollectionsSummary");
 
-            // -----------------------------
-            // COLLECTION HEADER
-            // -----------------------------
-            modelBuilder.Entity<CollectionEntity>()
-                .ToTable("_tblCollection")
-                .HasKey(e => e.idOrderCollected);
-
-            // -----------------------------
-            // COLLECTION LINES
-            // -----------------------------
-            modelBuilder.Entity<CollectionLineEntity>(entity =>
-            {
-                entity.ToTable("_tblCollectionLines");
-                entity.HasKey(e => e.idOrderLineCollected);
-
-                entity.HasOne(l => l.Collection)
-                      .WithMany(h => h.Lines)
-                      .HasForeignKey(l => l.OrderCollectedID)
-                      .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            // -----------------------------
-            // ORDER STATUS
-            // -----------------------------
-            modelBuilder.Entity<OrderStatus>()
-                .ToTable("_tblOrderStatus")
-                .HasKey(e => e.idStatus);
-
-            // -----------------------------
-            // PAYMENT SOURCE
-            // -----------------------------
-            modelBuilder.Entity<PaymentSource>(entity =>
-            {
-                entity.ToTable("PaymentSources");
-                entity.HasKey(e => e.idPaymentSource);
-
-                entity.HasMany(p => p.Documents)
-                      .WithOne(d => d.PaymentSource)
-                      .HasForeignKey(d => d.PaymentSourceID)
-                      .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity<PaymentSourceDocument>()
-                .ToTable("PaymentSourceDocuments")
-                .HasKey(e => e.idPaymentSourceDoc);
-
-            // -----------------------------
-            // TRUCK
-            // -----------------------------
-            modelBuilder.Entity<Truck>()
-                .ToTable("Trucks")
-                .HasKey(e => e.idTruck);
-
-            // -----------------------------
-            // DRIVER
-            // -----------------------------
-            modelBuilder.Entity<Driver>()
-                .ToTable("Drivers")
-                .HasKey(e => e.idDriver);
-
-            // -----------------------------
-            // VENDOR / SUPPLIER (Sage/ZimMeal)
-            // -----------------------------
-            modelBuilder.Entity<Vendor>(entity =>
-            {
-                entity.ToTable("Vendor");
-                entity.HasKey(e => e.DCLink);
-            });
-
-            // -----------------------------
-            // LOAD
-            // -----------------------------
+            // =============================
+            // Load
+            // =============================
             modelBuilder.Entity<Load>(entity =>
             {
                 entity.ToTable("Loads");
                 entity.HasKey(e => e.idLoad);
 
-                entity.Property(e => e.Status)
-                      .HasMaxLength(50);
-
-                // Truck relationship
-                entity.HasOne(l => l.Truck)
+                entity.HasOne(l => l.tTruck)
                       .WithMany()
                       .HasForeignKey(l => l.idTruck)
                       .OnDelete(DeleteBehavior.Restrict);
 
-                // Driver relationship
-                entity.HasOne(l => l.Driver)
+               entity.HasOne(l => l.dDriver)
                       .WithMany()
                       .HasForeignKey(l => l.idDriver)
                       .OnDelete(DeleteBehavior.Restrict);
-
-                // Vendor relationship (Sage/ZimMeal)
-                entity.HasOne(l => l.Vendor)
-                      .WithMany()
-                      .HasForeignKey(l => l.DCLink)
-                      .HasPrincipalKey(v => v.DCLink)
-                      .OnDelete(DeleteBehavior.Restrict);
-
-                // StockItem relationship (Sage/ZimMeal)
-                entity.HasOne(l => l.StockItem)
-                      .WithMany()
-                      .HasForeignKey(l => l.StockLink)
-                      .HasPrincipalKey(s => s.StockLink)
-                      .OnDelete(DeleteBehavior.Restrict);
             });
 
-            // -----------------------------
-            // LOAD DOCUMENT
-            // -----------------------------
+            // =============================
+            // Truck
+            // =============================
+            modelBuilder.Entity<Truck>()
+                .ToTable("Trucks")
+                .HasKey(t => t.idTruck);
+
+            // =============================
+            // Driver
+            // =============================
+            modelBuilder.Entity<Driver>()
+                .ToTable("Drivers")
+                .HasKey(d => d.idDriver);
+
+            // =============================
+            // LoadDocument
+            // =============================
             modelBuilder.Entity<LoadDocument>()
                 .ToTable("LoadDocuments")
-                .HasKey(e => e.idLoadDocuments);
+                .HasKey(d => d.idLoadDocuments);
 
-            // -----------------------------
-            // CUSTOMER ALLOCATION
-            // -----------------------------
+            // =============================
+            // CustomerAllocation
+            // =============================
             modelBuilder.Entity<CustomerAllocation>()
                 .ToTable("CustomerAllocations")
-                .HasKey(e => e.idCustomerAllocations);
+                .HasKey(c => c.idCustomerAllocations);
 
-            // -----------------------------
-            // COLLECTION SUMMARY VIEW
-            // -----------------------------
-            modelBuilder.Entity<CollectionSummaryView>(entity =>
-            {
-                entity.HasNoKey();
-                entity.ToView("vw_CollectionsSummary");
-            });
-
-            // -----------------------------
-            // RAW SQL DTOs (KEYLESS)
-            // -----------------------------
-            modelBuilder.Entity<InvoiceLineDto>(entity => entity.HasNoKey().ToView(null));
-            modelBuilder.Entity<SupplierGRVVM>(entity => entity.HasNoKey().ToView(null));
-            modelBuilder.Entity<GLAccountVM>(entity => entity.HasNoKey().ToView(null));
-
-            // -----------------------------
-            // SEED DATA
-            // -----------------------------
+            // =============================
+            // Seed OrderStatus
+            // =============================
             modelBuilder.Entity<OrderStatus>().HasData(
                 new OrderStatus { idStatus = 1, StatusCode = "Not Collected", StatusDescription = "Not Collected" },
                 new OrderStatus { idStatus = 2, StatusCode = "Partially Collected", StatusDescription = "Partially Collected" },

@@ -14,26 +14,12 @@ namespace OpsMax.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "_tblOrderStatus",
-                columns: table => new
-                {
-                    idStatus = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StatusCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StatusDescription = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__tblOrderStatus", x => x.idStatus);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DisplayOrder = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -60,6 +46,20 @@ namespace OpsMax.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OrderStatuses",
+                columns: table => new
+                {
+                    idStatus = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StatusCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StatusDescription = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderStatuses", x => x.idStatus);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PaymentSources",
                 columns: table => new
                 {
@@ -81,20 +81,6 @@ namespace OpsMax.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StkItm",
-                columns: table => new
-                {
-                    StockLink = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description_1 = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StkItm", x => x.StockLink);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Trucks",
                 columns: table => new
                 {
@@ -109,20 +95,6 @@ namespace OpsMax.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Trucks", x => x.idTruck);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Vendor",
-                columns: table => new
-                {
-                    DCLink = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Account = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Vendor", x => x.DCLink);
                 });
 
             migrationBuilder.CreateTable(
@@ -150,9 +122,9 @@ namespace OpsMax.Migrations
                 {
                     table.PrimaryKey("PK__tblCollection", x => x.idOrderCollected);
                     table.ForeignKey(
-                        name: "FK__tblCollection__tblOrderStatus_OrderStatusID",
+                        name: "FK__tblCollection_OrderStatuses_OrderStatusID",
                         column: x => x.OrderStatusID,
-                        principalTable: "_tblOrderStatus",
+                        principalTable: "OrderStatuses",
                         principalColumn: "idStatus",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -193,8 +165,8 @@ namespace OpsMax.Migrations
                     idDriver = table.Column<int>(type: "int", nullable: false),
                     LoadedQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     LoadDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EstimatedArrivalDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    EstimatedArrivalDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -207,22 +179,10 @@ namespace OpsMax.Migrations
                         principalColumn: "idDriver",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Loads_StkItm_StockLink",
-                        column: x => x.StockLink,
-                        principalTable: "StkItm",
-                        principalColumn: "StockLink",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Loads_Trucks_idTruck",
                         column: x => x.idTruck,
                         principalTable: "Trucks",
                         principalColumn: "idTruck",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Loads_Vendor_DCLink",
-                        column: x => x.DCLink,
-                        principalTable: "Vendor",
-                        principalColumn: "DCLink",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -241,14 +201,15 @@ namespace OpsMax.Migrations
                     QtyCollected = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     LineTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    OrderBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    OrderBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CollectionidOrderCollected = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK__tblCollectionLines", x => x.idOrderLineCollected);
                     table.ForeignKey(
-                        name: "FK__tblCollectionLines__tblCollection_OrderCollectedID",
-                        column: x => x.OrderCollectedID,
+                        name: "FK__tblCollectionLines__tblCollection_CollectionidOrderCollected",
+                        column: x => x.CollectionidOrderCollected,
                         principalTable: "_tblCollection",
                         principalColumn: "idOrderCollected",
                         onDelete: ReferentialAction.Cascade);
@@ -303,7 +264,7 @@ namespace OpsMax.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "_tblOrderStatus",
+                table: "OrderStatuses",
                 columns: new[] { "idStatus", "StatusCode", "StatusDescription" },
                 values: new object[,]
                 {
@@ -319,9 +280,9 @@ namespace OpsMax.Migrations
                 column: "OrderStatusID");
 
             migrationBuilder.CreateIndex(
-                name: "IX__tblCollectionLines_OrderCollectedID",
+                name: "IX__tblCollectionLines_CollectionidOrderCollected",
                 table: "_tblCollectionLines",
-                column: "OrderCollectedID");
+                column: "CollectionidOrderCollected");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CustomerAllocations_LoadID",
@@ -334,11 +295,6 @@ namespace OpsMax.Migrations
                 column: "LoadID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Loads_DCLink",
-                table: "Loads",
-                column: "DCLink");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Loads_idDriver",
                 table: "Loads",
                 column: "idDriver");
@@ -347,11 +303,6 @@ namespace OpsMax.Migrations
                 name: "IX_Loads_idTruck",
                 table: "Loads",
                 column: "idTruck");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Loads_StockLink",
-                table: "Loads",
-                column: "StockLink");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PaymentSourceDocuments_PaymentSourceID",
@@ -387,19 +338,13 @@ namespace OpsMax.Migrations
                 name: "PaymentSources");
 
             migrationBuilder.DropTable(
-                name: "_tblOrderStatus");
+                name: "OrderStatuses");
 
             migrationBuilder.DropTable(
                 name: "Drivers");
 
             migrationBuilder.DropTable(
-                name: "StkItm");
-
-            migrationBuilder.DropTable(
                 name: "Trucks");
-
-            migrationBuilder.DropTable(
-                name: "Vendor");
         }
     }
 }

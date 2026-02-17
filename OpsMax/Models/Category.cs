@@ -6,7 +6,7 @@ namespace OpsMax.Models
     {
         [Key]
         public int Id { get; set; }
-        [Key]   
+          
         [Required]
         public string Name { get; set; }
 

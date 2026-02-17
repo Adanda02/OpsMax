@@ -12,7 +12,7 @@ using OpsMax.Data;
 namespace OpsMax.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260215185129_Init")]
+    [Migration("20260217132155_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -25,52 +25,21 @@ namespace OpsMax.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("OpsMax.DTO.InvoiceLineDto", b =>
+            modelBuilder.Entity("CollectionSummaryView", b =>
                 {
-                    b.Property<int>("CustomerID")
-                        .HasColumnType("int");
-
                     b.Property<string>("CustomerName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("InvoiceDate")
+                    b.Property<DateTime>("DateCollected")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("InvoiceNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("InvoiceNumberID")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("ItemCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ItemCodeID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ItemDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("LineTotal")
+                    b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("QtyPurchased")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Warehouse")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.ToTable((string)null);
 
-                    b.ToView(null, (string)null);
+                    b.ToView("CollectionsSummary", (string)null);
                 });
 
             modelBuilder.Entity("OpsMax.Models.Category", b =>
@@ -85,11 +54,12 @@ namespace OpsMax.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("OpsMax.Models.CollectionEntity", b =>
@@ -153,7 +123,7 @@ namespace OpsMax.Migrations
 
                     b.HasIndex("OrderStatusID");
 
-                    b.ToTable("_tblCollection", (string)null);
+                    b.ToTable("_tblCollection");
                 });
 
             modelBuilder.Entity("OpsMax.Models.CollectionLineEntity", b =>
@@ -163,6 +133,9 @@ namespace OpsMax.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("idOrderLineCollected"));
+
+                    b.Property<int>("CollectionidOrderCollected")
+                        .HasColumnType("int");
 
                     b.Property<string>("ItemCode")
                         .IsRequired()
@@ -199,9 +172,9 @@ namespace OpsMax.Migrations
 
                     b.HasKey("idOrderLineCollected");
 
-                    b.HasIndex("OrderCollectedID");
+                    b.HasIndex("CollectionidOrderCollected");
 
-                    b.ToTable("_tblCollectionLines", (string)null);
+                    b.ToTable("_tblCollectionLines");
                 });
 
             modelBuilder.Entity("OpsMax.Models.CustomerAllocation", b =>
@@ -297,7 +270,7 @@ namespace OpsMax.Migrations
                     b.Property<int>("DCLink")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("EstimatedArrivalDate")
+                    b.Property<DateTime>("EstimatedArrivalDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("LoadDate")
@@ -308,8 +281,7 @@ namespace OpsMax.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StockLink")
                         .HasColumnType("int");
@@ -321,10 +293,6 @@ namespace OpsMax.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("idLoad");
-
-                    b.HasIndex("DCLink");
-
-                    b.HasIndex("StockLink");
 
                     b.HasIndex("idDriver");
 
@@ -384,7 +352,7 @@ namespace OpsMax.Migrations
 
                     b.HasKey("idStatus");
 
-                    b.ToTable("_tblOrderStatus", (string)null);
+                    b.ToTable("OrderStatuses");
 
                     b.HasData(
                         new
@@ -454,7 +422,7 @@ namespace OpsMax.Migrations
 
                     b.HasKey("idPaymentSource");
 
-                    b.ToTable("PaymentSources", (string)null);
+                    b.ToTable("PaymentSources");
                 });
 
             modelBuilder.Entity("OpsMax.Models.PaymentSourceDocument", b =>
@@ -490,30 +458,7 @@ namespace OpsMax.Migrations
 
                     b.HasIndex("PaymentSourceID");
 
-                    b.ToTable("PaymentSourceDocuments", (string)null);
-                });
-
-            modelBuilder.Entity("OpsMax.Models.StkItm", b =>
-                {
-                    b.Property<int>("StockLink")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StockLink"));
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Description_1")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("StockLink");
-
-                    b.ToTable("StkItm");
+                    b.ToTable("PaymentSourceDocuments");
                 });
 
             modelBuilder.Entity("OpsMax.Models.Truck", b =>
@@ -549,134 +494,6 @@ namespace OpsMax.Migrations
                     b.ToTable("Trucks", (string)null);
                 });
 
-            modelBuilder.Entity("OpsMax.Models.Vendor", b =>
-                {
-                    b.Property<int>("DCLink")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DCLink"));
-
-                    b.Property<string>("Account")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("DCLink");
-
-                    b.ToTable("Vendor", (string)null);
-                });
-
-            modelBuilder.Entity("OpsMax.Models.Views.CollectionSummaryView", b =>
-                {
-                    b.Property<string>("AttachmentPath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CustomerID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CustomerName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateCollected")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateStamp")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Driver")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IdOrderCollected")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("InvoiceDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("InvoiceNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("InvoiceNumberID")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("InvoiceTotal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("OrderStatusID")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("OverCollected")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("TotalCollected")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("TotalPurchased")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("UnderCollected")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("VehicleReg")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.ToTable((string)null);
-
-                    b.ToView("vw_CollectionsSummary", (string)null);
-                });
-
-            modelBuilder.Entity("OpsMax.ViewModels.GLAccountVM", b =>
-                {
-                    b.Property<string>("AccountCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("GlAccountId")
-                        .HasColumnType("int");
-
-                    b.ToTable((string)null);
-
-                    b.ToView(null, (string)null);
-                });
-
-            modelBuilder.Entity("OpsMax.ViewModels.SupplierGRVVM", b =>
-                {
-                    b.Property<string>("GrvNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SupplierId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SupplierName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.ToTable((string)null);
-
-                    b.ToView(null, (string)null);
-                });
-
             modelBuilder.Entity("OpsMax.Models.CollectionEntity", b =>
                 {
                     b.HasOne("OpsMax.Models.OrderStatus", null)
@@ -690,7 +507,7 @@ namespace OpsMax.Migrations
                 {
                     b.HasOne("OpsMax.Models.CollectionEntity", "Collection")
                         .WithMany("Lines")
-                        .HasForeignKey("OrderCollectedID")
+                        .HasForeignKey("CollectionidOrderCollected")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -700,7 +517,7 @@ namespace OpsMax.Migrations
             modelBuilder.Entity("OpsMax.Models.CustomerAllocation", b =>
                 {
                     b.HasOne("OpsMax.Models.Load", "Load")
-                        .WithMany("Allocations")
+                        .WithMany()
                         .HasForeignKey("LoadID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -710,43 +527,27 @@ namespace OpsMax.Migrations
 
             modelBuilder.Entity("OpsMax.Models.Load", b =>
                 {
-                    b.HasOne("OpsMax.Models.Vendor", "Vendor")
-                        .WithMany()
-                        .HasForeignKey("DCLink")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("OpsMax.Models.StkItm", "StockItem")
-                        .WithMany()
-                        .HasForeignKey("StockLink")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("OpsMax.Models.Driver", "Driver")
+                    b.HasOne("OpsMax.Models.Driver", "dDriver")
                         .WithMany()
                         .HasForeignKey("idDriver")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("OpsMax.Models.Truck", "Truck")
+                    b.HasOne("OpsMax.Models.Truck", "tTruck")
                         .WithMany()
                         .HasForeignKey("idTruck")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Driver");
+                    b.Navigation("dDriver");
 
-                    b.Navigation("StockItem");
-
-                    b.Navigation("Truck");
-
-                    b.Navigation("Vendor");
+                    b.Navigation("tTruck");
                 });
 
             modelBuilder.Entity("OpsMax.Models.LoadDocument", b =>
                 {
                     b.HasOne("OpsMax.Models.Load", "Load")
-                        .WithMany("Documents")
+                        .WithMany()
                         .HasForeignKey("LoadID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -768,13 +569,6 @@ namespace OpsMax.Migrations
             modelBuilder.Entity("OpsMax.Models.CollectionEntity", b =>
                 {
                     b.Navigation("Lines");
-                });
-
-            modelBuilder.Entity("OpsMax.Models.Load", b =>
-                {
-                    b.Navigation("Allocations");
-
-                    b.Navigation("Documents");
                 });
 
             modelBuilder.Entity("OpsMax.Models.OrderStatus", b =>

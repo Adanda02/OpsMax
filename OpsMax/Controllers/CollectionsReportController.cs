@@ -20,7 +20,7 @@ namespace OpsMax.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var data = await _context.CollectionsSummary
+            var data = await _context.Set<CollectionsSummaryView>()
                 .AsNoTracking()
                 .OrderByDescending(x => x.DateCollected)
                 .ToListAsync();

@@ -139,13 +139,10 @@ namespace OpsMax.Services
         // =========================
         // SUMMARY (VIEW)
         // =========================
-        public async Task<List<CollectionSummaryView>> GetCollectionsSummaryAsync()
-        {
-            return await _context.CollectionsSummary
+        public async Task<List<CollectionSummaryView>> GetCollectionsSummaryAsync() => await _context.CollectionsSummary
                 .AsNoTracking()
-                .OrderByDescending(x => x.DateCollected)
+                .OrderByDescending(static x => x.DateCollected)
                 .ToListAsync();
-        }
 
         // =========================
         // UPDATE

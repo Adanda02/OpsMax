@@ -1,7 +1,10 @@
-﻿namespace OpsMax.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace OpsMax.Models
 {
     public class PaymentSourceDocument
     {
+        [Key]
         public int idPaymentSourceDoc { get; set; }
         //public int PaymentSourceId { get; set; }
         public int PaymentSourceID { get; internal set; }

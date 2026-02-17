@@ -14,13 +14,14 @@ namespace OpsMax.ViewModels
     public class LoadCreateViewModel
     {
         // Main Load entity
-        public Load Load { get; set; } = new Load();
 
-        // Dropdown lists
-        public List<SelectListItem> Vendors { get; set; } = new();
-        public List<SelectListItem> StockItems { get; set; } = new();
-        public List<SelectListItem> Trucks { get; set; } = new();
-        public List<SelectListItem> Drivers { get; set; } = new();
+            public Load Load { get; set; } = new Load();
+
+            public List<SelectListItem> Vendors { get; set; } = new();
+            public List<SelectListItem> StockItems { get; set; } = new();
+            public List<SelectListItem> Trucks { get; set; } = new();
+            public List<SelectListItem> Drivers { get; set; } = new();
+        
     }
 
     // =========================================
@@ -33,33 +34,27 @@ namespace OpsMax.ViewModels
             ZimMealDbContext zimContext,
             ApplicationDbContext context)
         {
-            // -----------------------------
-            // Vendors (from ZimMeal DB)
-            // -----------------------------
+            // Vendors from ZimMeal
             vm.Vendors = await zimContext.Vendors
                 .OrderBy(v => v.Name)
                 .Select(v => new SelectListItem
                 {
                     Value = v.DCLink.ToString(),
-                    Text = $"{v.Account} - {v.Name}"
+                    Text = v.Account + " - " + v.Name
                 })
                 .ToListAsync();
 
-            // -----------------------------
-            // Stock Items (from ZimMeal DB)
-            // -----------------------------
+            // Stock Items from ZimMeal
             vm.StockItems = await zimContext.StockItems
                 .OrderBy(s => s.Description_1)
                 .Select(s => new SelectListItem
                 {
                     Value = s.StockLink.ToString(),
-                    Text = $"{s.Code} - {s.Description_1}"
+                    Text = s.Code + " - " + s.Description_1
                 })
                 .ToListAsync();
 
-            // -----------------------------
-            // Trucks (from OpsMax DB)
-            // -----------------------------
+            // Trucks from OpsMax
             vm.Trucks = await context.Trucks
                 .Where(t => t.Status == "Active")
                 .OrderBy(t => t.RegistrationNumber)
@@ -70,9 +65,7 @@ namespace OpsMax.ViewModels
                 })
                 .ToListAsync();
 
-            // -----------------------------
-            // Drivers (from OpsMax DB)
-            // -----------------------------
+            // Drivers from OpsMax
             vm.Drivers = await context.Drivers
                 .Where(d => d.Status == "Active")
                 .OrderBy(d => d.FullName)
@@ -84,4 +77,6 @@ namespace OpsMax.ViewModels
                 .ToListAsync();
         }
     }
+
 }
+

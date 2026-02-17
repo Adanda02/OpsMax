@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpsMax.Models
 {
     public class PaymentSource
     {
+        [Key] 
         public int idPaymentSource { get; set; }
         public string SourceType { get; set; }
         public int AccountID { get; set; }

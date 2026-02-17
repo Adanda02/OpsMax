@@ -12,69 +12,37 @@ namespace OpsMax.Data
         {
         }
 
-        // =====================================================
-        // PHYSICAL TABLES (Sage / ZimMeal Database)
-        // =====================================================
         public DbSet<Vendor> Vendors { get; set; }
-        public DbSet<StkItm> StockItems { get; set; }   // Maps to dbo.StkItm
+        public DbSet<StkItem> StockItems { get; set; }
 
-
-        // =====================================================
-        // KEYLESS MODELS (SP Results / Views / Raw SQL DTOs)
-        // =====================================================
         public DbSet<InvoiceLineDto> InvoiceLineDtos { get; set; }
         public DbSet<SupplierGRVVM> SupplierGrvs { get; set; }
         public DbSet<GLAccountVM> GLAccounts { get; set; }
+        //public IEnumerable<object> StkItem { get; internal set; }
 
+        //public IEnumerable<object> StkItem { get; internal set; }
 
-        // =====================================================
-        // MODEL CONFIGURATION
-        // =====================================================
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            ConfigureSageTables(modelBuilder);
-            ConfigureKeylessModels(modelBuilder);
-        }
-
-
-        // =====================================================
-        // CONFIGURE PHYSICAL SAGE TABLES
-        // =====================================================
-        private void ConfigureSageTables(ModelBuilder modelBuilder)
-        {
-            // -----------------------------
-            // Vendor Table
-            // -----------------------------
+            // Vendor
             modelBuilder.Entity<Vendor>(entity =>
             {
                 entity.ToTable("Vendor", "dbo");
                 entity.HasKey(v => v.DCLink);
-
-                entity.Property(v => v.DCLink)
-                      .ValueGeneratedNever(); // PK managed by Sage
+                entity.Property(v => v.DCLink).ValueGeneratedNever();
             });
 
-            // -----------------------------
-            // Stock Item Table (StkItm)
-            // -----------------------------
-            modelBuilder.Entity<StkItm>(entity =>
+            // Stock Item
+            modelBuilder.Entity<StkItem>(entity =>
             {
-                entity.ToTable("StkItem", "dbo");   // Correct physical table
+                entity.ToTable("StkItem", "dbo");
                 entity.HasKey(s => s.StockLink);
-
-                entity.Property(s => s.StockLink)
-                      .ValueGeneratedNever(); // PK managed by Sage
+                entity.Property(s => s.StockLink).ValueGeneratedNever();
             });
-        }
 
-
-        // =====================================================
-        // CONFIGURE KEYLESS MODELS
-        // =====================================================
-        private void ConfigureKeylessModels(ModelBuilder modelBuilder)
-        {
+            // Keyless DTOs
             modelBuilder.Entity<InvoiceLineDto>().HasNoKey();
             modelBuilder.Entity<SupplierGRVVM>().HasNoKey();
             modelBuilder.Entity<GLAccountVM>().HasNoKey();

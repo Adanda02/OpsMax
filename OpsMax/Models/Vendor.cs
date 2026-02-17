@@ -1,15 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace OpsMax.Models
+﻿namespace OpsMax.Models
 {
-    [Table("Vendor")]
     public class Vendor
     {
-        [Key]
-        public int DCLink { get; set; }
+        public int DCLink { get; set; }       // Must be int
+        public string Name { get; set; } = string.Empty;
+    }
 
-        public string Name { get; set; }
-        public string Account { get; set; }
+    public class StkItem
+    {
+        public int StockLink { get; set; }    // Must be int
+        public string Description_1 { get; set; } = string.Empty;
     }
 }

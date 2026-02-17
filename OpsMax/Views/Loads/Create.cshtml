@@ -1,88 +1,44 @@
-﻿@model OpsMax.ViewModels.LoadCreateViewModel
+﻿@model OpsMax.ViewModels.LoadViewModel
 
-@{
-    ViewData["Title"] = "Create Load";
-}
+<h2>Create Load</h2>
 
-<div class="container mt-4">
-    <h2>Create Load</h2>
+<form asp-action="Create">
 
-    <form asp-action="Create" method="post">
-        <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label>Supplier</label>
+        <select asp-for="DCLink" asp-items="Model.Suppliers" class="form-control"></select>
+    </div>
 
-        <!-- Supplier -->
-        <div class="mb-3">
-            <label class="form-label">Supplier</label>
-            <select asp-for="Load.DCLink"
-                    asp-items="Model.Vendors"
-                    class="form-select">
-                <option value="">-- Select Supplier --</option>
-            </select>
-        </div>
+    <div class="form-group">
+        <label>Stock</label>
+        <select asp-for="StockLink" asp-items="Model.Stocks" class="form-control"></select>
+    </div>
 
-        <!-- Stock Item -->
-        <div class="mb-3">
-            <label class="form-label">Stock Item</label>
-            <select asp-for="Load.StockLink"
-                    asp-items="Model.StockItems"
-                    class="form-select">
-                <option value="">-- Select Stock Item --</option>
-            </select>
-        </div>
+    <div class="form-group">
+        <label>Truck</label>
+        <select asp-for="idTruck" asp-items="Model.Trucks" class="form-control"></select>
+    </div>
 
-        <!-- Truck -->
-        <div class="mb-3">
-            <label class="form-label">Truck</label>
-            <select asp-for="Load.idTruck"
-                    asp-items="Model.Trucks"
-                    class="form-select">
-                <option value="">-- Select Truck --</option>
-            </select>
-        </div>
+    <div class="form-group">
+        <label>Driver</label>
+        <select asp-for="idDriver" asp-items="Model.Drivers" class="form-control"></select>
+    </div>
 
-        <!-- Driver -->
-        <div class="mb-3">
-            <label class="form-label">Driver</label>
-            <select asp-for="Load.idDriver"
-                    asp-items="Model.Drivers"
-                    class="form-select">
-                <option value="">-- Select Driver --</option>
-            </select>
-        </div>
+    <div class="form-group">
+        <label>Quantity Loaded (Tonnes)</label>
+        <input asp-for="LoadedQuantity" class="form-control" />
+    </div>
 
-        <!-- Quantity -->
-        <div class="mb-3">
-            <label class="form-label">Loaded Quantity</label>
-            <input asp-for="Load.LoadedQuantity"
-                   class="form-control" />
-        </div>
+    <div class="form-group">
+        <label>Load Date</label>
+        <input asp-for="LoadDate" type="datetime-local" class="form-control" />
+    </div>
 
-        <!-- Load Date -->
-        <div class="mb-3">
-            <label class="form-label">Load Date</label>
-            <input asp-for="Load.LoadDate"
-                   type="date"
-                   class="form-control" />
-        </div>
+    <div class="form-group">
+        <label>Estimated Arrival</label>
+        <input asp-for="EstimatedArrivalDate" type="datetime-local" class="form-control" />
+    </div>
 
-        <!-- Estimated Arrival -->
-        <div class="mb-3">
-            <label class="form-label">Estimated Arrival</label>
-            <input asp-for="Load.EstimatedArrivalDate"
-                   type="date"
-                   class="form-control" />
-        </div>
+    <button type="submit" class="btn btn-primary">Save</button>
 
-        <button type="submit" class="btn btn-success">
-            Save Load
-        </button>
-
-        <a asp-action="Index" class="btn btn-secondary">
-            Cancel
-        </a>
-    </form>
-</div>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+</form>
